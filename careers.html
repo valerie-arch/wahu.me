@@ -284,18 +284,9 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 .field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.34)}
 .field-error{display:none;font-size:12px;color:#FF8A65;margin-top:6px}
 .field.has-error .field-error{display:block}
+.field-hint{display:block;font-size:12px;color:rgba(255,255,255,.55);margin-top:8px;line-height:1.5}
+.field-hint strong{color:rgba(255,255,255,.85);font-weight:600}
 .field.has-error input,.field.has-error select,.field.has-error textarea{border-bottom-color:#FF8A65}
-.file-upload{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 16px;border:1px dashed rgba(255,255,255,.22);border-radius:8px;background:rgba(255,255,255,.02);transition:border-color .2s, background .2s}
-.file-upload:focus-within{border-color:var(--accent);background:rgba(232,66,30,.06)}
-.file-upload input[type="file"]{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-.file-upload-trigger{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid rgba(255,255,255,.25);border-radius:999px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:#fff;cursor:pointer;transition:background .2s, border-color .2s}
-.file-upload-trigger:hover,.file-upload-trigger:focus-visible{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
-.file-upload-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.file-upload-hint{font-size:12px;color:rgba(255,255,255,.5)}
-.file-upload-selected{display:none;align-items:center;gap:10px;font-size:13px;color:rgba(255,255,255,.85)}
-.file-upload-selected.show{display:inline-flex}
-.file-upload-selected .file-remove{background:none;border:none;color:rgba(255,255,255,.55);font-size:12px;text-decoration:underline;cursor:pointer;padding:0}
-.file-upload-selected .file-remove:hover{color:#fff}
 .consent-row{display:flex;align-items:flex-start;gap:12px;padding:18px 0;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);margin-top:8px}
 .consent-row input[type="checkbox"]{margin-top:3px;width:16px;height:16px;accent-color:var(--accent);flex-shrink:0;cursor:pointer}
 .consent-row label{font-size:13px;color:rgba(255,255,255,.75);line-height:1.55;font-weight:400;text-transform:none;letter-spacing:normal;margin:0;cursor:pointer}
@@ -510,7 +501,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
     <div class="careers-card reveal" id="careersFormCard">
       <div class="careers-form-error" id="careersFormError" role="alert">Something went wrong. Please try again, or email <a href="mailto:careers@wahu.me">careers@wahu.me</a> directly.</div>
-      <form id="careersForm" action="https://formbold.com/s/6ljXG" method="POST" novalidate enctype="multipart/form-data">
+      <form id="careersForm" action="https://formbold.com/s/6ljXG" method="POST" novalidate>
         <input type="hidden" name="source" value="careers_page">
         <div class="careers-form">
           <div class="field">
@@ -562,20 +553,10 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
             <input id="ap-linkedin" type="url" name="linkedin" placeholder="https://">
           </div>
           <div class="field row-full">
-            <label for="ap-cv">Attach your CV <span class="req" aria-hidden="true">*</span></label>
-            <div class="file-upload">
-              <input id="ap-cv" type="file" name="cv_upload" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required aria-required="true" aria-describedby="err-cv cv-hint">
-              <label for="ap-cv" class="file-upload-trigger" tabindex="0" role="button">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                Choose file
-              </label>
-              <span class="file-upload-hint" id="cv-hint">PDF or DOCX, max 10MB</span>
-              <span class="file-upload-selected" id="cv-selected">
-                <span class="file-name"></span>
-                <button type="button" class="file-remove" id="cv-remove">Remove</button>
-              </span>
-            </div>
-            <span class="field-error" id="err-cv">Please attach a CV (PDF or DOCX, max 10MB).</span>
+            <label for="ap-cv-link">Link to your CV <span class="req" aria-hidden="true">*</span></label>
+            <input id="ap-cv-link" type="url" name="cv_link" placeholder="https://drive.google.com/… or https://www.dropbox.com/…" required aria-required="true" aria-describedby="err-cv cv-hint">
+            <span class="field-hint" id="cv-hint">Google Drive or Dropbox. Make sure the link is set to <strong>anyone with the link can view</strong>.</span>
+            <span class="field-error" id="err-cv">Please paste a Google Drive or Dropbox link to your CV.</span>
           </div>
           <div class="field row-full">
             <label for="ap-motivation">Why Wahu, and how would you contribute? <span class="req" aria-hidden="true">*</span></label>
@@ -701,20 +682,13 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   if (careersForm) {
     const typeSelect = document.getElementById('ap-type');
     const roleInput = document.getElementById('ap-role');
-    const cvInput = document.getElementById('ap-cv');
-    const cvTrigger = document.querySelector('.file-upload-trigger');
-    const cvSelected = document.getElementById('cv-selected');
-    const cvNameEl = cvSelected.querySelector('.file-name');
-    const cvRemove = document.getElementById('cv-remove');
-    const cvHint = document.getElementById('cv-hint');
+    const cvLinkInput = document.getElementById('ap-cv-link');
     const cvError = document.getElementById('err-cv');
     const consent = document.getElementById('ap-consent');
     const submitBtn = document.getElementById('careersSubmit');
     const formCard = document.getElementById('careersFormCard');
     const successBlock = document.getElementById('careersSuccess');
     const formError = document.getElementById('careersFormError');
-    const MAX_BYTES = 10 * 1024 * 1024;
-    const ACCEPTED = ['.pdf', '.doc', '.docx'];
 
     // Adaptive placeholder for role field
     typeSelect.addEventListener('change', () => {
@@ -726,45 +700,6 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
         roleInput.placeholder = "Which role, or describe the role you'd create";
       }
     });
-
-    // CV file: keyboard trigger
-    cvTrigger.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cvInput.click(); }
-    });
-
-    const clearCv = () => {
-      cvInput.value = '';
-      cvSelected.classList.remove('show');
-      cvNameEl.textContent = '';
-      cvHint.style.display = '';
-      cvInput.closest('.field').classList.remove('has-error');
-      cvError.textContent = 'Please attach a CV (PDF or DOCX, max 10MB).';
-    };
-
-    cvInput.addEventListener('change', () => {
-      const file = cvInput.files && cvInput.files[0];
-      if (!file) { clearCv(); return; }
-      const ext = '.' + file.name.split('.').pop().toLowerCase();
-      const field = cvInput.closest('.field');
-      if (!ACCEPTED.includes(ext)) {
-        cvError.textContent = 'Wrong file type. Please use PDF or DOCX.';
-        field.classList.add('has-error');
-        clearCv();
-        return;
-      }
-      if (file.size > MAX_BYTES) {
-        cvError.textContent = 'File too large. Maximum 10MB.';
-        field.classList.add('has-error');
-        clearCv();
-        return;
-      }
-      field.classList.remove('has-error');
-      cvNameEl.textContent = file.name;
-      cvSelected.classList.add('show');
-      cvHint.style.display = 'none';
-    });
-
-    cvRemove.addEventListener('click', () => { clearCv(); cvInput.focus(); });
 
     // Consent toggles submit availability
     const updateSubmitState = () => { submitBtn.disabled = !consent.checked; };
@@ -786,7 +721,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       careersForm.querySelectorAll('[required]').forEach(field => {
         const wrapper = field.closest('.field') || field.closest('.consent-row');
         if (!wrapper) return;
-        const filled = field.type === 'checkbox' ? field.checked : (field.type === 'file' ? (field.files && field.files.length > 0) : field.value.trim());
+        const filled = field.type === 'checkbox' ? field.checked : field.value.trim();
         if (!filled) { wrapper.classList.add('has-error'); valid = false; firstInvalid = firstInvalid || field; }
       });
 
@@ -796,6 +731,18 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
         emailEl.closest('.field').classList.add('has-error');
         valid = false;
         firstInvalid = firstInvalid || emailEl;
+      }
+
+      // CV link URL format check
+      if (cvLinkInput.value) {
+        const v = cvLinkInput.value.trim();
+        const isHttp = /^https?:\/\//i.test(v);
+        if (!isHttp) {
+          cvError.textContent = 'Paste a full link starting with https:// (Google Drive or Dropbox).';
+          cvLinkInput.closest('.field').classList.add('has-error');
+          valid = false;
+          firstInvalid = firstInvalid || cvLinkInput;
+        }
       }
 
       if (!valid) {
