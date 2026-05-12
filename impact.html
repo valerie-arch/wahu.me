@@ -287,6 +287,18 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 /* Stat-number polish */
 .theme-stat-num,.commit-target,.opp-num,.ai-stat-num,.impact-stat-num{font-weight:400;letter-spacing:-.035em}
 
+/* Mobile optimization */
+@media (max-width:540px){
+  [class*="-band"]{padding-top:56px;padding-bottom:56px;padding-left:16px;padding-right:16px}
+  .hero h1{font-size:clamp(28px,8.5vw,40px);letter-spacing:-.025em}
+  .hero-sub{font-size:15px;line-height:1.5}
+  .theme{min-height:0}
+  .theme-copy{padding:56px 20px}
+  .theme-copy h2{font-size:clamp(26px,7.5vw,36px)}
+  .foot-inner{padding-left:16px;padding-right:16px}
+  .nav-inner{padding-left:14px;padding-right:14px}
+}
+
 </style>
 
 <!-- ===== SEO: canonical + og + twitter + JSON-LD ===== -->

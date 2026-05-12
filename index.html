@@ -446,6 +446,16 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 /* Stat-number polish */
 .theme-stat-num,.commit-target,.opp-num,.ai-stat-num,.impact-stat-num{font-weight:400;letter-spacing:-.035em}
 
+/* Mobile optimization: tighter vertical rhythm + smaller hero on <=540px */
+@media (max-width:540px){
+  [class*="-band"]{padding-top:56px;padding-bottom:56px;padding-left:16px;padding-right:16px}
+  .hero h1{font-size:clamp(28px,8.5vw,40px);letter-spacing:-.025em}
+  .hero-sub{font-size:15px;line-height:1.5}
+  .app-copy,.feature-text,.theme-copy{padding:56px 20px}
+  .foot-inner{padding-left:16px;padding-right:16px}
+  .nav-inner{padding-left:14px;padding-right:14px}
+}
+
 </style>
 
 <!-- ===== SEO: canonical + og + twitter + JSON-LD ===== -->
