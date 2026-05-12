@@ -616,7 +616,7 @@ section[id]{scroll-margin-top:84px}
     <div class="md-form-card reveal">
       <h3>Get in touch.</h3>
       <p class="sub">Tell us a bit about your story. We respond within 24 hours.</p>
-      <form id="contactForm" novalidate>
+      <form id="contactForm" action="https://formbold.com/s/3A7aM" method="POST" novalidate>
         <div class="md-form-row">
           <label for="contact-name">Your name</label>
           <input id="contact-name" type="text" name="name" placeholder="What should we call you?" required>
@@ -763,7 +763,7 @@ section[id]{scroll-margin-top:84px}
   const contactForm = document.getElementById('contactForm');
   const contactSuccess = document.getElementById('contactSuccess');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       let valid = true;
       contactForm.querySelectorAll('[required]').forEach(f => {
@@ -771,8 +771,21 @@ section[id]{scroll-margin-top:84px}
         else f.style.borderBottomColor = '';
       });
       if (!valid) return;
-      contactForm.style.display = 'none';
-      contactSuccess.classList.add('show');
+
+      const btn = contactForm.querySelector('[type="submit"]');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(contactForm.action, { method: 'POST', body: new FormData(contactForm), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error('Request failed');
+        contactForm.style.display = 'none';
+        contactSuccess.classList.add('show');
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+        alert('Something went wrong. Please try again or email hello@wahu.me.');
+      }
     });
   }
 </script>

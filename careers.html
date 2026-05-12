@@ -510,7 +510,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
     <div class="careers-card reveal" id="careersFormCard">
       <div class="careers-form-error" id="careersFormError" role="alert">Something went wrong. Please try again, or email <a href="mailto:careers@wahu.me">careers@wahu.me</a> directly.</div>
-      <form id="careersForm" novalidate enctype="multipart/form-data">
+      <form id="careersForm" action="https://formbold.com/s/6ljXG" method="POST" novalidate enctype="multipart/form-data">
         <input type="hidden" name="source" value="careers_page">
         <div class="careers-form">
           <div class="field">
@@ -777,7 +777,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       el.addEventListener('change', () => el.closest('.field') && el.closest('.field').classList.remove('has-error'));
     });
 
-    careersForm.addEventListener('submit', (e) => {
+    careersForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       formError.classList.remove('show');
 
@@ -803,11 +803,21 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
         return;
       }
 
-      // No backend yet — show success state. When the endpoint is wired, replace this
-      // block with a fetch() call that posts FormData(careersForm) and handles the response.
-      formCard.style.display = 'none';
-      successBlock.classList.add('show');
-      successBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      try {
+        const res = await fetch(careersForm.action, { method: 'POST', body: new FormData(careersForm), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error('Request failed');
+        formCard.style.display = 'none';
+        successBlock.classList.add('show');
+        successBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+        formError.classList.add('show');
+        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     });
   }
 </script>

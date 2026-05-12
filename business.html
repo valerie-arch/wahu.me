@@ -778,7 +778,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
     <div class="form-card reveal">
       <h3>Talk to us.</h3>
       <p class="sub">Free 4-week trial. We reply within 2 working days.</p>
-      <form id="fleetForm" novalidate>
+      <form id="fleetForm" action="https://formbold.com/s/9k2V0" method="POST" novalidate>
         <div class="form-row">
           <label for="f-name">Your name</label>
           <input id="f-name" type="text" name="name" placeholder="What should we call you?" required>
@@ -901,7 +901,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
   const form = document.getElementById('fleetForm');
   const success = document.getElementById('fleetSuccess');
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     let valid = true;
     form.querySelectorAll('[required]').forEach(f => {
@@ -909,8 +909,23 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       else f.style.borderBottomColor = '';
     });
     if (!valid) return;
-    success.classList.add('show');
-    form.querySelectorAll('input, select').forEach(f => f.value = '');
+
+    const btn = form.querySelector('[type="submit"]');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error('Request failed');
+      success.classList.add('show');
+      form.querySelectorAll('input, select').forEach(f => f.value = '');
+      btn.textContent = originalText;
+      btn.disabled = false;
+    } catch (err) {
+      btn.disabled = false;
+      btn.textContent = originalText;
+      alert('Something went wrong. Please try again or email hello@wahu.me.');
+    }
   });
 </script>
 </body>

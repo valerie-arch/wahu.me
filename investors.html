@@ -626,7 +626,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
     <div class="md-form-card reveal">
       <h3>Request an intro call.</h3>
       <p class="sub">Tell us a bit about you. We respond within 1 working day and propose a time within the same week.</p>
-      <form id="introForm" novalidate>
+      <form id="introForm" action="https://formbold.com/s/6QZll" method="POST" novalidate>
         <div class="md-form-row">
           <label for="intro-name">Your name</label>
           <input id="intro-name" type="text" name="name" placeholder="What should we call you?" required>
@@ -760,7 +760,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   const introForm = document.getElementById('introForm');
   const introSuccess = document.getElementById('introSuccess');
   if (introForm) {
-    introForm.addEventListener('submit', (e) => {
+    introForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       let valid = true;
       introForm.querySelectorAll('[required]').forEach(f => {
@@ -768,8 +768,21 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
         else f.style.borderBottomColor = '';
       });
       if (!valid) return;
-      introForm.style.display = 'none';
-      introSuccess.classList.add('show');
+
+      const btn = introForm.querySelector('[type="submit"]');
+      const originalText = btn.textContent;
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      try {
+        const res = await fetch(introForm.action, { method: 'POST', body: new FormData(introForm), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error('Request failed');
+        introForm.style.display = 'none';
+        introSuccess.classList.add('show');
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = originalText;
+        alert('Something went wrong. Please try again or email hello@wahu.me.');
+      }
     });
   }
 
