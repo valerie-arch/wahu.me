@@ -216,11 +216,12 @@ footer{background:var(--paper);color:var(--ink);padding:56px 24px 32px;border-to
 .md-form-card .sub{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:32px}
 .md-form-row{margin-bottom:18px}
 .md-form-row label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px;font-weight:600}
-.md-form-row input,.md-form-row select{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);padding:8px 0;font-family:var(--sans);font-size:15px;color:#fff;transition:border-color .2s}
+.md-form-row input,.md-form-row select,.md-form-row textarea{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);padding:8px 0;font-family:var(--sans);font-size:15px;color:#fff;transition:border-color .2s}
+.md-form-row textarea{resize:vertical;min-height:64px;line-height:1.5}
 .md-form-row select{cursor:pointer}
 .md-form-row select option{background:var(--ink);color:#fff}
-.md-form-row input:focus,.md-form-row select:focus{outline:none;border-bottom-color:var(--accent)}
-.md-form-row input::placeholder{color:rgba(255,255,255,.32)}
+.md-form-row input:focus,.md-form-row select:focus,.md-form-row textarea:focus{outline:none;border-bottom-color:var(--accent)}
+.md-form-row input::placeholder,.md-form-row textarea::placeholder{color:rgba(255,255,255,.32)}
 .md-form-submit{width:100%;background:#fff;color:var(--ink);padding:14px;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;margin-top:8px;transition:background .25s, transform .25s, color .25s;border:none;cursor:pointer}
 .md-form-submit:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
 .md-form-success{display:none;padding:14px;background:rgba(61,166,125,.12);border:1px solid #3DA67D;border-radius:8px;font-size:14px;color:#7CC29A;margin-top:14px}
@@ -559,31 +560,30 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
     <div class="md-form-card reveal">
       <h3>Make a difference.</h3>
       <p class="sub">Tell us how you want to engage. We reply within 2 working days.</p>
-      <form id="mdForm" novalidate>
+      <form id="contactForm" novalidate>
         <div class="md-form-row">
-          <label for="md-name">Your name</label>
-          <input id="md-name" type="text" name="name" placeholder="What should we call you?" required>
+          <label for="contact-name">Your name</label>
+          <input id="contact-name" type="text" name="name" placeholder="What should we call you?" required>
         </div>
         <div class="md-form-row">
-          <label for="md-email">Email</label>
-          <input id="md-email" type="email" name="email" placeholder="you@organisation.com" required>
+          <label for="contact-email">Email</label>
+          <input id="contact-email" type="email" name="email" placeholder="you@email.com" required>
         </div>
         <div class="md-form-row">
-          <label for="md-interest">I'd like to</label>
-          <select id="md-interest" name="interest" required>
-            <option value="">Choose how you want to back the transition</option>
-            <option>Buy carbon credits</option>
-            <option>Finance a bike</option>
-            <option>Fund a programme</option>
-            <option>Partner on a project</option>
+          <label for="contact-type">Type of enquiry</label>
+          <select id="contact-type" name="type" required>
+            <option value="">Choose an option</option>
+            <option value="eMoto Waitlist">eMoto Waitlist</option>
+            <option value="Media">Media</option>
+            <option value="Impact" selected>Impact</option>
           </select>
         </div>
         <div class="md-form-row">
-          <label for="md-org">Organisation</label>
-          <input id="md-org" type="text" name="org" placeholder="Who are you with? (optional)">
+          <label for="contact-message">Tell us more <span style="opacity:.55;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+          <textarea id="contact-message" name="message" placeholder="A few details about what you need" rows="3"></textarea>
         </div>
-        <button type="submit" class="md-form-submit">Make a difference →</button>
-        <div class="md-form-success" id="mdSuccess">Got it — we'll be in touch within 2 working days.</div>
+        <button type="submit" class="md-form-submit">Send →</button>
+        <div class="md-form-success" id="contactSuccess">Got it — we'll be in touch within 2 working days.</div>
       </form>
     </div>
   </div>
@@ -683,20 +683,20 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   // Failsafe: reveal anything still hidden after load (e.g. for crawlers, fast scrolls, full-page screenshots)
   window.addEventListener('load', () => { setTimeout(() => reveals.forEach(el => el.classList.add('in')), 200); });
 
-  // Make a difference form
-  const mdForm = document.getElementById('mdForm');
-  const mdSuccess = document.getElementById('mdSuccess');
-  if (mdForm) {
-    mdForm.addEventListener('submit', (e) => {
+  // Unified Contact form
+  const contactForm = document.getElementById('contactForm');
+  const contactSuccess = document.getElementById('contactSuccess');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
       let valid = true;
-      mdForm.querySelectorAll('[required]').forEach(f => {
+      contactForm.querySelectorAll('[required]').forEach(f => {
         if (!f.value.trim()) { f.style.borderBottomColor = 'var(--accent)'; valid = false; }
         else f.style.borderBottomColor = '';
       });
       if (!valid) return;
-      mdForm.style.display = 'none';
-      mdSuccess.classList.add('show');
+      contactForm.style.display = 'none';
+      contactSuccess.classList.add('show');
     });
   }
 </script>
