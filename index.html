@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Electric Bikes for African Cities | Wahu Mobility</title>
+<meta name="description" content="An electric bike that earns more, costs less, and is yours after 18 months. Designed in Ghana. Built for everyday riders, everywhere." />
+<meta property="og:title" content="Wahu — Charged with Freedom" />
+<meta property="og:description" content="Electric bikes that pay for themselves. Designed in Ghana." />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171A20;
+  --ink-soft:#393C41;
+  --paper:#FFFFFF;
+  --surface:#F4F4F4;
+  --surface-2:#EDEDED;
+  --mute:#5C5E62;
+  --rule:rgba(23,26,32,.08);
+  --accent:#E8421E;
+  --display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+  --sans:'Inter', system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  font-size:16px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+img{max-width:100%;display:block}
+
+h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.eyebrow{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.eyebrow.dark{color:var(--mute)}
+
+/* PROMO RIBBON — Zoomo-style top banner */
+.promo-ribbon{background:#FFE94D;color:var(--ink);font-size:13px;line-height:1.4;position:relative;z-index:101;border-bottom:1px solid rgba(0,0,0,.05)}
+.promo-ribbon.hidden{display:none}
+.promo-inner{max-width:1480px;margin:0 auto;padding:10px 56px 10px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center}
+.promo-dot{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#FFE94D;font-size:13px;flex-shrink:0}
+.promo-text{font-weight:500}
+.promo-text strong{font-weight:700}
+.promo-link{font-weight:600;text-decoration:underline;text-underline-offset:3px;color:var(--ink);transition:opacity .2s}
+.promo-link:hover{opacity:.7}
+.promo-close{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:28px;height:28px;display:grid;place-items:center;background:transparent;border:none;color:var(--ink);font-size:20px;line-height:1;cursor:pointer;opacity:.6;transition:opacity .2s}
+.promo-close:hover{opacity:1}
+@media (max-width:680px){.promo-inner{font-size:12px;padding:10px 44px 10px 16px}.promo-link{font-size:12px}}
+
+/* When promo is visible, push the fixed nav down so it doesn't overlap */
+.promo-ribbon:not(.hidden) ~ .nav{top:42px}
+@media (max-width:680px){.promo-ribbon:not(.hidden) ~ .nav{top:60px}}
+
+/* HERO PARTNER CHIPS — under hero CTA */
+.hero-partners{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:18px;padding:0 20px}
+.hero-partners-label{font-size:11px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.14em;font-weight:600;margin-right:4px}
+.hero-partner{font-family:var(--display);font-size:14px;font-weight:600;color:rgba(255,255,255,.85);letter-spacing:-.005em;padding:6px 12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;transition:background .25s, color .25s}
+.hero-partner:hover{background:rgba(255,255,255,.16);color:#fff}
+@media (max-width:520px){.hero-partner{font-size:12px;padding:5px 10px}.hero-partners-label{display:none}}
+
+/* PROOF BAND — 4-icon black band (Zoomo) */
+.proof-band{background:var(--ink);color:#fff;padding:36px 24px}
+.proof-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
+.proof-item{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;color:rgba(255,255,255,.85)}
+.proof-icon{display:inline-grid;place-items:center;width:36px;height:36px;color:var(--accent)}
+.proof-item strong{font-family:var(--display);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.005em}
+.proof-item span{font-size:12px;color:rgba(255,255,255,.65);line-height:1.45;max-width:28ch}
+@media (max-width:880px){.proof-inner{grid-template-columns:1fr 1fr;gap:32px 20px}}
+@media (max-width:480px){.proof-inner{grid-template-columns:1fr;gap:24px}}
+
+/* TESTI STARS */
+.testi-stars{display:flex;gap:3px;color:#F5B800;margin-bottom:6px}
+
+/* NAV — Tesla style: transparent over hero, white when scrolled */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;transition:background .3s, color .3s}
+.nav.over-hero{color:#fff}
+.nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ink)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1480px;margin:0 auto;padding:0 24px;gap:24px}
+.brand{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.02em}
+.brand-lock{display:inline-flex;align-items:center;gap:8px}
+.nav-center{display:flex;gap:6px;align-items:center}
+.nav-center a{padding:8px 14px;font-size:14px;font-weight:500;border-radius:8px;transition:background .2s}
+.nav.scrolled .nav-center a:hover{background:rgba(23,26,32,.06)}
+.nav.over-hero .nav-center a:hover{background:rgba(255,255,255,.12)}
+.nav-right{display:flex;gap:6px;align-items:center}
+.nav-right a{padding:8px 14px;font-size:14px;font-weight:500;border-radius:8px;transition:background .2s}
+.nav.scrolled .nav-right a:hover{background:rgba(23,26,32,.06)}
+.nav.over-hero .nav-right a:hover{background:rgba(255,255,255,.12)}
+.nav-toggle{display:none;width:24px;height:18px;flex-direction:column;justify-content:space-between}
+.nav-toggle span{display:block;height:1.5px;background:currentColor;width:100%;transition:.3s}
+@media (max-width:980px){
+  .nav-center,.nav-right .nav-link-extra{display:none}
+  .nav-toggle{display:flex}
+}
+.mobile-menu{position:fixed;inset:0;background:var(--paper);color:var(--ink);z-index:200;padding:80px 32px 40px;display:none;flex-direction:column;gap:0}
+.mobile-menu.open{display:flex}
+.mobile-menu .close{position:absolute;top:18px;right:18px;font-size:24px;width:44px;height:44px;display:grid;place-items:center}
+.mobile-menu a{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.01em;padding:18px 0;border-bottom:1px solid var(--rule)}
+
+/* BUTTONS — Tesla pill */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:240px;padding:13px 28px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;transition:background .25s, color .25s, transform .25s cubic-bezier(.2,.7,.2,1);border:1px solid transparent;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn-fill-dark{background:rgba(23,26,32,.85);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-fill-dark:hover{background:#171A20}
+.btn-fill-light{background:rgba(244,244,244,.65);color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-fill-light:hover{background:#FFFFFF}
+.btn-solid{background:var(--ink);color:#fff}
+.btn-solid:hover{background:#000}
+.btn-ghost{background:transparent;color:var(--ink);border-color:rgba(23,26,32,.2)}
+.btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding:6px 0;border-bottom:1.5px solid transparent;transition:border-color .2s, gap .2s}
+.btn-link:hover{border-color:var(--ink);gap:10px}
+.btn-link.invert{color:#fff}
+.btn-link.invert:hover{border-color:#fff}
+@media (max-width:520px){.btn{min-width:0;width:100%}}
+
+/* HERO — full bleed photo */
+.hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media img,.hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 35%;filter:brightness(.62) saturate(.92)}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
+.hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
+.hero-top{text-align:center}
+.hero-top .eyebrow{margin-bottom:18px;display:inline-block}
+.hero h1{font-size:clamp(36px,5.4vw,68px);font-weight:500;line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:14ch;margin:0 auto}
+.hero-sub{margin-top:18px;font-size:clamp(15px,1.3vw,18px);color:rgba(255,255,255,.92);max-width:46ch;margin-left:auto;margin-right:auto;line-height:1.45}
+.hero-bottom{display:flex;flex-direction:column;align-items:center;gap:24px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.hero-pager{display:flex;gap:8px;align-items:center}
+.hero-pager span{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.45);transition:background .25s}
+.hero-pager span.active{background:#fff}
+.hero-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.0);color:#fff;display:grid;place-items:center;transition:background .25s;font-size:26px}
+.hero-arrow:hover{background:rgba(255,255,255,.16)}
+.hero-arrow.left{left:18px}
+.hero-arrow.right{right:18px}
+@media (max-width:780px){.hero-arrow{display:none}}
+.scroll-cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;color:#fff;font-size:11px;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.85}
+.scroll-cue::after{content:"";width:1px;height:22px;background:rgba(255,255,255,.6);animation:scrollCue 1.6s ease-in-out infinite}
+@keyframes scrollCue{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1)}}
+
+/* SAVE 25% — simplified for riders */
+.tco-band{padding:96px 24px;background:var(--surface)}
+.tco-inner{max-width:1280px;margin:0 auto}
+.tco-head{margin-bottom:48px;max-width:720px}
+.tco-head .eyebrow{display:block;margin-bottom:14px}
+.tco-head h2{font-size:clamp(40px,4.8vw,68px);font-weight:500;letter-spacing:-.035em;margin-bottom:18px;line-height:1}
+.tco-head p{color:var(--mute);font-size:18px;line-height:1.55}
+
+/* Two big total cards — petrol vs Wahu, the headline visual a rider gets in 3 seconds */
+.tco-totals{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:48px}
+.tco-total-card{background:#fff;padding:36px 32px;display:flex;flex-direction:column;gap:10px}
+.tco-total-card.accent{background:var(--ink);color:#fff}
+.tco-total-label{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+.tco-total-card.accent .tco-total-label{color:rgba(255,255,255,.6)}
+.tco-total-num{font-family:var(--display);font-size:clamp(40px,5vw,64px);font-weight:500;letter-spacing:-.035em;line-height:1;color:var(--ink)}
+.tco-total-card.accent .tco-total-num{color:var(--accent)}
+.tco-total-foot{font-size:14px;color:var(--mute);line-height:1.4;margin-top:6px}
+.tco-total-card.accent .tco-total-foot{color:rgba(255,255,255,.7)}
+@media (max-width:780px){.tco-totals{grid-template-columns:1fr}}
+
+/* Visual bars — solid, no segments */
+.tco-chart{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.tco-row{display:grid;grid-template-columns:80px 1fr;gap:20px;align-items:center}
+.tco-row-name{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--mute);text-transform:uppercase;letter-spacing:.14em}
+.tco-bar{display:flex;align-items:center;height:48px;border-radius:6px;width:var(--w);padding:0 18px;color:#fff}
+.tco-bar-petrol{background:#7C5048}
+.tco-bar-wahu{background:var(--ink)}
+.tco-bar-num{font-family:var(--display);font-size:15px;font-weight:600;letter-spacing:-.005em}
+@media (max-width:780px){.tco-row{grid-template-columns:60px 1fr;gap:12px}.tco-bar{height:44px;padding:0 14px}.tco-bar-num{font-size:13px}}
+
+/* Compare table inside TCO section */
+/* Mini-header that connects the two halves of the Hero offer */
+.tco-step-head{display:flex;align-items:baseline;gap:18px;margin:56px 0 20px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.tco-step-head .step-num{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.tco-step-head h3{font-family:var(--display);font-size:clamp(20px,2vw,26px);font-weight:500;letter-spacing:-.015em;color:var(--ink);line-height:1.2}
+@media (max-width:640px){.tco-step-head{flex-direction:column;gap:6px;align-items:flex-start}}
+
+.tco-compare{margin-top:0}
+.tco-compare .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tco-compare .compare-card{background:#fff;padding:36px 32px}
+.tco-compare .compare-card .eyebrow{display:block;margin-bottom:14px;color:var(--mute)}
+.tco-compare .compare-card.accent .eyebrow{color:var(--accent)}
+.tco-compare .compare-card h3{font-family:var(--display);font-size:24px;font-weight:500;letter-spacing:-.015em;margin-bottom:24px}
+.tco-compare .data-foot{margin-top:24px;font-size:12px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:780px){.tco-compare .compare-grid{grid-template-columns:1fr}}
+
+/* Save AND earn — partner pipeline / 2× earnings */
+.tco-earn{margin-top:64px;padding:48px 40px;background:var(--ink);color:#fff;border-radius:14px;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center}
+.tco-earn-copy .eyebrow{display:block;margin-bottom:14px;color:rgba(255,255,255,.65)}
+.tco-earn-copy h3{font-family:var(--display);font-size:clamp(24px,2.6vw,32px);font-weight:500;letter-spacing:-.02em;margin-bottom:14px;color:#fff}
+.tco-earn-copy p{font-size:15px;line-height:1.6;color:rgba(255,255,255,.78);max-width:54ch}
+.tco-earn-copy strong{color:#fff;font-weight:600}
+.tco-earn-stats{display:flex;flex-direction:column;gap:18px}
+.tco-earn-stat{padding:18px 22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:10px;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.tco-earn-stat strong{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.025em;color:var(--accent);line-height:1}
+.tco-earn-stat span{font-size:13px;color:rgba(255,255,255,.78);font-weight:400;line-height:1.45;letter-spacing:-.005em}
+@media (max-width:780px){.tco-earn{grid-template-columns:1fr;padding:32px 24px;gap:32px}}
+@media (max-width:780px){.tco-row{grid-template-columns:1fr;gap:8px}.tco-bar{height:56px}.tco-seg .tco-seg-l{display:none}.tco-seg{padding:0 8px;justify-content:center;align-items:center}.tco-seg strong{margin-top:0;font-size:12px}}
+
+/* FAQ */
+.faq-band{padding:96px 24px;background:var(--paper)}
+.faq-inner{max-width:980px;margin:0 auto}
+.faq-head{margin-bottom:48px;max-width:680px}
+.faq-head .eyebrow{display:block;margin-bottom:14px}
+.faq-head h2{font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em}
+.faq-list{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.faq-item{border-bottom:1px solid var(--rule)}
+.faq-item summary{list-style:none;cursor:pointer;padding:24px 0;display:flex;justify-content:space-between;align-items:center;gap:24px;font-family:var(--display);font-size:18px;font-weight:500;letter-spacing:-.01em;color:var(--ink);transition:color .2s}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary:hover{color:var(--accent)}
+.faq-toggle{font-family:var(--sans);font-weight:400;font-size:20px;color:var(--mute);transition:transform .25s, color .25s;flex-shrink:0}
+.faq-item[open] .faq-toggle{transform:rotate(45deg);color:var(--accent)}
+.faq-body{padding:0 0 28px;max-width:78ch}
+.faq-body p{font-size:15px;line-height:1.6;color:var(--mute)}
+.faq-body a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+
+/* TILE GRID — Tesla two-up cards */
+.tile-section{padding:0;background:var(--paper)}
+.tile-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--paper)}
+@media (max-width:880px){.tile-grid{grid-template-columns:1fr}}
+.tile{position:relative;aspect-ratio:4/5;min-height:560px;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:56px 32px 40px}
+.tile-media{position:absolute;inset:0;z-index:0}
+.tile-media img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.2,.7,.2,1)}
+.tile:hover .tile-media img{transform:scale(1.04)}
+.tile-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.15) 35%, rgba(0,0,0,.2) 70%, rgba(0,0,0,.65) 100%)}
+.tile-top,.tile-bottom{position:relative;z-index:2;text-align:center}
+.tile h2{font-size:clamp(30px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;color:#fff;margin-bottom:6px}
+.tile .tile-sub{font-size:14px;color:rgba(255,255,255,.92);font-weight:500;letter-spacing:.04em}
+.tile-bottom{display:flex;flex-direction:column;gap:18px;align-items:center}
+.tile-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.tile-meta{display:flex;gap:32px;justify-content:center;color:#fff;font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.tile-meta span strong{display:block;font-family:var(--display);font-size:22px;letter-spacing:-.01em;text-transform:none;font-weight:600;margin-top:4px}
+.tile.dark{color:#fff}
+.tile.light{color:var(--ink)}
+.tile.light h2{color:var(--ink)}
+.tile.light .tile-sub{color:var(--mute)}
+.tile.light .tile-shade{background:linear-gradient(180deg, rgba(255,255,255,.0) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,.45) 100%)}
+.tile.tile-coming-soon{opacity:.9}
+.tile.tile-coming-soon::after{content:"Coming soon";position:absolute;top:24px;right:24px;z-index:3;font-family:var(--sans);font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#fff;padding:6px 12px;border:1px solid rgba(255,255,255,.45);border-radius:999px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);background:rgba(0,0,0,.25)}
+.tile.tile-coming-soon .tile-media img{filter:saturate(.9)}
+
+/* SECTION — full-bleed video block */
+.video-block{position:relative;width:100%;aspect-ratio:16/8;min-height:520px;overflow:hidden;color:#fff;background:#000}
+.video-block video,.video-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-block .vb-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.35) 0%, rgba(0,0,0,.1) 50%, rgba(0,0,0,.6) 100%);z-index:1}
+.video-block .vb-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:64px 32px 40px;max-width:1480px;margin:0 auto;text-align:center;align-items:center}
+.video-block h2{font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;color:#fff;max-width:18ch;margin:0 auto}
+.video-block .vb-sub{margin-top:14px;color:rgba(255,255,255,.9);max-width:42ch;font-size:15px;line-height:1.5}
+.play-btn{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);margin:0 auto;transition:transform .25s cubic-bezier(.2,.7,.2,1), background .25s}
+.play-btn:hover{transform:scale(1.06);background:#fff}
+.play-btn::after{content:"";width:0;height:0;border-style:solid;border-width:9px 0 9px 14px;border-color:transparent transparent transparent var(--ink);margin-left:3px}
+.video-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+
+/* OFFER CARD — small horizontal cards (Tesla "Current Offers / American Heroes") */
+.offers-section{background:var(--paper);padding:6px 0 0}
+.offers-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+@media (max-width:880px){.offers-grid{grid-template-columns:1fr}}
+.offer-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--surface);overflow:hidden}
+.offer-content{padding:36px 32px;display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+.offer-content .eyebrow{margin-bottom:12px;color:var(--mute)}
+.offer-card h3{font-size:clamp(22px,2.2vw,28px);font-weight:500;letter-spacing:-.02em;color:var(--ink);margin-bottom:10px}
+.offer-card p{font-size:14px;line-height:1.55;color:var(--mute);margin-bottom:18px}
+.offer-media{position:relative;min-height:260px}
+.offer-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+@media (max-width:560px){.offer-card{grid-template-columns:1fr}.offer-media{aspect-ratio:16/10;min-height:0}}
+
+/* COMPARE / DATA BAND */
+.data-band{background:var(--surface);padding:88px 24px}
+.data-inner{max-width:1280px;margin:0 auto}
+.data-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:24px;margin-bottom:48px}
+.data-head h2{font-size:clamp(28px,3vw,40px);font-weight:500;letter-spacing:-.02em;max-width:22ch}
+.data-head p{color:var(--mute);font-size:15px;max-width:48ch;line-height:1.55}
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.compare-card{background:#fff;padding:36px 32px}
+.compare-card .eyebrow{color:var(--mute);margin-bottom:14px;display:block}
+.compare-card.accent .eyebrow{color:var(--accent)}
+.compare-card h3{font-size:24px;font-weight:500;letter-spacing:-.015em;margin-bottom:24px}
+.cmp-row{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--rule);font-size:14px}
+.cmp-row:last-child{border-bottom:none}
+.cmp-row .l{color:var(--mute)}
+.cmp-row .v{font-weight:600;font-family:var(--display)}
+.compare-card.accent .cmp-row .v{color:var(--accent)}
+.cmp-total{margin-top:14px;padding:18px 0 0;border-top:1px solid var(--rule)}
+.cmp-total .l{font-family:var(--display);font-size:13px;font-weight:600;color:var(--ink);text-transform:none;letter-spacing:-.005em;line-height:1.3}
+.cmp-total .l small{display:block;font-family:var(--sans);font-size:10px;font-weight:500;color:var(--mute);margin-top:4px;letter-spacing:.12em;text-transform:uppercase}
+.cmp-total .v{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.02em}
+.data-foot{margin-top:24px;font-size:12px;color:var(--mute);letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:780px){.compare-grid{grid-template-columns:1fr}}
+
+/* HOW IT WORKS — horizontal numbered steps on a band */
+.steps-band{background:var(--ink);color:#fff;padding:88px 24px}
+.steps-inner{max-width:1280px;margin:0 auto}
+.steps-head{margin-bottom:56px;max-width:680px}
+.steps-head .eyebrow{color:rgba(255,255,255,.6);margin-bottom:14px;display:block}
+.steps-head h2{font-size:clamp(28px,3vw,40px);color:#fff;font-weight:500;letter-spacing:-.02em;margin-bottom:14px}
+.steps-head p{color:rgba(255,255,255,.7);font-size:15px;max-width:50ch;line-height:1.55}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;border-top:1px solid rgba(255,255,255,.16);padding-top:36px}
+.step-num{font-family:var(--display);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.1em;margin-bottom:14px}
+.step h3{font-size:18px;font-weight:500;color:#fff;margin-bottom:8px;letter-spacing:-.01em}
+.step p{color:rgba(255,255,255,.7);font-size:14px;line-height:1.55}
+@media (max-width:900px){.steps-grid{grid-template-columns:1fr 1fr;gap:36px 28px}}
+@media (max-width:520px){.steps-grid{grid-template-columns:1fr}}
+
+/* APP TILE — dark cinematic surface, carries through from bikes tiles above */
+.app-tile{position:relative;display:grid;grid-template-columns:1.05fr 1fr;gap:0;background:#0E1014;color:#fff;overflow:hidden}
+.app-tile::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 0% 50%, rgba(232,66,30,.10) 0%, rgba(232,66,30,0) 60%),radial-gradient(ellipse 50% 40% at 100% 100%, rgba(255,255,255,.04) 0%, rgba(255,255,255,0) 70%);pointer-events:none;z-index:0}
+.app-copy{position:relative;z-index:1;padding:96px 56px;display:flex;flex-direction:column;justify-content:center;max-width:640px}
+.app-copy .eyebrow{color:rgba(255,255,255,.6);margin-bottom:14px;display:block}
+.app-copy h2{font-size:clamp(28px,3vw,42px);font-weight:500;letter-spacing:-.025em;margin-bottom:18px;line-height:1.08;color:#fff}
+.app-copy p{font-size:16px;color:rgba(255,255,255,.7);line-height:1.6;margin-bottom:28px;max-width:46ch}
+.app-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-bottom:32px}
+.app-list li{position:relative;padding-left:22px;font-size:14px;color:rgba(255,255,255,.88);line-height:1.5}
+.app-list li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:1px;background:var(--accent)}
+.app-actions{display:flex;gap:12px;flex-wrap:wrap}
+.store-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;background:#fff;color:var(--ink);border-radius:999px;font-size:13px;font-weight:500;transition:background .25s, transform .25s, box-shadow .25s;box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 8px 24px -12px rgba(0,0,0,.6)}
+.store-btn:hover{background:#F4F4F4;transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,.06) inset, 0 12px 32px -12px rgba(0,0,0,.7)}
+.store-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.store-meta{display:flex;flex-direction:column;line-height:1;text-align:left}
+.store-meta-small{font-size:9px;letter-spacing:.06em;text-transform:uppercase;opacity:.65}
+.store-meta-big{font-size:14px;font-weight:600;margin-top:2px}
+.app-photo{position:relative;min-height:560px;background:#000}
+.app-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.app-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(14,16,20,.55) 0%, rgba(14,16,20,0) 22%);pointer-events:none}
+@media (max-width:980px){.app-tile{grid-template-columns:1fr}.app-copy{padding:72px 32px;max-width:none}.app-photo{aspect-ratio:4/3;min-height:0}.app-photo::after{background:linear-gradient(180deg, rgba(14,16,20,.55) 0%, rgba(14,16,20,0) 22%)}.app-list{grid-template-columns:1fr}}
+
+/* TESTIMONIALS */
+.testi-band{background:var(--surface);padding:88px 24px}
+.testi-inner{max-width:1280px;margin:0 auto}
+.testi-head{margin-bottom:48px;max-width:680px}
+.testi-head .eyebrow{color:var(--mute);margin-bottom:14px;display:block}
+.testi-head h2{font-size:clamp(28px,3vw,40px);font-weight:500;letter-spacing:-.02em}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.testi-grid.two-up{grid-template-columns:1fr 1fr}
+@media (max-width:780px){.testi-grid.two-up{grid-template-columns:1fr}}
+.testi-card{background:#fff;padding:36px 32px;display:flex;flex-direction:column;gap:24px;min-height:280px}
+.testi-quote{font-size:17px;line-height:1.5;color:var(--ink);font-weight:400;flex:1}
+.testi-author{padding-top:20px;border-top:1px solid var(--rule)}
+.testi-name{font-weight:600;font-size:14px;font-family:var(--display)}
+.testi-role{font-size:12px;color:var(--mute);margin-top:2px;letter-spacing:.04em;text-transform:uppercase}
+@media (max-width:880px){.testi-grid{grid-template-columns:1fr}}
+
+/* FOOTER — Tesla minimal centered text links */
+footer{background:var(--paper);color:var(--ink);padding:56px 24px 32px;border-top:1px solid var(--rule)}
+.foot-inner{max-width:1480px;margin:0 auto}
+.foot-top{display:flex;align-items:center;padding-bottom:24px;border-bottom:1px solid var(--rule)}
+.foot-brand-mark{height:24px;width:auto;display:block}
+.foot-cols{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:48px;padding:48px 0 64px}
+.foot-col-spacer{}
+.foot-col h4{font-family:var(--display);font-size:20px;font-weight:500;color:var(--ink);margin:0 0 28px;letter-spacing:-.01em}
+.foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px}
+.foot-col a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .2s}
+.foot-col a:hover{color:var(--ink)}
+.foot-credentials{display:flex;align-items:center;gap:18px;padding:0 0 28px;flex-wrap:wrap}
+.foot-credentials-label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.foot-credential-logo{height:40px;width:auto;display:block}
+.foot-bottom{display:flex;justify-content:space-between;align-items:flex-start;padding-top:24px;border-top:1px solid var(--rule);font-size:12px;color:var(--mute);letter-spacing:.01em;line-height:1.5}
+.foot-bottom-right{text-align:right}
+.app-badges{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.foot-col .app-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 16px 10px 14px;background:var(--ink);color:#fff;border-radius:10px;transition:transform .25s cubic-bezier(.2,.7,.2,1), background .25s;letter-spacing:0;text-transform:none;font-size:14px;font-weight:500}
+.foot-col .app-badge:hover{background:#000;color:#fff;transform:translateY(-1px)}
+.app-badge svg{flex:0 0 auto;color:#fff}
+.app-badge-text{display:flex;flex-direction:column;line-height:1;gap:3px;text-align:left}
+.app-badge-pre{font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;opacity:.78}
+.app-badge-name{font-size:15px;font-weight:600;letter-spacing:-.005em;font-family:var(--display)}
+.foot-socials{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.foot-col .foot-social{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--rule);color:var(--mute);transition:color .2s, background .2s, border-color .2s;letter-spacing:0;text-transform:none;font-size:0}
+.foot-col .foot-social:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.foot-social svg{width:16px;height:16px}
+@media (max-width:840px){.foot-cols{grid-template-columns:1fr 1fr;gap:32px;padding:36px 0 40px}.foot-col-spacer{display:none}.foot-bottom{flex-direction:column;gap:8px;align-items:flex-start;text-align:left}.foot-bottom-right{text-align:left}}
+@media (max-width:520px){.foot-cols{grid-template-columns:1fr;gap:32px}}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+.brand-mark{height:22px;width:auto;display:block;transition:filter .3s}
+.nav.over-hero .brand-mark{filter:brightness(0) invert(1)}
+.foot-brand{display:inline-flex;align-items:center;gap:8px}
+.foot-brand-mark{height:14px;width:auto;display:block}
+
+.hero h1,.hero-sub,.hero-top .eyebrow{text-shadow:0 2px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.45)}
+.scroll-cue{text-shadow:0 1px 6px rgba(0,0,0,.6)}
+
+.foot-inner .social{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;color:var(--mute);transition:color .2s, background .2s}
+.foot-inner .social:hover{color:var(--ink);background:rgba(23,26,32,.06)}
+
+/* ===== TESLA POLISH PASS ===== */
+/* Typography: tighter hero letter-spacing, lighter weight, more refined eyebrow */
+.hero h1{font-weight:400;letter-spacing:-.035em;line-height:1.02}
+.hero-sub{font-weight:400;letter-spacing:-.005em}
+h2{letter-spacing:-.028em}
+.eyebrow{font-size:10px;letter-spacing:.16em;font-weight:500}
+.eyebrow.dark,.testi-head .eyebrow,.cfg-head .eyebrow,.commit-head .eyebrow,.partners-head .eyebrow,.cta-head .eyebrow,.opp-head .eyebrow,.eco-head .eyebrow,.pillars-head .eyebrow,.flywheel-head .eyebrow,.lead-head .eyebrow,.values-head .eyebrow,.roles-head .eyebrow,.steps-head .eyebrow{font-size:10px;letter-spacing:.16em}
+
+/* Buttons: Tesla-tighter tracking, refined weight */
+.btn{letter-spacing:.04em;font-weight:600;padding:12px 28px;font-size:13px;min-width:248px}
+.btn-link{letter-spacing:.04em}
+
+/* Section rhythm: a hair more breathing room on desktop */
+@media (min-width:980px){
+  .compare-band,.section-band,.who-section,.opp-band,.eco-band,.pillars-band,.flywheel-band,.commit-band,.partners-band,.cta-band,.lead-band,.values-band,.roles-band,.team-band,.round-band,.cfg-band,.thesis,.manifesto,.steps-band,.detail-band,.own-band,.testi-band,.data-band{padding-top:112px;padding-bottom:112px}
+  .feature-text{padding:96px 64px}
+  .theme-copy{padding:112px 64px}
+  .app-copy{padding:104px 64px}
+}
+
+/* Tiles: subtle lift only (no scale of media) for Tesla precision */
+.tile{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.tile:hover .tile-media img{transform:scale(1.02)}
+.tile-meta span{font-size:10px;letter-spacing:.14em}
+.tile-meta span strong{font-size:20px;letter-spacing:-.005em;margin-top:6px}
+
+/* Footer: tighter type, more breathing */
+.foot-inner{padding:8px 0}
+.foot-inner a,.foot-inner span{font-size:11px;letter-spacing:.01em}
+.foot-inner .foot-brand{font-size:13px}
+
+/* Smooth anchor offset — fixed nav was eating section tops */
+section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scroll-margin-top:84px}
+
+/* Form inputs: Tesla-tight underlined fields */
+.form-row input,.form-row select{font-size:14px;letter-spacing:.01em}
+
+/* Spec callouts on vehicles — slightly more confident */
+.veh-stats .v{font-weight:500;letter-spacing:-.02em}
+.veh-stats .l{font-size:10px;letter-spacing:.16em}
+
+/* Compare table: Tesla-quiet rows */
+.cmp-row{padding:16px 28px;font-size:14px}
+.cmp-row .v{font-weight:500;letter-spacing:-.005em;font-size:14px}
+.cmp-row.h{font-size:10px;letter-spacing:.14em}
+
+/* Stat-number polish */
+.theme-stat-num,.commit-target,.opp-num,.ai-stat-num,.impact-stat-num{font-weight:400;letter-spacing:-.035em}
+
+</style>
+
+<!-- ===== SEO: canonical + og + twitter + JSON-LD ===== -->
+<link rel="canonical" href="https://wahu.me/" />
+<meta property="og:url" content="https://wahu.me/" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://wahu.me/assets/brand/emoto-arch.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_GH" />
+<meta property="og:site_name" content="Wahu Mobility" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Wahu Mobility — Electric bikes that pay for themselves" />
+<meta name="twitter:description" content="An electric bike that pays for itself. From GHS 420 a week. Yours after 18 months. Designed in Ghana for the people who ride every day." />
+<meta name="twitter:image" content="https://wahu.me/assets/brand/emoto-arch.jpg" />
+<meta name="theme-color" content="#171A20" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://wahu.me/#organization","name":"Wahu Mobility","url":"https://wahu.me","logo":"https://wahu.me/assets/brand/wahu-logo-rgb.png","image":"https://wahu.me/assets/brand/emoto-arch.jpg","description":"Africa's first electric mobility company with a sovereign carbon contract. Designed in Ghana.","foundingDate":"2021","foundingLocation":"Accra, Ghana","sameAs":["https://gh.linkedin.com/company/wahu-me","https://www.instagram.com/wahu.me/","https://web.facebook.com/wahumobility/"],"contactPoint":[{"@type":"ContactPoint","email":"hello@wahu.me","contactType":"customer support"},{"@type":"ContactPoint","email":"investors@wahu.me","contactType":"investor relations"},{"@type":"ContactPoint","email":"careers@wahu.me","contactType":"human resources"}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://wahu.me/#localbusiness","name":"Wahu Mobility","url":"https://wahu.me","image":"https://wahu.me/assets/brand/emoto-arch.jpg","priceRange":"GHS 420 / week","address":{"@type":"PostalAddress","addressLocality":"Accra","addressCountry":"GH"},"telephone":"+233 055 743 2442","email":"hello@wahu.me"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much does a Wahu eBike cost?","acceptedAnswer":{"@type":"Answer","text":"A one-time GHS 700 starter fee when you collect the bike, then GHS 420 a week for 78 weeks (18 months) \u2014 paid through mobile money or bank transfer. The weekly price bundles the bike, service, insurance, training, the Hero app and warranty. After week 78 the title transfers to your name and the bike is yours, free and clear."}},{"@type":"Question","name":"Is Wahu actually cheaper than a petrol bike?","acceptedAnswer":{"@type":"Answer","text":"A petrol bike costs about GHS 605 a week all-in (bike amortized over 18 months plus fuel). Wahu is GHS 455 a week, everything included. That's roughly 25% less every week \u2014 and after 18 months you stop paying altogether."}},{"@type":"Question","name":"What happens after 18 months?","acceptedAnswer":{"@type":"Answer","text":"The bike is yours. The title transfers into your name. You stop paying weekly. Your only ongoing cost is charging \u2014 about GHS 35 a week \u2014 versus a petrol rider who is still paying GHS 280 a week for fuel."}},{"@type":"Question","name":"Where can I charge?","acceptedAnswer":{"@type":"Answer","text":"At home overnight on any standard outlet \u2014 the home charger ships free. At any Wahu charging station \u2014 find the nearest one in the Hero app and pay with mobile money. Or anywhere with power, since the batteries are removable."}},{"@type":"Question","name":"What's included in the weekly payment?","acceptedAnswer":{"@type":"Answer","text":"The bike itself, all routine service, third-party insurance, rider training, the Hero rider app, manufacturer warranty, and 24/7 support. A breakdown does not become a bill."}},{"@type":"Question","name":"What if I can't pay one week?","acceptedAnswer":{"@type":"Answer","text":"We know some weeks are slower than others. We deduct GHS 70 per day from your balance to keep the bike active (Monday to Saturday \u2014 Sundays are free). You can go up to GHS 420 negative before the bike switches off. That gives you up to a full week of breathing room to top up and keep earning. Top up any time through the app and the bike comes straight back on. No surprise fees. No repossession for a slow week."}},{"@type":"Question","name":"How do I sign up?","acceptedAnswer":{"@type":"Answer","text":"Register at rider.wahu.me with your phone number. Onboarding usually takes a day or two \u2014 once approved, you collect the bike from your nearest Wahu hub."}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","url":"https://wahu.me","name":"Wahu Mobility"}</script>
+</head>
+<body>
+
+<!-- PROMO RIBBON — Zoomo-style top banner -->
+<div class="promo-ribbon" id="promoRibbon">
+  <div class="promo-inner">
+    <span class="promo-dot" aria-hidden="true">⚡</span>
+    <span class="promo-text">New: all-inclusive plans from <strong>GHS 420 / week</strong>. Bike, service, insurance, training — bundled.</span>
+    <a href="#tco" class="promo-link">See what's included →</a>
+    <button class="promo-close" id="promoClose" aria-label="Dismiss">×</button>
+  </div>
+</div>
+
+<nav class="nav over-hero" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand brand-lock"><img src="assets/brand/wahu-logo-rgb.png" class="brand-mark" alt="Wahu" /></a>
+    <div class="nav-center">
+      <a href="vehicles.html">Vehicles</a>
+      <a href="business.html">Business</a>
+      <a href="impact.html">Impact</a>
+      <a href="investors.html">Investors</a>
+      <a href="media.html">Media</a>
+      <a href="careers.html">Careers</a>
+    </div>
+    <div class="nav-right">
+      <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="nav-link-extra">Start riding</a>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="close" aria-label="Close menu" id="menuClose">×</button>
+  <a href="vehicles.html">Vehicles</a>
+  <a href="business.html">Business</a>
+  <a href="impact.html">Impact</a>
+  <a href="investors.html">Investors</a>
+  <a href="media.html">Media</a>
+  <a href="careers.html">Careers</a>
+  <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding</a>
+</div>
+
+<!-- HERO -->
+<header class="hero" id="hero">
+  <div class="hero-media">
+    <img src="assets/brand/ksn-3.jpg" alt="Wahu rider on the eMoto in Accra" />
+  </div>
+  <div class="hero-shade"></div>
+  <button class="hero-arrow left" aria-label="Previous">‹</button>
+  <button class="hero-arrow right" aria-label="Next">›</button>
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="eyebrow">Designed in Ghana · Built for the people who ride every day</span>
+      <h1>An electric bike that pays for itself.</h1>
+      <p class="hero-sub">Cheaper than petrol. Yours after 18 months. Get trained to start earning from day one.</p>
+    </div>
+    <div class="hero-bottom">
+      <div class="hero-actions">
+        <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-fill-dark">Start riding →</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<!-- BLACK FEATURE BAND — 4 quick proofs (Zoomo pattern) -->
+<section class="proof-band">
+  <div class="proof-inner">
+    <div class="proof-item">
+      <span class="proof-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><path d="M21 12c0 5-4 9-9 9s-9-4-9-9 4-9 9-9 9 4 9 9z"/></svg>
+      </span>
+      <strong>All-inclusive</strong>
+      <span>Bike, service, insurance, training, app — one weekly price</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l3-9 4 18 3-9h4"/></svg>
+      </span>
+      <strong>Earn 2× more</strong>
+      <span>Plugged into Bolt, Uber, Yango, Glovo, Uber Eats from day one</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      </span>
+      <strong>Trained to earn</strong>
+      <span>Free training so you make money from week one</span>
+    </div>
+    <div class="proof-item">
+      <span class="proof-icon" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0 1 14 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      </span>
+      <strong>GPS &amp; charge anywhere</strong>
+      <span>Live tracking. Charge at home or any Wahu station</span>
+    </div>
+  </div>
+</section>
+
+<!-- SAVE 25% + EARN 2× — simplified for riders -->
+<section class="tco-band" id="tco">
+  <div class="tco-inner">
+    <div class="tco-head reveal">
+      <span class="eyebrow dark">What it costs</span>
+      <h2>Subscribe to own your eBike — 55% cheaper than a petrol one.</h2>
+      <p>Cheaper than petrol every week. After 18 months, the bike is yours.</p>
+    </div>
+
+    <!-- Plain compare — what a rider actually thinks about -->
+    <div class="tco-compare reveal">
+      <div class="compare-grid">
+        <div class="compare-card">
+          <span class="eyebrow">Petrol bike</span>
+          <h3>You pay for everything.</h3>
+          <div class="cmp-row"><span class="l">Bike</span><span class="v">GHS 13,000 upfront</span></div>
+          <div class="cmp-row"><span class="l">Fuel</span><span class="v">GHS 280 / week</span></div>
+          <div class="cmp-row"><span class="l">Service &amp; insurance</span><span class="v">Extra bills</span></div>
+          <div class="cmp-row"><span class="l">After 18 months</span><span class="v">Still paying</span></div>
+        </div>
+        <div class="compare-card accent">
+          <span class="eyebrow">Wahu</span>
+          <h3>Everything in one weekly price.</h3>
+          <div class="cmp-row"><span class="l">Bike</span><span class="v">GHS 420 / week</span></div>
+          <div class="cmp-row"><span class="l">Charging</span><span class="v">GHS 35 / week</span></div>
+          <div class="cmp-row"><span class="l">Service &amp; insurance</span><span class="v">Included. No surprise bills.</span></div>
+          <div class="cmp-row"><span class="l">After 18 months</span><span class="v">It's yours</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save AND earn — pipeline of jobs + 2x earnings -->
+    <div class="tco-earn reveal">
+      <div class="tco-earn-copy">
+        <span class="eyebrow dark">+ Earn 2× more</span>
+        <h3>Save and earn.</h3>
+        <p>Become a Wahu Hero and we plug you straight into <strong>Bolt, Uber, Yango, Glovo</strong> and other major platforms. Jobs from day one. Wahu Heroes earn <strong>2× more</strong> than before.</p>
+      </div>
+      <div class="tco-earn-stats">
+        <div class="tco-earn-stat"><strong>2× more</strong><span>Than petrol riders earn after fuel and repairs</span></div>
+        <div class="tco-earn-stat"><strong>5+ platforms</strong><span>Bolt, Uber, Yango, Glovo, Uber Eats — one bike, all of them</span></div>
+        <div class="tco-earn-stat"><strong>Day 1</strong><span>Your first job the day you collect your bike</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION HEADER + TWO-UP TILE: eBike / eMoto -->
+<section class="tile-section" id="bikes">
+  <div style="max-width:1280px;margin:0 auto;padding:96px 24px 56px;text-align:center">
+    <span class="eyebrow dark">The vehicles</span>
+    <h2 style="font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;margin-top:14px;margin-bottom:14px">Two vehicles. One way to ride.</h2>
+    <p style="color:var(--mute);font-size:16px;line-height:1.55;max-width:54ch;margin:0 auto">eBike for everyday riding — available now. eMoto for working riders — coming soon.</p>
+  </div>
+  <div class="tile-grid">
+    <article class="tile">
+      <div class="tile-media"><img src="assets/fleet.jpg" alt="A Wahu rider checking the Hero app next to the eBike" /></div>
+      <div class="tile-shade"></div>
+      <div class="tile-top">
+        <div class="tile-sub" style="margin-bottom:10px">For everyday riding</div>
+        <h2>eBike</h2>
+        <p style="margin-top:14px;color:rgba(255,255,255,.92);font-size:15px;line-height:1.5;max-width:34ch;margin-left:auto;margin-right:auto">Daily commutes, the school run, errands across town. 140 km on a charge.</p>
+      </div>
+      <div class="tile-bottom">
+        <div class="tile-meta">
+          <span>Range<strong>140 km</strong></span>
+          <span>Top speed<strong>40 km/h</strong></span>
+          <span>Charge<strong>Overnight</strong></span>
+        </div>
+        <div class="tile-actions">
+          <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-fill-dark">Start riding →</a>
+        </div>
+      </div>
+    </article>
+    <article class="tile tile-coming-soon">
+      <div class="tile-media"><img src="assets/brand/emoto-street.jpg" alt="Two Wahu eMoto riders on a city street" /></div>
+      <div class="tile-shade"></div>
+      <div class="tile-top">
+        <div class="tile-sub" style="margin-bottom:10px">For working riders</div>
+        <h2>eMoto</h2>
+        <p style="margin-top:14px;color:rgba(255,255,255,.92);font-size:15px;line-height:1.5;max-width:34ch;margin-left:auto;margin-right:auto">Delivery, ride-hailing, full days on the road. Fast charging at home and at Wahu stations.</p>
+      </div>
+      <div class="tile-bottom">
+        <div class="tile-meta">
+          <span>Range<strong>100 km</strong></span>
+          <span>Top speed<strong>100 km/h</strong></span>
+          <span>Charge<strong>Fast charge</strong></span>
+        </div>
+        <div class="tile-actions">
+          <a href="vehicles.html#emoto-configurator" class="btn btn-fill-dark">Notify me when eMoto launches →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — path from sign-up to earning -->
+<section class="steps-band" id="how-it-works">
+  <div class="steps-inner">
+    <div class="steps-head reveal">
+      <span class="eyebrow">How it works</span>
+      <h2>From sign-up to earning, in days.</h2>
+      <p>Four steps. No paperwork shuffle, no waiting weeks for an answer.</p>
+    </div>
+    <div class="steps-grid reveal">
+      <div class="step">
+        <div class="step-num">01 / Sign up</div>
+        <h3>Sign up online</h3>
+        <p>5 minutes on rider.wahu.me. Phone number, ID, a few questions.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02 / Verify</div>
+        <h3>Get verified</h3>
+        <p>Pay your GHS 700 starter fee, bring a guarantor, and complete free rider training.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03 / Collection</div>
+        <h3>Collect your bike</h3>
+        <p>Pick up your Wahu from your nearest hub and ride away the same day.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">04 / Earn</div>
+        <h3>Start earning</h3>
+        <p>Plugged into Bolt, Uber, Yango, Glovo, Uber Eats from day one.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:48px;display:flex;justify-content:center">
+      <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-solid" style="background:#fff;color:var(--ink)">Start riding →</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- APP TILE (image + copy) -->
+<section class="app-tile" id="download">
+  <div class="app-copy reveal">
+    <span class="eyebrow">The rider app</span>
+    <h2>Your bike, your phone, your business.</h2>
+    <p>Free app with every Wahu. Track your battery and range. See your earnings every day. Book service in one tap. Watch the countdown to the day the bike becomes yours.</p>
+    <div class="app-actions">
+      <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-solid">Start riding →</a>
+    </div>
+  </div>
+  <div class="app-photo"><img src="assets/hero-rider-app.png" alt="A Wahu rider checking the Hero app on their phone, sitting on the eBike" /></div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-band">
+  <div class="testi-inner">
+    <div class="testi-head reveal">
+      <span class="eyebrow dark">From the people who ride</span>
+      <h2 style="margin-top:14px">Heard from Heroes.</h2>
+    </div>
+    <div class="testi-grid two-up reveal">
+      <article class="testi-card">
+        <div class="testi-stars" aria-label="5 out of 5 stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote" style="font-size:20px;line-height:1.45">"My petrol bike used to eat half my earnings. Now I keep more, and I can see exactly when the bike will be mine."</p>
+        <div class="testi-author">
+          <div class="testi-name">Alex</div>
+          <div class="testi-role">Delivery rider · Accra</div>
+        </div>
+      </article>
+      <article class="testi-card">
+        <div class="testi-stars" aria-label="5 out of 5 stars">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>
+        </div>
+        <p class="testi-quote" style="font-size:20px;line-height:1.45">"It's so easy to use and charge — and I got trained how to do delivery."</p>
+        <div class="testi-author">
+          <div class="testi-name">Priscilla</div>
+          <div class="testi-role">Delivery rider · Accra</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-band" id="faq">
+  <div class="faq-inner">
+    <div class="faq-head reveal">
+      <span class="eyebrow dark">FAQ</span>
+      <h2>Common questions.</h2>
+    </div>
+    <div class="faq-list reveal">
+      <details class="faq-item">
+        <summary><span>How much does a Wahu eBike cost?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>A one-time <strong>GHS 700 starter fee</strong> when you collect the bike, then <strong>GHS 420 a week</strong> for 78 weeks (18 months) — paid through mobile money or bank transfer. The weekly price bundles the bike, service, insurance, training, the Hero app and warranty. After week 78, the title transfers to your name and the bike is yours, free and clear. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Is Wahu actually cheaper than a petrol bike?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>A petrol bike costs about <strong>GHS 605 a week</strong> all-in (bike amortized over 18 months plus fuel). Wahu is <strong>GHS 455 a week</strong>, everything included. That's roughly 25% less every week — and after 18 months you stop paying altogether. <a href="#tco">See the full breakdown →</a></p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>What happens after 18 months?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>The bike is yours. The title transfers into your name. You stop paying weekly. Your only ongoing cost is charging — about GHS 35 a week — versus a petrol rider who is still paying GHS 280 a week for fuel for as long as they ride. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>Where can I charge?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>At home overnight on any standard outlet — the home charger ships free with every bike. At any Wahu charging station — find the nearest one in the Hero app and pay with mobile money. Or anywhere with power, since the batteries are removable. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>What's included in the weekly payment?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>The bike itself, all routine service, third-party insurance, rider training, the Hero rider app, manufacturer warranty, and 24/7 support. A breakdown does not become a bill. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p></div>
+      </details>
+      <details class="faq-item">
+        <summary><span>What if I can't pay one week?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body">
+          <p>We know some weeks are slower than others. Here's how it works:</p>
+          <ul style="margin:14px 0 14px 20px;color:var(--mute);font-size:15px;line-height:1.7">
+            <li>We deduct <strong style="color:var(--ink);font-weight:600">GHS 70 per day</strong> from your balance to keep the bike active (Monday to Saturday — Sundays are free).</li>
+            <li>You can go up to <strong style="color:var(--ink);font-weight:600">GHS 420 negative</strong> before the bike switches off.</li>
+            <li>That gives you up to a full week of breathing room to top up and keep earning.</li>
+            <li>Top up any time through the app and the bike comes straight back on.</li>
+          </ul>
+          <p>No surprise fees. No repossession for a slow week. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p>
+        </div>
+      </details>
+      <details class="faq-item">
+        <summary><span>How do I sign up?</span><span class="faq-toggle" aria-hidden="true">+</span></summary>
+        <div class="faq-body"><p>Register at <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">rider.wahu.me</a> with your phone number. Onboarding usually takes a day or two — once approved, you collect the bike from your nearest Wahu hub. <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener">Start riding →</a></p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- TWO-UP TILE: Impact / Business — moved below FAQ so navigation off-ramps come AFTER all rider-decision content -->
+<section class="tile-section">
+  <div class="tile-grid">
+    <article class="tile">
+      <div class="tile-media"><img src="assets/impact-rider.jpg" alt="A Wahu rider in helmet flashing a peace sign at Independence Square" /></div>
+      <div class="tile-shade"></div>
+      <div class="tile-top">
+        <span class="eyebrow">Our impact</span>
+        <h2 style="margin-top:14px">Save money. Save the air we breathe.</h2>
+        <div class="tile-sub" style="margin-top:8px">Around GHS 14,000 saved per year. 2.4 tonnes of CO₂ avoided. Verified by telematics, not estimated.</div>
+      </div>
+      <div class="tile-bottom">
+        <div class="tile-actions">
+          <a href="impact.html" class="btn btn-fill-dark">See the impact →</a>
+        </div>
+      </div>
+    </article>
+    <article class="tile">
+      <div class="tile-media"><img src="assets/fleet-group.jpg" alt="A group of Wahu fleet riders with helmets ready to dispatch" /></div>
+      <div class="tile-shade"></div>
+      <div class="tile-top">
+        <span class="eyebrow">For business</span>
+        <h2 style="margin-top:14px">Run a fleet?</h2>
+        <div class="tile-sub" style="margin-top:8px">One screen. Every bike. Every payment. From 5 bikes to 5,000.</div>
+      </div>
+      <div class="tile-bottom">
+        <div class="tile-actions">
+          <a href="business.html" class="btn btn-fill-dark">See fleet solutions →</a>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="video-block" style="aspect-ratio:16/8;min-height:520px">
+  <img src="assets/brand/ksn-2.jpg" alt="Wahu eBike at golden hour" />
+  <div class="vb-shade"></div>
+  <div class="vb-inner">
+    <div>
+      <span class="eyebrow">Ready?</span>
+      <h2 style="margin-top:16px">Sign up today and start earning more.</h2>
+      <p class="vb-sub">All-inclusive from GHS 420 a week. Bike yours after 18 months. Plug straight into Bolt, Uber, Yango, Glovo and Uber Eats.</p>
+    </div>
+    <div class="video-actions" style="display:flex;flex-direction:column;align-items:center;gap:14px">
+      <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-fill-dark">Start riding →</a>
+      <span style="font-size:13px;color:rgba(255,255,255,.78);letter-spacing:-.005em">First job within 7 days of collection.</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <a href="index.html" class="foot-brand" aria-label="Wahu Mobility home"><img src="assets/brand/wahu-logo-rgb.png" class="foot-brand-mark" alt="Wahu Mobility" /></a>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col-spacer"></div>
+      <div class="foot-col">
+        <h4>Directory</h4>
+        <ul>
+          <li><a href="vehicles.html">Vehicles</a></li>
+          <li><a href="business.html">Business</a></li>
+          <li><a href="impact.html">Impact</a></li>
+          <li><a href="investors.html">Investors</a></li>
+          <li><a href="media.html">Media</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="mailto:hello@wahu.me">Contact us</a></li>
+          <li><a href="media.html#press">Press</a></li>
+          <li><a href="investors.html">Investor relations</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Social</h4>
+        <div class="foot-socials">
+          <a href="https://gh.linkedin.com/company/wahu-me" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/wahu.me/" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://web.facebook.com/wahumobility/" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+        <h4>Get the app</h4>
+        <div class="app-badges">
+          <a href="#" class="app-badge" target="_blank" rel="noopener" aria-label="Download Wahu Hero on the App Store">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-3.05 2.49-4.51 2.6-4.58-1.42-2.07-3.62-2.36-4.4-2.39-1.87-.19-3.65 1.1-4.6 1.1-.95 0-2.41-1.07-3.96-1.04-2.04.03-3.92 1.19-4.97 3.01-2.12 3.68-.54 9.13 1.52 12.13 1.01 1.47 2.21 3.12 3.78 3.06 1.52-.06 2.09-.99 3.93-.99s2.36.99 3.97.96c1.64-.03 2.68-1.5 3.69-2.97 1.16-1.71 1.64-3.36 1.66-3.45-.04-.02-3.18-1.22-3.22-4.84zM14.04 3.96c.83-1.01 1.39-2.42 1.24-3.82-1.2.05-2.65.8-3.51 1.81-.77.89-1.45 2.32-1.27 3.69 1.34.1 2.71-.68 3.54-1.68z"/></svg>
+            <span class="app-badge-text">
+              <span class="app-badge-pre">Download on the</span>
+              <span class="app-badge-name">App Store</span>
+            </span>
+          </a>
+          <a href="#" class="app-badge" target="_blank" rel="noopener" aria-label="Get Wahu Hero on Google Play">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.84a1.5 1.5 0 0 0-.6 1.21v17.9a1.5 1.5 0 0 0 .6 1.21l10.3-10.16z" fill="#34A1F4"/><path d="m17.86 8.78-3.96 3.22 3.97 3.22 3.55-2.04a1.5 1.5 0 0 0 0-2.61z" fill="#FBBC04"/><path d="M3.6 1.84 13.9 12l3.96-3.22L4.93 1.32a1.5 1.5 0 0 0-1.33.52z" fill="#34A853"/><path d="M13.9 12 3.6 22.16a1.5 1.5 0 0 0 1.33.52l12.93-7.46z" fill="#EA4335"/></svg>
+            <span class="app-badge-text">
+              <span class="app-badge-pre">Get it on</span>
+              <span class="app-badge-name">Google Play</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-credentials">
+      <span class="foot-credentials-label">Recognised by</span>
+      <img src="assets/brand/2x-challenge.jpg" alt="2X Challenge — Qualified Investment 2024–2027" class="foot-credential-logo" loading="lazy" />
+    </div>
+    <div class="foot-bottom">
+      <span>Designed and built<br>in Accra, Ghana</span>
+      <span class="foot-bottom-right">© Wahu Mobility 2026<br>All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Single source of truth for the rider sign-up URL — every primary CTA and FAQ link uses this.
+  const SIGNUP_URL = 'https://rider.wahu.me';
+  document.querySelectorAll('a[data-signup]').forEach(a => { a.href = SIGNUP_URL; });
+
+  const nav = document.getElementById('nav');
+  const hero = document.getElementById('hero');
+  const onScroll = () => {
+    const heroBottom = hero ? hero.offsetTop + hero.offsetHeight - 80 : 0;
+    if (window.scrollY > heroBottom) {
+      nav.classList.add('scrolled');
+      nav.classList.remove('over-hero');
+    } else {
+      nav.classList.remove('scrolled');
+      nav.classList.add('over-hero');
+    }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose = document.getElementById('menuClose');
+  // Promo ribbon dismiss
+  const promo = document.getElementById('promoRibbon');
+  const promoClose = document.getElementById('promoClose');
+  if (sessionStorage.getItem('promoHidden') === '1') promo && promo.classList.add('hidden');
+  promoClose && promoClose.addEventListener('click', () => { promo.classList.add('hidden'); sessionStorage.setItem('promoHidden','1'); });
+
+  navToggle && navToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+  menuClose && menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+  // Failsafe: reveal anything still hidden after load (e.g. for crawlers, fast scrolls, full-page screenshots)
+  window.addEventListener('load', () => { setTimeout(() => reveals.forEach(el => el.classList.add('in')), 200); });
+</script>
+</body>
+</html>

@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<title>Fleet Management for Electric Bikes | Wahu for Business</title>
+<meta name="description" content="Run a fleet of bikes? Cut fuel cost by 87%. Bikes, software, financing, service — bundled. From 5 bikes to 5,000. Free 4-week trial." />
+<meta property="og:title" content="Wahu for Business — Run your fleet from one screen" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171A20;--ink-soft:#393C41;--paper:#FFFFFF;--surface:#F4F4F4;--surface-2:#EDEDED;--mute:#5C5E62;--rule:rgba(23,26,32,.08);--accent:#E8421E;
+  --display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
+  --sans:'Inter', system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}img{max-width:100%;display:block}
+
+h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.eyebrow{font-family:var(--sans);font-size:11px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.85)}
+.eyebrow.dark{color:var(--mute)}
+
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;transition:background .3s, color .3s}
+.nav.over-hero{color:#fff}
+.nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);color:var(--ink)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1480px;margin:0 auto;padding:0 24px;gap:24px}
+.brand{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-.02em}
+.nav-center{display:flex;gap:6px;align-items:center}
+.nav-center a{padding:8px 14px;font-size:14px;font-weight:500;border-radius:8px;transition:background .2s}
+.nav-center a.active{color:var(--accent)}
+.nav.scrolled .nav-center a:hover{background:rgba(23,26,32,.06)}
+.nav.over-hero .nav-center a:hover{background:rgba(255,255,255,.12)}
+.nav-right{display:flex;gap:6px;align-items:center}
+.nav-right a{padding:8px 14px;font-size:14px;font-weight:500;border-radius:8px;transition:background .2s}
+.nav.scrolled .nav-right a:hover{background:rgba(23,26,32,.06)}
+.nav.over-hero .nav-right a:hover{background:rgba(255,255,255,.12)}
+.nav-toggle{display:none;width:24px;height:18px;flex-direction:column;justify-content:space-between}
+.nav-toggle span{display:block;height:1.5px;background:currentColor;width:100%;transition:.3s}
+@media (max-width:980px){.nav-center,.nav-right .nav-link-extra{display:none}.nav-toggle{display:flex}}
+.mobile-menu{position:fixed;inset:0;background:var(--paper);color:var(--ink);z-index:200;padding:80px 32px 40px;display:none;flex-direction:column;gap:0}
+.mobile-menu.open{display:flex}
+.mobile-menu .close{position:absolute;top:18px;right:18px;font-size:24px;width:44px;height:44px;display:grid;place-items:center}
+.mobile-menu a{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.01em;padding:18px 0;border-bottom:1px solid var(--rule)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:240px;padding:13px 28px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;transition:background .25s, color .25s, transform .25s cubic-bezier(.2,.7,.2,1);border:1px solid transparent;cursor:pointer}
+.btn:hover{transform:translateY(-1px)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.btn-fill-dark{background:rgba(23,26,32,.85);color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-fill-dark:hover{background:#171A20}
+.btn-fill-light{background:rgba(244,244,244,.65);color:var(--ink);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.btn-fill-light:hover{background:#FFFFFF}
+.btn-solid{background:var(--ink);color:#fff}
+.btn-solid:hover{background:#000}
+.btn-ghost{background:transparent;color:var(--ink);border-color:rgba(23,26,32,.2)}
+.btn-ghost:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);padding:6px 0;border-bottom:1.5px solid transparent;transition:border-color .2s, gap .2s}
+.btn-link:hover{border-color:var(--ink);gap:10px}
+@media (max-width:520px){.btn{min-width:0;width:100%}}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.62) saturate(.92)}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
+.hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
+.hero-top{text-align:center}
+.hero-top .eyebrow{margin-bottom:18px;display:inline-block}
+.hero h1{font-size:clamp(36px,5.4vw,68px);font-weight:500;line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:18ch;margin:0 auto}
+.hero-sub{margin-top:18px;font-size:clamp(15px,1.3vw,18px);color:rgba(255,255,255,.92);max-width:48ch;margin-left:auto;margin-right:auto;line-height:1.45}
+.hero-bottom{display:flex;flex-direction:column;align-items:center;gap:24px}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.scroll-cue{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:3;color:#fff;font-size:11px;letter-spacing:.2em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.85}
+.scroll-cue::after{content:"";width:1px;height:22px;background:rgba(255,255,255,.6);animation:scrollCue 1.6s ease-in-out infinite}
+@keyframes scrollCue{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1)}}
+
+/* PROBLEMS BAND */
+.section-band{padding:96px 24px;background:var(--paper)}
+.section-inner{max-width:1280px;margin:0 auto}
+.sec-head{margin-bottom:56px;max-width:700px}
+.sec-head .eyebrow{display:block;margin-bottom:14px}
+.sec-head h2{font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;margin-bottom:14px}
+.sec-head p{color:var(--mute);font-size:16px;line-height:1.55}
+.problems{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.problem{padding:32px;background:var(--surface);border-radius:14px}
+.problem .num{font-family:var(--display);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.1em;margin-bottom:18px}
+.problem h3{font-size:20px;font-weight:500;letter-spacing:-.01em;margin-bottom:10px}
+.problem p{font-size:14px;color:var(--mute);line-height:1.55}
+@media (max-width:780px){.problems{grid-template-columns:1fr}}
+
+/* FEATURE BLOCK — Tesla style: image one side, copy other side */
+.feature-band{padding:0;background:var(--paper)}
+.feature{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:620px}
+.feature.flip{grid-template-columns:1fr 1fr}
+.feature.flip .feature-text{order:2}
+.feature-text{padding:80px 56px;display:flex;flex-direction:column;justify-content:center;background:var(--paper)}
+.feature.dark .feature-text{background:var(--ink);color:#fff}
+.feature.dark .feature-text .eyebrow{color:rgba(255,255,255,.65)}
+.feature.dark .feature-text p.lede{color:rgba(255,255,255,.92)}
+.feature.dark .feature-text p{color:rgba(255,255,255,.7)}
+.feature-text .eyebrow{display:block;margin-bottom:14px;color:var(--mute)}
+.feature-text h3{font-size:clamp(28px,3.2vw,42px);font-weight:500;letter-spacing:-.025em;margin-bottom:18px;line-height:1.05}
+.feature.dark .feature-text h3{color:#fff}
+.feature-text p.lede{font-size:17px;line-height:1.5;color:var(--ink);font-weight:500;margin-bottom:24px;max-width:46ch}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.feature-list li{position:relative;padding-left:22px;font-size:15px;line-height:1.5}
+.feature-list li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:1px;background:var(--accent)}
+.feature.dark .feature-list li{color:rgba(255,255,255,.85)}
+.feature-visual{position:relative;background:var(--surface);padding:64px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.feature.dark .feature-visual{background:#23262C}
+.feature-visual.photo{padding:0}
+.feature-visual.photo img{width:100%;height:100%;min-height:520px;object-fit:cover}
+.feature-card{width:100%;max-width:520px;background:#fff;border-radius:14px;padding:24px;box-shadow:0 10px 30px rgba(23,26,32,.12), 0 1px 2px rgba(23,26,32,.06)}
+.feature.dark .feature-card{background:#0F1115;color:#fff;border:1px solid rgba(255,255,255,.08);box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.feature-card-label{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:18px;font-family:var(--sans)}
+.feature.dark .feature-card-label{color:rgba(255,255,255,.55)}
+.dash-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:18px}
+.feature.dark .dash-stats{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.08)}
+.dash-stat{background:#fff;padding:16px}
+.feature.dark .dash-stat{background:#0F1115}
+.dash-stat-label{font-size:10px;color:var(--mute);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.feature.dark .dash-stat-label{color:rgba(255,255,255,.5)}
+.dash-stat-val{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em}
+.feature.dark .dash-stat-val{color:#fff}
+.dash-stat-val.accent{color:var(--accent)}
+.dash-rows{border:1px solid var(--rule);border-radius:8px;overflow:hidden}
+.feature.dark .dash-rows{border-color:rgba(255,255,255,.08)}
+.dash-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;padding:12px 14px;border-bottom:1px solid var(--rule);font-size:13px;align-items:center}
+.feature.dark .dash-row{border-bottom-color:rgba(255,255,255,.06)}
+.dash-row:last-child{border-bottom:none}
+.dash-row.h{background:var(--surface);font-size:10px;color:var(--mute);font-weight:600;text-transform:uppercase;letter-spacing:.06em;padding:9px 14px;font-family:var(--sans)}
+.feature.dark .dash-row.h{background:rgba(255,255,255,.04);color:rgba(255,255,255,.5)}
+.dash-name{font-weight:600;font-family:var(--display)}
+.dash-row .muted{color:var(--mute);font-size:12px}
+.feature.dark .dash-row .muted{color:rgba(255,255,255,.55)}
+.dash-status{display:inline-flex;align-items:center;gap:6px;font-size:12px}
+.dash-status::before{content:"";width:6px;height:6px;border-radius:50%}
+.dash-status.live::before{background:#3DA67D}.dash-status.live{color:#3DA67D}
+.dash-status.idle::before{background:var(--mute)}.dash-status.idle{color:var(--mute)}
+.dash-status.alert::before{background:var(--accent)}.dash-status.alert{color:var(--accent)}
+
+.coach-msg{padding:16px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;margin-bottom:12px}
+.coach-meta{font-size:10px;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;font-family:var(--sans)}
+.coach-text{font-size:14px;line-height:1.5;color:rgba(255,255,255,.9)}
+.coach-text .h{color:var(--accent);font-weight:600}
+
+.risk-list{display:flex;flex-direction:column;gap:0}
+.risk-row{display:grid;grid-template-columns:24px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.risk-row:last-child{border-bottom:none}
+.risk-letter{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:11px;font-weight:700;font-family:var(--display)}
+.risk-row.a .risk-letter{background:#3DA67D}
+.risk-row.b .risk-letter{background:#7CC29A}
+.risk-row.c .risk-letter{background:#D9A441}
+.risk-row.d .risk-letter{background:#D87437}
+.risk-row.e .risk-letter{background:var(--accent)}
+.risk-name{font-size:13px;color:#fff;font-weight:600;font-family:var(--display)}
+.risk-desc{font-size:12px;color:rgba(255,255,255,.55);margin-top:2px}
+.risk-count{font-size:12px;color:rgba(255,255,255,.55)}
+
+@media (max-width:980px){.feature,.feature.flip{grid-template-columns:1fr}.feature.flip .feature-text{order:0}.feature-text{padding:64px 32px}.feature-visual{padding:48px 32px}.feature-visual.photo img{min-height:420px}}
+
+/* LOGO STRIP — wordmark fallback until logo permissions confirmed */
+.logo-strip{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:48px 80px;padding:8px 0}
+.logo-strip span{font-family:var(--display);font-weight:500;font-size:22px;letter-spacing:-.01em;color:var(--ink-soft);opacity:.65;transition:opacity .25s}
+.logo-strip span:hover{opacity:1}
+@media (max-width:640px){.logo-strip{gap:24px 40px}.logo-strip span{font-size:18px}}
+
+/* AI PRODUCTS — light two-card row */
+.ai-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ai-card{background:var(--surface);padding:36px 32px;display:flex;flex-direction:column;gap:14px}
+.ai-card .eyebrow{margin-bottom:6px}
+.ai-card h3{font-family:var(--display);font-size:clamp(24px,2.6vw,32px);font-weight:500;letter-spacing:-.02em;line-height:1.1}
+.ai-card p{font-size:15px;line-height:1.55;color:var(--mute);max-width:48ch}
+.ai-stat{margin-top:8px;padding-top:18px;border-top:1px solid var(--rule);display:flex;align-items:baseline;gap:10px}
+.ai-stat-num{font-family:var(--display);font-size:36px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.ai-stat-label{font-size:12px;color:var(--mute);letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+@media (max-width:780px){.ai-grid{grid-template-columns:1fr}}
+
+/* WHO IT'S FOR — tile cards */
+.who-section{padding:96px 24px;background:var(--surface)}
+.who-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:48px}
+.who-card{background:#fff;padding:32px 28px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;gap:18px}
+.who-card h4{font-size:18px;font-weight:600;letter-spacing:-.01em;margin-bottom:8px;font-family:var(--display)}
+.who-card p{font-size:14px;color:var(--mute);line-height:1.55}
+@media (max-width:980px){.who-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.who-grid{grid-template-columns:1fr}}
+
+/* VIDEO BLOCK */
+.video-block{position:relative;width:100%;aspect-ratio:16/8;min-height:560px;overflow:hidden;color:#fff;background:#000}
+.video-block img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-block .vb-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.2) 50%, rgba(0,0,0,.65) 100%);z-index:1}
+.video-block .vb-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:64px 32px 40px;max-width:1480px;margin:0 auto;text-align:center;align-items:center}
+.video-block h2{font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;color:#fff;max-width:22ch;margin:0 auto}
+.video-block .vb-sub{margin-top:14px;color:rgba(255,255,255,.9);max-width:46ch;font-size:15px;line-height:1.5}
+.play-btn{display:inline-grid;place-items:center;width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);transition:transform .25s cubic-bezier(.2,.7,.2,1), background .25s}
+.play-btn:hover{transform:scale(1.06);background:#fff}
+.play-btn::after{content:"";width:0;height:0;border-style:solid;border-width:9px 0 9px 14px;border-color:transparent transparent transparent var(--ink);margin-left:3px}
+
+/* WAITLIST FORM — full bleed dark */
+.waitlist{position:relative;width:100%;background:var(--ink);color:#fff;overflow:hidden}
+.waitlist-inner{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:96px 32px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}
+.waitlist-side .eyebrow{color:rgba(255,255,255,.6);margin-bottom:14px;display:block}
+.waitlist-side h2{color:#fff;font-size:clamp(28px,3.2vw,42px);font-weight:500;letter-spacing:-.025em;margin-bottom:18px;line-height:1.05}
+.waitlist-side p.lede{color:rgba(255,255,255,.85);font-size:17px;line-height:1.55;max-width:42ch;margin-bottom:32px}
+.perks{list-style:none;display:flex;flex-direction:column;gap:14px;padding-top:28px;border-top:1px solid rgba(255,255,255,.14)}
+.perks li{font-size:14px;color:rgba(255,255,255,.85);padding-left:22px;position:relative}
+.perks li::before{content:"";position:absolute;left:0;top:9px;width:10px;height:1px;background:var(--accent)}
+.form-card{padding:36px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:14px}
+.form-card h3{font-weight:500;font-size:22px;color:#fff;margin-bottom:8px;font-family:var(--display)}
+.form-card .sub{font-size:13px;color:rgba(255,255,255,.55);margin-bottom:32px}
+.form-row{margin-bottom:18px}
+.form-row label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:8px;font-weight:600}
+.form-row input,.form-row select{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(255,255,255,.2);padding:8px 0;font-family:var(--sans);font-size:15px;color:#fff;transition:border-color .2s}
+.form-row select{cursor:pointer}
+.form-row select option{background:var(--ink);color:#fff}
+.form-row input:focus,.form-row select:focus{outline:none;border-bottom-color:var(--accent)}
+.form-row input::placeholder{color:rgba(255,255,255,.32)}
+.form-submit{width:100%;background:#fff;color:var(--ink);padding:14px;font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;margin-top:8px;transition:background .25s, transform .25s, color .25s;border:none;cursor:pointer}
+.form-submit:hover{background:var(--accent);color:#fff;transform:translateY(-1px)}
+.form-success{display:none;padding:14px;background:rgba(61,166,125,.12);border:1px solid #3DA67D;border-radius:8px;font-size:14px;color:#7CC29A;margin-top:14px}
+.form-success.show{display:block}
+@media (max-width:980px){.waitlist-inner{grid-template-columns:1fr;gap:48px}}
+
+/* FOOTER */
+footer{background:var(--paper);color:var(--ink);padding:56px 24px 32px;border-top:1px solid var(--rule)}
+.foot-inner{max-width:1480px;margin:0 auto}
+.foot-top{display:flex;align-items:center;padding-bottom:24px;border-bottom:1px solid var(--rule)}
+.foot-brand-mark{height:24px;width:auto;display:block}
+.foot-cols{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:48px;padding:48px 0 64px}
+.foot-col-spacer{}
+.foot-col h4{font-family:var(--display);font-size:20px;font-weight:500;color:var(--ink);margin:0 0 28px;letter-spacing:-.01em}
+.foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:18px}
+.foot-col a{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);transition:color .2s}
+.foot-col a:hover{color:var(--ink)}
+.foot-credentials{display:flex;align-items:center;gap:18px;padding:0 0 28px;flex-wrap:wrap}
+.foot-credentials-label{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.foot-credential-logo{height:40px;width:auto;display:block}
+.foot-bottom{display:flex;justify-content:space-between;align-items:flex-start;padding-top:24px;border-top:1px solid var(--rule);font-size:12px;color:var(--mute);letter-spacing:.01em;line-height:1.5}
+.foot-bottom-right{text-align:right}
+.app-badges{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.foot-col .app-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 16px 10px 14px;background:var(--ink);color:#fff;border-radius:10px;transition:transform .25s cubic-bezier(.2,.7,.2,1), background .25s;letter-spacing:0;text-transform:none;font-size:14px;font-weight:500}
+.foot-col .app-badge:hover{background:#000;color:#fff;transform:translateY(-1px)}
+.app-badge svg{flex:0 0 auto;color:#fff}
+.app-badge-text{display:flex;flex-direction:column;line-height:1;gap:3px;text-align:left}
+.app-badge-pre{font-size:9.5px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;opacity:.78}
+.app-badge-name{font-size:15px;font-weight:600;letter-spacing:-.005em;font-family:var(--display)}
+.foot-socials{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px}
+.foot-col .foot-social{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;border:1px solid var(--rule);color:var(--mute);transition:color .2s, background .2s, border-color .2s;letter-spacing:0;text-transform:none;font-size:0}
+.foot-col .foot-social:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.foot-social svg{width:16px;height:16px}
+@media (max-width:840px){.foot-cols{grid-template-columns:1fr 1fr;gap:32px;padding:36px 0 40px}.foot-col-spacer{display:none}.foot-bottom{flex-direction:column;gap:8px;align-items:flex-start;text-align:left}.foot-bottom-right{text-align:left}}
+@media (max-width:520px){.foot-cols{grid-template-columns:1fr;gap:32px}}
+
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1)}
+.reveal.in{opacity:1;transform:translateY(0)}
+
+.brand-mark{height:22px;width:auto;display:block;transition:filter .3s}
+.nav.over-hero .brand-mark{filter:brightness(0) invert(1)}
+.foot-brand{display:inline-flex;align-items:center;gap:8px}
+.foot-brand-mark{height:14px;width:auto;display:block}
+
+.hero h1,.hero-sub,.hero-top .eyebrow{text-shadow:0 2px 24px rgba(0,0,0,.55), 0 1px 3px rgba(0,0,0,.45)}
+.scroll-cue{text-shadow:0 1px 6px rgba(0,0,0,.6)}
+
+.foot-inner .social{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;color:var(--mute);transition:color .2s, background .2s}
+.foot-inner .social:hover{color:var(--ink);background:rgba(23,26,32,.06)}
+
+/* ===== TESLA POLISH PASS ===== */
+/* Typography: tighter hero letter-spacing, lighter weight, more refined eyebrow */
+.hero h1{font-weight:400;letter-spacing:-.035em;line-height:1.02}
+.hero-sub{font-weight:400;letter-spacing:-.005em}
+h2{letter-spacing:-.028em}
+.eyebrow{font-size:10px;letter-spacing:.16em;font-weight:500}
+.eyebrow.dark,.testi-head .eyebrow,.cfg-head .eyebrow,.commit-head .eyebrow,.partners-head .eyebrow,.cta-head .eyebrow,.opp-head .eyebrow,.eco-head .eyebrow,.pillars-head .eyebrow,.flywheel-head .eyebrow,.lead-head .eyebrow,.values-head .eyebrow,.roles-head .eyebrow,.steps-head .eyebrow{font-size:10px;letter-spacing:.16em}
+
+/* Buttons: Tesla-tighter tracking, refined weight */
+.btn{letter-spacing:.04em;font-weight:600;padding:12px 28px;font-size:13px;min-width:248px}
+.btn-link{letter-spacing:.04em}
+
+/* Section rhythm: a hair more breathing room on desktop */
+@media (min-width:980px){
+  .compare-band,.section-band,.who-section,.opp-band,.eco-band,.pillars-band,.flywheel-band,.commit-band,.partners-band,.cta-band,.lead-band,.values-band,.roles-band,.team-band,.round-band,.cfg-band,.thesis,.manifesto,.steps-band,.detail-band,.own-band,.testi-band,.data-band{padding-top:112px;padding-bottom:112px}
+  .feature-text{padding:96px 64px}
+  .theme-copy{padding:112px 64px}
+  .app-copy{padding:104px 64px}
+}
+
+/* Tiles: subtle lift only (no scale of media) for Tesla precision */
+.tile{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.tile:hover .tile-media img{transform:scale(1.02)}
+.tile-meta span{font-size:10px;letter-spacing:.14em}
+.tile-meta span strong{font-size:20px;letter-spacing:-.005em;margin-top:6px}
+
+/* Footer: tighter type, more breathing */
+.foot-inner{padding:8px 0}
+.foot-inner a,.foot-inner span{font-size:11px;letter-spacing:.01em}
+.foot-inner .foot-brand{font-size:13px}
+
+/* Smooth anchor offset — fixed nav was eating section tops */
+section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scroll-margin-top:84px}
+
+/* Form inputs: Tesla-tight underlined fields */
+.form-row input,.form-row select{font-size:14px;letter-spacing:.01em}
+
+/* Spec callouts on vehicles — slightly more confident */
+.veh-stats .v{font-weight:500;letter-spacing:-.02em}
+.veh-stats .l{font-size:10px;letter-spacing:.16em}
+
+/* Compare table: Tesla-quiet rows */
+.cmp-row{padding:16px 28px;font-size:14px}
+.cmp-row .v{font-weight:500;letter-spacing:-.005em;font-size:14px}
+.cmp-row.h{font-size:10px;letter-spacing:.14em}
+
+/* Stat-number polish */
+.theme-stat-num,.commit-target,.opp-num,.ai-stat-num,.impact-stat-num{font-weight:400;letter-spacing:-.035em}
+
+/* ============ NEW SECTIONS — business revision ============ */
+
+/* PLATFORM OVERVIEW — single composition image */
+.platform-band{padding:96px 24px;background:var(--surface);scroll-margin-top:84px}
+.platform-band .sec-head{margin:0 auto 64px;text-align:center;max-width:680px}
+.platform-stage{max-width:1200px;margin:0 auto 64px;display:flex;align-items:center;justify-content:center}
+.platform-stage img{width:100%;height:auto;display:block}
+@media (max-width:520px){
+  .platform-band{padding:72px 20px}
+  .platform-stage{margin-bottom:40px}
+}
+
+.platform-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.platform-card{background:#fff;padding:32px 28px;display:flex;flex-direction:column;gap:10px;min-height:220px}
+.platform-card .eyebrow{margin-bottom:6px}
+.platform-card h3{font-family:var(--display);font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1.15}
+.platform-card p{font-size:14px;color:var(--mute);line-height:1.55}
+@media (max-width:980px){.platform-grid-4{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.platform-grid-4{grid-template-columns:1fr}}
+.platform-foot{margin-top:32px;text-align:center;font-size:14px;color:var(--mute);letter-spacing:-.005em}
+
+/* SIDEKICK IN ACTION — rider testimonial with photo */
+.sidekick-action{padding:0;background:var(--ink);color:#fff;scroll-margin-top:84px;overflow:hidden}
+.sk-grid{display:grid;grid-template-columns:1fr 1fr;align-items:stretch;min-height:620px;max-width:1480px;margin:0 auto}
+.sk-photo{position:relative;background:#23262C;overflow:hidden;min-height:420px}
+.sk-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%}
+.sk-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(23,26,32,.55) 100%), linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.35) 100%);z-index:1;pointer-events:none}
+.sk-photo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:32px;z-index:2}
+.sk-copy{padding:96px 56px;display:flex;flex-direction:column;justify-content:center;max-width:660px}
+.sk-copy .eyebrow{color:rgba(255,255,255,.6);display:block;margin-bottom:18px}
+.sk-copy h2{color:#fff;font-size:clamp(28px,3vw,40px);font-weight:500;letter-spacing:-.025em;margin-bottom:28px;line-height:1.05;max-width:18ch}
+.sk-quote{font-family:var(--display);font-size:clamp(18px,1.7vw,22px);font-weight:400;line-height:1.5;letter-spacing:-.005em;color:rgba(255,255,255,.95);margin-bottom:32px;max-width:50ch}
+.sk-quote .h{color:var(--accent);font-weight:600}
+.sk-author{display:flex;align-items:center;gap:18px;padding:20px 0;border-top:1px solid rgba(255,255,255,.14);border-bottom:1px solid rgba(255,255,255,.14);margin-bottom:28px}
+.sk-author-name{font-family:var(--display);font-size:15px;font-weight:600;color:#fff;letter-spacing:-.005em}
+.sk-author-role{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:4px}
+.sk-author-stat{margin-left:auto;text-align:right}
+.sk-author-stat strong{display:block;font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.025em;color:var(--accent);line-height:1}
+.sk-author-stat span{font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.12em;text-transform:uppercase;font-weight:600;margin-top:6px;display:block}
+.sk-cta{display:flex;align-items:center;gap:14px}
+.sidekick-action .btn-link{color:#fff;border-bottom-color:transparent}
+.sidekick-action .btn-link:hover{border-bottom-color:#fff}
+@media (max-width:980px){
+  .sk-grid{grid-template-columns:1fr;min-height:0}
+  .sk-photo{min-height:360px;aspect-ratio:4/3}
+  .sk-copy{padding:72px 32px;max-width:none}
+}
+@media (max-width:520px){
+  .sk-author{flex-wrap:wrap;gap:14px}
+  .sk-author-stat{margin-left:0;text-align:left}
+}
+
+/* WHAT FLEETS GAIN — 4-up stat strip, no card chrome */
+.fg-band{padding:96px 24px;background:var(--paper);scroll-margin-top:84px}
+.fg-band .sec-head{margin:0 auto 64px;text-align:center;max-width:680px}
+.fg-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:48px;max-width:1280px;margin:0 auto;text-align:center}
+.fg-stat{padding:0 12px;display:flex;flex-direction:column;align-items:center;gap:10px;border-left:1px solid var(--rule)}
+.fg-stat:first-child{border-left:none}
+.fg-num{font-family:var(--display);font-size:clamp(40px,4.8vw,64px);font-weight:400;letter-spacing:-.035em;line-height:1;color:var(--ink)}
+.fg-num em{font-style:normal;color:var(--accent)}
+.fg-num small{font-size:.5em;font-weight:500;color:var(--mute);letter-spacing:0;display:block;margin-top:8px;font-family:var(--sans)}
+.fg-label{font-size:14px;color:var(--mute);line-height:1.5;max-width:24ch}
+@media (max-width:980px){.fg-grid{grid-template-columns:1fr 1fr;gap:48px 24px}.fg-stat{border-left:none}}
+@media (max-width:520px){.fg-grid{grid-template-columns:1fr;gap:40px}}
+
+/* TRANSITION — full-bleed dark band, copy + photo */
+.transition-band{position:relative;background:var(--ink);color:#fff;padding:0;overflow:hidden;scroll-margin-top:84px}
+.transition-inner{position:relative;max-width:1480px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;min-height:580px}
+.transition-copy{padding:96px 56px;display:flex;flex-direction:column;justify-content:center;max-width:640px}
+.transition-copy .eyebrow{color:rgba(255,255,255,.6);margin-bottom:14px;display:block}
+.transition-copy h2{color:#fff;font-size:clamp(28px,3.2vw,42px);font-weight:500;letter-spacing:-.025em;margin-bottom:18px;line-height:1.05;max-width:18ch}
+.transition-copy p.lede{color:rgba(255,255,255,.85);font-size:16px;line-height:1.6;max-width:48ch;margin-bottom:28px}
+.transition-copy .feature-list li{color:rgba(255,255,255,.85)}
+.transition-copy .btn{margin-top:32px;align-self:flex-start}
+.transition-photo{position:relative;background:#23262C;overflow:hidden;min-height:420px}
+.transition-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.transition-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(23,26,32,.55) 0%, rgba(23,26,32,0) 35%, rgba(23,26,32,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 60%, rgba(0,0,0,.45) 100%);z-index:1;pointer-events:none}
+.transition-photo-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:32px;z-index:2}
+@media (max-width:980px){.transition-inner{grid-template-columns:1fr}.transition-copy{padding:72px 32px;max-width:none}.transition-photo{min-height:320px;aspect-ratio:4/3}.transition-copy .btn{align-self:stretch}}
+
+/* INDUSTRIES — photo-backed who-cards */
+.industries-band{padding:96px 24px;background:var(--paper);scroll-margin-top:84px}
+.industries-band .sec-head{margin:0 auto 56px;text-align:center;max-width:680px}
+.industries-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:1280px;margin:0 auto}
+.industry-card{position:relative;min-height:340px;overflow:hidden;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;padding:28px;background:#23262C}
+.industry-card-media{position:absolute;inset:0;z-index:0}
+.industry-card-media img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.industry-card:hover .industry-card-media img{transform:scale(1.04)}
+.industry-card-shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.25) 50%, rgba(0,0,0,.85) 100%)}
+.industry-card-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.42);font-size:10px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:24px;z-index:1}
+.industry-card-content{position:relative;z-index:2}
+.industry-card h4{font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-.015em;margin-bottom:8px;color:#fff}
+.industry-card p{font-size:13px;line-height:1.55;color:rgba(255,255,255,.85)}
+.industries-foot{margin-top:48px;display:flex;justify-content:center}
+@media (max-width:980px){.industries-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.industries-grid{grid-template-columns:1fr}}
+
+/* PARTNERSHIP TIERS — 3-card with middle accent */
+.partner-band{padding:96px 24px;background:var(--surface);scroll-margin-top:84px}
+.partner-band .sec-head{margin:0 auto 56px;text-align:center;max-width:680px}
+.partner-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;max-width:1380px;margin:0 auto;align-items:stretch}
+.partner-card{background:#fff;padding:36px 32px;display:flex;flex-direction:column;gap:14px}
+.partner-card .eyebrow{margin-bottom:6px;color:var(--mute)}
+.partner-card h3{font-family:var(--display);font-size:clamp(20px,2vw,24px);font-weight:500;letter-spacing:-.015em;line-height:1.2}
+.partner-card p{font-size:14px;line-height:1.55;color:var(--mute);flex:1}
+.partner-card .btn-link{margin-top:auto;align-self:flex-start}
+.partner-card.recommended{background:var(--accent);color:#fff;transform:translateY(-12px);box-shadow:0 24px 48px rgba(232,66,30,.22), 0 4px 12px rgba(232,66,30,.12)}
+.partner-card.recommended .eyebrow{color:rgba(255,255,255,.85)}
+.partner-card.recommended h3{color:#fff}
+.partner-card.recommended p{color:rgba(255,255,255,.92)}
+.partner-card.recommended .btn-link{color:#fff;border-bottom-color:transparent}
+.partner-card.recommended .btn-link:hover{border-bottom-color:#fff}
+@media (max-width:1100px){.partner-grid{grid-template-columns:1fr 1fr;gap:14px}.partner-card.recommended{transform:none}}
+@media (max-width:620px){.partner-grid{grid-template-columns:1fr}.partner-card.recommended{order:-1}}
+
+/* CUSTOMER QUOTES */
+.quotes-band{padding:96px 24px;background:var(--paper);scroll-margin-top:84px}
+.quotes-band .sec-head{margin:0 auto 56px;text-align:center;max-width:680px}
+.quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;max-width:1280px;margin:0 auto}
+.quote-card{background:var(--surface);padding:36px 32px;display:flex;flex-direction:column;gap:20px;min-height:260px}
+.quote-stars{display:flex;gap:3px;color:#F5B800}
+.quote-text{font-size:17px;line-height:1.5;color:var(--ink);font-weight:400;flex:1;font-family:var(--display);letter-spacing:-.01em}
+.quote-author{padding-top:18px;border-top:1px solid var(--rule)}
+.quote-name{font-weight:600;font-size:14px;font-family:var(--display);letter-spacing:-.005em}
+.quote-role{font-size:11px;color:var(--mute);margin-top:4px;letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+@media (max-width:980px){.quote-grid{grid-template-columns:1fr}}
+
+</style>
+
+<!-- ===== SEO: canonical + og + twitter + JSON-LD ===== -->
+<link rel="canonical" href="https://wahu.me/business" />
+<meta property="og:url" content="https://wahu.me/business" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="https://wahu.me/assets/brand/emoto-arch.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_GH" />
+<meta property="og:site_name" content="Wahu Mobility" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Run a fleet? Cut fuel by 87% | Wahu Business" />
+<meta name="twitter:description" content="Run a fleet of bikes? Cut your fuel cost by 87%. Bikes, software, financing, service — bundled. From 5 bikes to 5,000. Trusted by Bolt Food, Glovo, Jumia, Yango and Uber Eats." />
+<meta name="twitter:image" content="https://wahu.me/assets/brand/emoto-arch.jpg" />
+<meta name="theme-color" content="#171A20" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","@id":"https://wahu.me/#organization","name":"Wahu Mobility","url":"https://wahu.me","logo":"https://wahu.me/assets/brand/wahu-logo-rgb.png","image":"https://wahu.me/assets/brand/emoto-arch.jpg","description":"Africa's first electric mobility company with a sovereign carbon contract. Designed in Ghana.","foundingDate":"2021","foundingLocation":"Accra, Ghana","sameAs":["https://gh.linkedin.com/company/wahu-me","https://www.instagram.com/wahu.me/","https://web.facebook.com/wahumobility/"],"contactPoint":[{"@type":"ContactPoint","email":"hello@wahu.me","contactType":"customer support"},{"@type":"ContactPoint","email":"investors@wahu.me","contactType":"investor relations"},{"@type":"ContactPoint","email":"careers@wahu.me","contactType":"human resources"}]}</script>
+</head>
+<body>
+
+<nav class="nav over-hero" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="brand"><img src="assets/brand/wahu-logo-rgb.png" class="brand-mark" alt="Wahu" /></a>
+    <div class="nav-center">
+      <a href="vehicles.html">Vehicles</a>
+      <a href="business.html" class="active">Business</a>
+      <a href="impact.html">Impact</a>
+      <a href="investors.html">Investors</a>
+      <a href="media.html">Media</a>
+      <a href="careers.html">Careers</a>
+    </div>
+    <div class="nav-right">
+      <a href="#waitlist" class="nav-link-extra">Talk to us</a>
+      <button class="nav-toggle" aria-label="Open menu" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+  <button class="close" aria-label="Close menu" id="menuClose">×</button>
+  <a href="vehicles.html">Vehicles</a>
+  <a href="business.html">Business</a>
+  <a href="impact.html">Impact</a>
+  <a href="investors.html">Investors</a>
+  <a href="media.html">Media</a>
+  <a href="careers.html">Careers</a>
+  <a href="#waitlist">Talk to us</a>
+</div>
+
+<header class="hero" id="hero">
+  <div class="hero-media"><img src="assets/brand/wahu-riders-group.jpg" alt="A group of Wahu riders posing together in branded shirts" /></div>
+  <div class="hero-shade"></div>
+  <div class="hero-inner">
+    <div class="hero-top">
+      <span class="eyebrow">For fleet operators</span>
+      <h1>Run an electric fleet. Cut your fuel cost by 87%.</h1>
+      <p class="hero-sub">Bikes, software, financing, service — bundled. From 5 bikes to 5,000. Trusted by Bolt Food, Glovo, Jumia, Yango and Uber Eats.</p>
+    </div>
+    <div class="hero-bottom">
+      <div class="hero-actions">
+        <a href="#waitlist" class="btn btn-fill-dark">Talk to us</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">Scroll</div>
+</header>
+
+<!-- PLATFORM OVERVIEW — laptop + phone + insight cards composition -->
+<section class="platform-band" id="platform">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <span class="eyebrow dark">The platform</span>
+      <h2>One platform. Four connected surfaces.</h2>
+      <p>Built for African fleets. Designed in Ghana.</p>
+    </div>
+
+    <div class="platform-stage reveal">
+      <img src="assets/business-platform.png" alt="Wahu Client Portal vehicle tracking dashboard with the Wahu rider app, a Sidekick coaching alert, and a Keba.ai risk card" />
+    </div>
+
+    <!-- Four platform components -->
+    <div class="platform-grid-4 reveal">
+      <article class="platform-card">
+        <span class="eyebrow dark">What fleet managers use</span>
+        <h3>Fleet Dashboard</h3>
+        <p>Real-time view of every bike, every rider, every payment. Lock or unlock any bike from anywhere. Send invoices in seconds. Live at portal.wahu.me.</p>
+      </article>
+      <article class="platform-card">
+        <span class="eyebrow dark">What riders carry</span>
+        <h3>Rider App</h3>
+        <p>Free with every Wahu. Riders see their battery, their earnings, the nearest charger, and the countdown to the day the bike becomes theirs.</p>
+      </article>
+      <article class="platform-card">
+        <span class="eyebrow dark">What coaches your riders</span>
+        <h3>Sidekick.ai</h3>
+        <p>Autonomous daily SMS coaching. Tells every rider what they need to do today to earn more. Riders earn 18% more. Runs on its own.</p>
+      </article>
+      <article class="platform-card">
+        <span class="eyebrow dark">What protects your revenue</span>
+        <h3>Keba.ai</h3>
+        <p>Daily payment risk score for every rider. Automatic SMS reminders before payments lapse. Your team only steps in for the riders who really need it. 94% on-time payment.</p>
+      </article>
+    </div>
+
+    <p class="platform-foot reveal">Four connected surfaces. One platform. Built for African fleets.</p>
+  </div>
+</section>
+
+<!-- AI PRODUCTS — Sidekick + Keba.ai merged into one light two-card row -->
+<section class="section-band">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <span class="eyebrow dark">AI products</span>
+      <h2>Two AI products. Built for fleets like yours.</h2>
+      <p>Sidekick coaches your riders. Keba.ai recovers your payments. Both run on their own. Both can be sold to fleets that don't ride Wahu bikes.</p>
+    </div>
+    <div class="ai-grid reveal">
+      <article class="ai-card" style="background:var(--ink);color:#fff">
+        <span class="eyebrow" style="color:rgba(255,255,255,.65)">Sidekick</span>
+        <h3 style="color:#fff">Riders earning more.</h3>
+        <div class="coach-msg">
+          <div class="coach-meta">Tue 6:00am · Sent to Kwabena A.</div>
+          <div class="coach-text"><span class="h">East Legon paid 28% more per trip</span> than Osu yesterday. Start there 11am–1pm for the lunch rush.</div>
+        </div>
+        <p style="color:rgba(255,255,255,.7)">Sidekick texts every rider every morning with what they need to earn more today. Riders earn 18% more. Runs on its own.</p>
+        <div class="ai-stat" style="border-top-color:rgba(255,255,255,.12)"><span class="ai-stat-num" style="color:#fff">+18%</span><span class="ai-stat-label" style="color:rgba(255,255,255,.6)">rider earnings</span></div>
+        <a href="mailto:hello@wahu.me?subject=Sidekick" class="btn-link" style="color:#fff">Learn more about Sidekick →</a>
+      </article>
+      <article class="ai-card" style="background:var(--ink);color:#fff">
+        <span class="eyebrow" style="color:rgba(255,255,255,.65)">Keba.ai</span>
+        <h3 style="color:#fff">Get paid on time.</h3>
+        <div class="risk-list">
+          <div class="risk-row a">
+            <div class="risk-letter">A</div>
+            <div><div class="risk-name">112 riders</div><div class="risk-desc">On track. No action needed.</div></div>
+            <div class="risk-count">Auto</div>
+          </div>
+          <div class="risk-row c">
+            <div class="risk-letter">C</div>
+            <div><div class="risk-name">18 riders</div><div class="risk-desc">Reminder SMS sent this morning.</div></div>
+            <div class="risk-count">Auto</div>
+          </div>
+          <div class="risk-row e">
+            <div class="risk-letter">E</div>
+            <div><div class="risk-name">3 riders</div><div class="risk-desc">Escalated to your team.</div></div>
+            <div class="risk-count">Manual</div>
+          </div>
+        </div>
+        <p style="color:rgba(255,255,255,.7)">Daily risk score for every rider. Automatic SMS reminders go out before payments lapse. Your team only steps in for the people who really need it.</p>
+        <div class="ai-stat" style="border-top-color:rgba(255,255,255,.12)"><span class="ai-stat-num" style="color:#fff">94%</span><span class="ai-stat-label" style="color:rgba(255,255,255,.6)">on-time payment</span></div>
+        <a href="mailto:hello@wahu.me?subject=Keba.ai" class="btn-link" style="color:#fff">Learn more about Keba.ai →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SIDEKICK IN ACTION — rider testimonial -->
+<section class="sidekick-action" id="sidekick-action">
+  <div class="sk-grid">
+    <div class="sk-photo reveal">
+      <img src="assets/brand/sidekick-rider.jpg" alt="Two Wahu riders giving thumbs up next to their eMotos" />
+    </div>
+    <div class="sk-copy reveal">
+      <span class="eyebrow">Sidekick in action</span>
+      <h2>Same hours. More money.</h2>
+      <p class="sk-quote">"Before Sidekick, I was riding the same hours but earning less than half. Every morning the text tells me <span class="h">where the deliveries are paying more, when the bonus zones are live, and where to charge.</span> I just follow it. Same hours on the road. More money in my pocket."</p>
+      <div class="sk-author">
+        <div>
+          <div class="sk-author-name">Kwabena A.</div>
+          <div class="sk-author-role">Delivery rider · Accra</div>
+        </div>
+        <div class="sk-author-stat">
+          <strong>+18%</strong>
+          <span>earnings, same hours</span>
+        </div>
+      </div>
+      <div class="sk-cta">
+        <a href="#waitlist" class="btn-link">Talk to us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT FLEETS GAIN — operator productivity stat strip -->
+<section class="fg-band" id="fleets-gain">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <span class="eyebrow dark">What fleets gain</span>
+      <h2>More bikes per ops person. Less time chasing payments.</h2>
+    </div>
+    <div class="fg-grid reveal">
+      <div class="fg-stat">
+        <div class="fg-num"><em>[N]×</em><small>more bikes per ops person</small></div>
+        <p class="fg-label">Manage 100+ bikes with the team you have today.</p>
+      </div>
+      <div class="fg-stat">
+        <div class="fg-num">[X]<small>minutes</small></div>
+        <p class="fg-label">Time to onboard a new rider end-to-end.</p>
+      </div>
+      <div class="fg-stat">
+        <div class="fg-num">[Y]<small>hours / week</small></div>
+        <p class="fg-label">Collections work eliminated by Keba.ai automation.</p>
+      </div>
+      <div class="fg-stat">
+        <div class="fg-num">[T]<small>hours</small></div>
+        <p class="fg-label">Average downtime from service alert to back on the road.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES — photo-backed 4-card grid -->
+<section class="industries-band" id="industries">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <span class="eyebrow dark">Industries we serve</span>
+      <h2>Built for the fleets that move Africa.</h2>
+      <p>From 5 bikes to 5,000. Delivery and ride-hail, security services, and government fleets.</p>
+    </div>
+    <div class="industries-grid reveal">
+      <article class="industry-card">
+        <div class="industry-card-media"><img src="assets/brand/industry-delivery.jpg" alt="Bolt Food delivery rider with branded gear" loading="lazy" style="object-position:center 22%" /></div>
+        <div class="industry-card-shade"></div>
+        <div class="industry-card-content">
+          <h4>Delivery &amp; ride-hail</h4>
+          <p>Bolt Food, Glovo, Uber Eats, Jumia, Yango, Bolt, Uber. Plug your riders into every major platform from day one. Lower TCO than petrol. Higher uptime.</p>
+        </div>
+      </article>
+      <article class="industry-card">
+        <div class="industry-card-media"><img src="assets/brand/industry-security.jpg" alt="Security services team in uniform" loading="lazy" /></div>
+        <div class="industry-card-shade"></div>
+        <div class="industry-card-content">
+          <h4>Security services</h4>
+          <p>Quiet, low-cost, low-emission bikes for patrol and response. Full fleet visibility. Geo-fenced routes and live GPS on every bike.</p>
+        </div>
+      </article>
+      <article class="industry-card">
+        <div class="industry-card-media"><img src="assets/brand/industry-government.jpg" alt="Black Star Square Independence Arch, Accra" loading="lazy" /></div>
+        <div class="industry-card-shade"></div>
+        <div class="industry-card-content">
+          <h4>Governments</h4>
+          <p>Ministries, agencies and municipal services. Verified emissions reductions, locally manufactured bikes, and a single weekly bundled fee.</p>
+        </div>
+      </article>
+    </div>
+    <div class="industries-foot reveal">
+      <a href="#waitlist" class="btn-link">Talk to us →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNERSHIP TIERS — three-card with middle accent -->
+<section class="partner-band" id="partner">
+  <div class="section-inner">
+    <div class="sec-head reveal">
+      <span class="eyebrow dark">Partnership models</span>
+      <h2>Four ways to run your fleet with Wahu.</h2>
+    </div>
+    <div class="partner-grid reveal">
+      <article class="partner-card">
+        <span class="eyebrow dark">Software</span>
+        <h3>Already have a fleet? Run it on our software.</h3>
+        <p>Keep your existing bikes. Run them on the Wahu fleet dashboard. Add Sidekick.ai for rider coaching and Keba.ai for collections.</p>
+        <a href="#waitlist" class="btn-link">Talk to us →</a>
+      </article>
+      <article class="partner-card recommended">
+        <span class="eyebrow">Bundle · recommended</span>
+        <h3>Bikes, software, service — one weekly price.</h3>
+        <p>The full Wahu platform: bikes, charging access, fleet dashboard, Sidekick.ai, Keba.ai, service and insurance — all on a single weekly per-bike fee. Add or remove bikes as you scale.</p>
+        <a href="#waitlist" class="btn-link">Talk to us →</a>
+      </article>
+      <article class="partner-card">
+        <span class="eyebrow dark">Service</span>
+        <h3>Workshop, parts, and service for any fleet.</h3>
+        <p>Wahu's Accra workshop services Wahu bikes and other electric two-wheelers. Preventative maintenance, parts, and roadside support.</p>
+        <a href="#waitlist" class="btn-link">Talk to us →</a>
+      </article>
+      <article class="partner-card">
+        <span class="eyebrow dark">Custom consultancy</span>
+        <h3>Moving a petrol fleet to electric? We've done it before.</h3>
+        <p>Bikes, motorcycles, three-wheelers, vans — any EV fleet. Audit and electrification roadmap, charging infrastructure planning, driver transition training, and financing structures including carbon offtake. Done for fleets from 5 vehicles to 500.</p>
+        <a href="#waitlist" class="btn-link">Talk to us →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- LOGO STRIP — real customer fleets (TODO: replace wordmarks with real logos when permissions confirmed) -->
+<section class="who-section">
+  <div class="section-inner">
+    <div class="sec-head reveal" style="margin-bottom:48px;text-align:center;max-width:none">
+      <span class="eyebrow dark">Our customers</span>
+      <h2 style="margin:0 auto">Trusted by the fleets moving African cities.</h2>
+    </div>
+    <div class="logo-strip reveal">
+      <span>Bolt Food</span>
+      <span>Glovo</span>
+      <span>Jumia</span>
+      <span>Yango</span>
+      <span>Uber Eats</span>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist" id="waitlist">
+  <div class="waitlist-inner">
+    <div class="waitlist-side reveal">
+      <span class="eyebrow">Get started</span>
+      <h2>Let's talk about your fleet.</h2>
+      <p class="lede">Tell us about your operation. We'll come back within 2 working days with a plan that fits, and a free 4-week trial.</p>
+      <ul class="perks">
+        <li>Free 4-week trial — no commitment</li>
+        <li>Sidekick.ai and Keba.ai included from day one</li>
+        <li>Dedicated onboarding manager</li>
+        <li>One bundled fee — bike, charging, software, service, insurance</li>
+      </ul>
+    </div>
+    <div class="form-card reveal">
+      <h3>Talk to us.</h3>
+      <p class="sub">Free 4-week trial. We reply within 2 working days.</p>
+      <form id="fleetForm" novalidate>
+        <div class="form-row">
+          <label for="f-name">Your name</label>
+          <input id="f-name" type="text" name="name" placeholder="What should we call you?" required>
+        </div>
+        <div class="form-row">
+          <label for="f-email">Work email</label>
+          <input id="f-email" type="email" name="email" placeholder="you@business.com" required>
+        </div>
+        <div class="form-row">
+          <label for="f-size">Fleet size</label>
+          <select id="f-size" name="size" required>
+            <option value="">How many bikes?</option>
+            <option>1 to 10</option><option>11 to 50</option><option>51 to 200</option><option>More than 200</option><option>Just starting out</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="f-country">Country</label>
+          <input id="f-country" type="text" name="country" placeholder="Where do you operate?" required>
+        </div>
+        <button type="submit" class="form-submit">Talk to us →</button>
+        <div class="form-success" id="fleetSuccess">Got it — we'll be in touch within 2 working days.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-top">
+      <a href="index.html" class="foot-brand" aria-label="Wahu Mobility home"><img src="assets/brand/wahu-logo-rgb.png" class="foot-brand-mark" alt="Wahu Mobility" /></a>
+    </div>
+    <div class="foot-cols">
+      <div class="foot-col-spacer"></div>
+      <div class="foot-col">
+        <h4>Directory</h4>
+        <ul>
+          <li><a href="vehicles.html">Vehicles</a></li>
+          <li><a href="business.html">Business</a></li>
+          <li><a href="impact.html">Impact</a></li>
+          <li><a href="investors.html">Investors</a></li>
+          <li><a href="media.html">Media</a></li>
+          <li><a href="careers.html">Careers</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="mailto:hello@wahu.me">Contact us</a></li>
+          <li><a href="media.html#press">Press</a></li>
+          <li><a href="investors.html">Investor relations</a></li>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Social</h4>
+        <div class="foot-socials">
+          <a href="https://gh.linkedin.com/company/wahu-me" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/wahu.me/" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on Instagram">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://web.facebook.com/wahumobility/" target="_blank" rel="noopener" class="foot-social" aria-label="Wahu on Facebook">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+        </div>
+        <h4>Get the app</h4>
+        <div class="app-badges">
+          <a href="#" class="app-badge" target="_blank" rel="noopener" aria-label="Download Wahu Hero on the App Store">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 12.04c-.03-3.05 2.49-4.51 2.6-4.58-1.42-2.07-3.62-2.36-4.4-2.39-1.87-.19-3.65 1.1-4.6 1.1-.95 0-2.41-1.07-3.96-1.04-2.04.03-3.92 1.19-4.97 3.01-2.12 3.68-.54 9.13 1.52 12.13 1.01 1.47 2.21 3.12 3.78 3.06 1.52-.06 2.09-.99 3.93-.99s2.36.99 3.97.96c1.64-.03 2.68-1.5 3.69-2.97 1.16-1.71 1.64-3.36 1.66-3.45-.04-.02-3.18-1.22-3.22-4.84zM14.04 3.96c.83-1.01 1.39-2.42 1.24-3.82-1.2.05-2.65.8-3.51 1.81-.77.89-1.45 2.32-1.27 3.69 1.34.1 2.71-.68 3.54-1.68z"/></svg>
+            <span class="app-badge-text">
+              <span class="app-badge-pre">Download on the</span>
+              <span class="app-badge-name">App Store</span>
+            </span>
+          </a>
+          <a href="#" class="app-badge" target="_blank" rel="noopener" aria-label="Get Wahu Hero on Google Play">
+            <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.6 1.84a1.5 1.5 0 0 0-.6 1.21v17.9a1.5 1.5 0 0 0 .6 1.21l10.3-10.16z" fill="#34A1F4"/><path d="m17.86 8.78-3.96 3.22 3.97 3.22 3.55-2.04a1.5 1.5 0 0 0 0-2.61z" fill="#FBBC04"/><path d="M3.6 1.84 13.9 12l3.96-3.22L4.93 1.32a1.5 1.5 0 0 0-1.33.52z" fill="#34A853"/><path d="M13.9 12 3.6 22.16a1.5 1.5 0 0 0 1.33.52l12.93-7.46z" fill="#EA4335"/></svg>
+            <span class="app-badge-text">
+              <span class="app-badge-pre">Get it on</span>
+              <span class="app-badge-name">Google Play</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-credentials">
+      <span class="foot-credentials-label">Recognised by</span>
+      <img src="assets/brand/2x-challenge.jpg" alt="2X Challenge — Qualified Investment 2024–2027" class="foot-credential-logo" loading="lazy" />
+    </div>
+    <div class="foot-bottom">
+      <span>Designed and built<br>in Accra, Ghana</span>
+      <span class="foot-bottom-right">© Wahu Mobility 2026<br>All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  const hero = document.getElementById('hero');
+  const onScroll = () => {
+    const heroBottom = hero ? hero.offsetTop + hero.offsetHeight - 80 : 0;
+    if (window.scrollY > heroBottom) { nav.classList.add('scrolled'); nav.classList.remove('over-hero'); }
+    else { nav.classList.remove('scrolled'); nav.classList.add('over-hero'); }
+  };
+  window.addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose = document.getElementById('menuClose');
+  navToggle && navToggle.addEventListener('click', () => mobileMenu.classList.add('open'));
+  menuClose && menuClose.addEventListener('click', () => mobileMenu.classList.remove('open'));
+  mobileMenu && mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => io.observe(el));
+  // Failsafe: reveal anything still hidden after load (e.g. for crawlers, fast scrolls, full-page screenshots)
+  window.addEventListener('load', () => { setTimeout(() => reveals.forEach(el => el.classList.add('in')), 200); });
+
+  const form = document.getElementById('fleetForm');
+  const success = document.getElementById('fleetSuccess');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    let valid = true;
+    form.querySelectorAll('[required]').forEach(f => {
+      if (!f.value.trim()) { f.style.borderBottomColor = 'var(--accent)'; valid = false; }
+      else f.style.borderBottomColor = '';
+    });
+    if (!valid) return;
+    success.classList.add('show');
+    form.querySelectorAll('input, select').forEach(f => f.value = '');
+  });
+</script>
+</body>
+</html>

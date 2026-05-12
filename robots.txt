@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Don't crawl the rider registration / dashboard subdomain — separate app
+Disallow: /rider/
+
+Sitemap: https://wahu.me/sitemap.xml

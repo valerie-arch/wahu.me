@@ -1,0 +1,1243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Wahu Hero — App redesign</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        ink: {
+          0:  '#0A0B0E',
+          50: '#0F1014',
+          100:'#14161B',
+          200:'#1B1E25',
+          300:'#262A33',
+          400:'#3A3F4B',
+        },
+        mint: {
+          DEFAULT:'#5BFFD9',
+          400:'#7CFFE1',
+          500:'#5BFFD9',
+          600:'#3DE6BE',
+          700:'#1FB694',
+          900:'#0A3F33',
+        },
+        amber2:{ DEFAULT:'#FFB84D', 700:'#7A4F12' },
+        rose2: { DEFAULT:'#FF6B6B', 700:'#7A1F22' },
+      },
+      fontFamily: {
+        display: ['"Chakra Petch"', 'system-ui', 'sans-serif'],
+        sans:   ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+};
+</script>
+<style>
+  :root{
+    --mint:#5BFFD9;
+    --mint-soft: rgba(91,255,217,.16);
+    --amber:#FFB84D;
+    --rose:#FF6B6B;
+    --ink:#0A0B0E;
+    --ink-card:#14161B;
+    --ink-elev:#1B1E25;
+    --line: rgba(255,255,255,.06);
+    --line-2: rgba(255,255,255,.10);
+  }
+  html,body{ background:#06070A; color:#E6E8EC; }
+  body{ font-family:'Inter', system-ui, sans-serif; -webkit-font-smoothing:antialiased; }
+
+  /* page atmosphere — layered radial gradients + subtle map grid */
+  .page-bg{
+    position:fixed; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(900px 600px at 12% 8%, rgba(91,255,217,.06), transparent 60%),
+      radial-gradient(1000px 700px at 88% 20%, rgba(91,140,255,.05), transparent 60%),
+      radial-gradient(1200px 800px at 50% 100%, rgba(91,255,217,.04), transparent 60%),
+      linear-gradient(180deg, #06070A 0%, #07090D 60%, #05060A 100%);
+  }
+  .page-grid{
+    position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.35;
+    background-image:
+      linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+    background-size: 56px 56px, 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+  }
+
+  /* film grain via SVG noise */
+  .grain::after{
+    content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.55 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+    mix-blend-mode: overlay; opacity:.07;
+  }
+
+  /* phone frame */
+  .phone{
+    width:280px; height:600px; border-radius:46px; position:relative;
+    background: linear-gradient(180deg,#0F1116 0%, #0B0D11 100%);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255,255,255,.04),
+      inset 0 1px 0 rgba(255,255,255,.05),
+      0 30px 60px -30px rgba(0,0,0,.85),
+      0 10px 30px -15px rgba(91,255,217,.08);
+    padding:8px;
+    transition: transform .5s cubic-bezier(.22,1.6,.36,1);
+  }
+  .phone:hover{ transform: translateY(-4px) rotateX(2deg); }
+  .phone-screen{
+    width:100%; height:100%; border-radius:38px; overflow:hidden; position:relative;
+    background: radial-gradient(120% 80% at 50% -20%, #181A22 0%, #0A0B10 55%, #07080C 100%);
+  }
+  /* dynamic island */
+  .notch{
+    position:absolute; top:8px; left:50%; transform:translateX(-50%);
+    width:78px; height:22px; border-radius:14px;
+    background:#000; z-index:30;
+  }
+  .status{
+    position:absolute; top:0; left:0; right:0; height:36px; z-index:25;
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 12px 22px 0; font-size:11px; color:#E6E8EC; font-weight:600;
+    letter-spacing:.02em;
+  }
+
+  /* mint glow text */
+  .mint-glow{ color:var(--mint); text-shadow: 0 0 24px rgba(91,255,217,.45); }
+
+  /* progress bar */
+  .bar{ position:relative; height:8px; border-radius:999px; background:rgba(255,255,255,.06); overflow:hidden; }
+  .bar > i{ position:absolute; inset:0; border-radius:999px;
+    background: linear-gradient(90deg, #1FB694 0%, #5BFFD9 50%, #B8FFEC 100%);
+    box-shadow: 0 0 16px rgba(91,255,217,.5);
+  }
+
+  /* tile / card surface */
+  .tile{
+    background: linear-gradient(180deg, rgba(255,255,255,.04) 0%, rgba(255,255,255,.015) 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+  }
+  .tile-2{
+    background: linear-gradient(180deg, rgba(255,255,255,.06) 0%, rgba(255,255,255,.02) 100%);
+    border:1px solid var(--line-2);
+    border-radius:22px;
+  }
+
+  /* CTA */
+  .cta{
+    background: linear-gradient(180deg, #6CFFDD 0%, #3DE6BE 100%);
+    color:#04241D;
+    border-radius:999px;
+    font-weight:700;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.18) inset,
+      0 8px 28px -8px rgba(91,255,217,.55),
+      0 18px 40px -20px rgba(91,255,217,.4);
+    transition: transform .25s cubic-bezier(.22,1.6,.36,1), box-shadow .25s, filter .25s;
+  }
+  .cta:hover{ transform: translateY(-1px); filter:brightness(1.05); }
+  .cta:active{ transform: translateY(0); filter:brightness(.97); }
+  .cta:focus-visible{ outline:2px solid #B8FFEC; outline-offset:3px; }
+
+  .cta-amber{
+    background: linear-gradient(180deg, #FFD080 0%, #E89B33 100%);
+    color:#3A1E04; box-shadow:
+      0 0 0 1px rgba(255,255,255,.18) inset,
+      0 8px 28px -8px rgba(255,184,77,.5);
+  }
+  .cta-rose{
+    background: linear-gradient(180deg, #FF8A8A 0%, #E04F4F 100%);
+    color:#3A0A0C; box-shadow:
+      0 0 0 1px rgba(255,255,255,.18) inset,
+      0 8px 28px -8px rgba(255,107,107,.55);
+  }
+
+  /* segmented action row (lock / fan / lights / charge) */
+  .seg{
+    display:grid; grid-template-columns: repeat(4, 1fr);
+    background: rgba(255,255,255,.04);
+    border:1px solid var(--line);
+    border-radius:16px; padding:6px; gap:4px;
+  }
+  .seg button{
+    height:38px; border-radius:11px; display:flex; align-items:center; justify-content:center;
+    color:#A8AEBA; transition: transform .2s, color .2s, background .2s;
+  }
+  .seg button:hover{ color:#E6E8EC; transform: translateY(-1px); }
+  .seg button[data-active="true"]{ color:#04241D; background:linear-gradient(180deg,#7CFFE1,#3DE6BE); box-shadow: 0 6px 20px -6px rgba(91,255,217,.6); }
+
+  /* day chip in My days */
+  .day-chip{
+    width:30px; height:34px; border-radius:10px; display:grid; place-items:center;
+    font-size:11px; font-weight:600;
+    background:rgba(255,255,255,.04); color:#A8AEBA; border:1px solid var(--line);
+  }
+  .day-chip[data-state="paid"]{ background: linear-gradient(180deg,rgba(91,255,217,.18),rgba(91,255,217,.06)); border-color: rgba(91,255,217,.35); color:#B8FFEC; }
+  .day-chip[data-state="borrowed"]{ background: linear-gradient(180deg,rgba(255,184,77,.16),rgba(255,184,77,.05)); border-color: rgba(255,184,77,.35); color:#FFD79A; }
+  .day-chip[data-state="sun"]{ background: rgba(255,255,255,.02); color:#5C6271; }
+  .day-chip[data-state="today"]{ background: linear-gradient(180deg,#fff,#D4D8E1); color:#0A0B0E; border-color:#fff; }
+
+  /* tab bar */
+  .tabs{
+    position:absolute; bottom:0; left:0; right:0; padding: 10px 18px 18px;
+    background: linear-gradient(180deg, rgba(10,11,14,0) 0%, rgba(10,11,14,.85) 35%, rgba(10,11,14,.95) 100%);
+    backdrop-filter: blur(8px);
+    z-index:20;
+  }
+  .tab-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 6px; }
+  .tab{ display:flex; flex-direction:column; align-items:center; gap:3px; color:#7A808E; font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; font-weight:500; }
+  .tab[data-active="true"]{ color:var(--mint); }
+
+  /* glow halo behind some elements */
+  .halo::before{
+    content:""; position:absolute; inset:-20% -10% auto -10%; height:60%;
+    background: radial-gradient(60% 80% at 50% 0%, rgba(91,255,217,.22), transparent 70%);
+    filter: blur(20px); pointer-events:none;
+  }
+  .halo-amber::before{ background: radial-gradient(60% 80% at 50% 0%, rgba(255,184,77,.22), transparent 70%); }
+  .halo-rose::before{ background: radial-gradient(60% 80% at 50% 0%, rgba(255,107,107,.22), transparent 70%); }
+
+  /* section frame card */
+  .frame-card{
+    position:relative;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.025) 0%, rgba(255,255,255,.01) 100%),
+      radial-gradient(80% 60% at 50% 0%, rgba(91,255,217,.05), transparent 70%);
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:28px;
+  }
+
+  /* small caps / mono labels */
+  .eyebrow{
+    font-family:'Chakra Petch', sans-serif;
+    text-transform:uppercase; letter-spacing:.18em; font-weight:600; font-size:11px;
+    color:#7CFFE1;
+  }
+  .display{ font-family:'Chakra Petch', sans-serif; letter-spacing:-0.01em; font-weight:600; }
+  .display-uc{ font-family:'Chakra Petch', sans-serif; text-transform:uppercase; font-weight:600; letter-spacing:.02em; }
+
+  /* lightning bolt icon glow */
+  .bolt{ filter: drop-shadow(0 0 8px rgba(91,255,217,.65)); color:var(--mint); }
+
+  /* scrollbar tint */
+  ::-webkit-scrollbar{ width:10px; height:10px; }
+  ::-webkit-scrollbar-thumb{ background:#1B1E25; border-radius:8px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+
+  @media (max-width: 640px){
+    .phone{ width:240px; height:518px; border-radius:40px; }
+    .phone-screen{ border-radius:32px; }
+  }
+</style>
+</head>
+<body class="relative overflow-x-hidden">
+
+<div class="page-bg"></div>
+<div class="page-grid"></div>
+
+<!-- Top nav strip -->
+<header class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pt-8 pb-6 flex items-center justify-between">
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-lg grid place-items-center"
+         style="background:linear-gradient(135deg,#5BFFD9,#1FB694); box-shadow:0 8px 24px -8px rgba(91,255,217,.6);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z" fill="#04241D"/></svg>
+    </div>
+    <div class="flex items-baseline gap-2">
+      <span class="display text-white text-[18px] tracking-tight">wahu</span>
+      <span class="eyebrow !text-mint-400">hero · v2</span>
+    </div>
+  </div>
+  <div class="hidden md:flex items-center gap-2 text-[12px] text-white/55">
+    <span class="w-1.5 h-1.5 rounded-full bg-mint-500 shadow-[0_0_10px_#5BFFD9]"></span>
+    <span class="display-uc tracking-[.18em]">design system · concept</span>
+  </div>
+</header>
+
+<!-- Hero block -->
+<section class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pt-2 pb-14">
+  <div class="max-w-3xl">
+    <div class="eyebrow mb-5">App redesign · concept</div>
+    <h1 class="display text-white text-[40px] sm:text-[56px] md:text-[68px] leading-[0.95] tracking-[-0.025em]">
+      Your bike is <span class="mint-glow">ready to go.</span>
+    </h1>
+    <p class="mt-6 text-white/65 text-[15px] sm:text-[16px] leading-[1.7] max-w-2xl">
+      Twelve Wahu Hero screens, reimagined in a single dark, high-contrast UI language. The same simple rules — coins are days, big buttons, no jargon — translated into the cinematic clarity of an EV companion app.
+    </p>
+    <div class="mt-7 flex flex-wrap gap-2.5">
+      <span class="px-3 py-1.5 rounded-full text-[11px] tile display-uc tracking-[.14em] text-white/70">Simple mode · 5 screens</span>
+      <span class="px-3 py-1.5 rounded-full text-[11px] tile display-uc tracking-[.14em] text-white/70">Hero detailed · 7 screens</span>
+      <span class="px-3 py-1.5 rounded-full text-[11px] tile display-uc tracking-[.14em] text-mint-400" style="border-color:rgba(91,255,217,.3)">Single design language</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     SECTION 01 — SIMPLE MODE
+========================= -->
+<section class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pb-24">
+  <div class="frame-card grain p-6 md:p-10">
+    <div class="flex items-end justify-between flex-wrap gap-4 mb-2">
+      <div>
+        <div class="eyebrow mb-3">01 · Simple mode</div>
+        <h2 class="display text-white text-[28px] md:text-[36px] leading-tight tracking-[-0.02em]">Built for everyone.</h2>
+        <p class="mt-3 text-white/55 text-[14px] max-w-xl leading-[1.7]">One big idea per screen. Coins still equal days. If a tired rider at 11pm can read it, it stays. If they can't, it goes.</p>
+      </div>
+      <div class="flex items-center gap-2 text-[11px] display-uc tracking-[.18em] text-white/40">
+        <span class="w-1.5 h-1.5 rounded-full bg-mint-500"></span> 5 states · ride / warn / locked / pay / calendar
+      </div>
+    </div>
+
+    <!-- Phone row -->
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-x-6 gap-y-12 justify-items-center">
+
+      <!-- 1.1 You can ride -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-x-0 top-12 px-5">
+              <div class="flex items-center justify-between text-[10px] display-uc tracking-[.18em] text-white/40">
+                <span>WAHU</span><span>HOME</span>
+              </div>
+            </div>
+
+            <div class="absolute inset-0 pt-[88px] px-5 flex flex-col">
+              <div class="halo relative">
+                <div class="text-white/55 text-[12px]">Hi Kofi · Wed 7 May</div>
+                <h3 class="display-uc text-white text-[24px] leading-[1.05] mt-1.5 tracking-[.01em]">YOU CAN <span class="mint-glow">RIDE.</span></h3>
+              </div>
+
+              <!-- big mint orb -->
+              <div class="mt-5 relative grid place-items-center">
+                <div class="absolute w-[150px] h-[150px] rounded-full" style="background:radial-gradient(circle, rgba(91,255,217,.32) 0%, rgba(91,255,217,0) 70%); filter:blur(8px);"></div>
+                <div class="relative w-[112px] h-[112px] rounded-full grid place-items-center"
+                     style="background:radial-gradient(circle at 30% 30%, #6CFFDD, #1FB694 70%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 0 40px rgba(91,255,217,.45);">
+                  <svg width="42" height="42" viewBox="0 0 24 24" fill="none">
+                    <path d="M5 17h2l3-7 4 7h3M7 17a2 2 0 100-4 2 2 0 000 4zM17 17a2 2 0 100-4 2 2 0 000 4z" stroke="#04241D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- days you can ride -->
+              <div class="tile-2 mt-5 px-4 py-4">
+                <div class="flex items-center justify-between">
+                  <div class="text-[10px] display-uc tracking-[.16em] text-white/45">DAYS YOU CAN RIDE</div>
+                  <div class="display mint-glow text-[34px] leading-none">2</div>
+                </div>
+                <div class="flex items-center gap-1.5 mt-2.5">
+                  <span class="w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold" style="background:#5BFFD9; color:#04241D;">●</span>
+                  <span class="w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold" style="background:#5BFFD9; color:#04241D;">●</span>
+                  <span class="w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold border border-white/10 text-white/30">○</span>
+                  <span class="w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold border border-white/10 text-white/30">○</span>
+                  <span class="w-6 h-6 rounded-full grid place-items-center text-[10px] font-bold border border-white/10 text-white/30">○</span>
+                </div>
+                <div class="text-[10.5px] text-white/45 mt-2">1 coin = 1 day · GHS 70 each</div>
+              </div>
+
+              <div class="text-[10.5px] text-white/45 mt-3 px-1">Sunday is free. No money taken on Sundays.</div>
+
+              <div class="mt-auto mb-[80px]">
+                <button class="cta w-full h-12 text-[13.5px] tracking-[.04em] flex items-center justify-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#04241D" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  Add money
+                </button>
+                <div class="text-center text-[10px] text-white/35 mt-1.5">Pay with MTN MoMo</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 9.5V21h14V9.5" stroke="currentColor" stroke-width="1.6"/></svg>
+                  Home
+                </div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add money</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg> My days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · You can ride</figcaption>
+      </figure>
+
+      <!-- 1.2 Add money soon -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-x-0 top-12 px-5">
+              <div class="flex items-center justify-between text-[10px] display-uc tracking-[.18em] text-white/40">
+                <span>WAHU</span><span>HOME</span>
+              </div>
+            </div>
+
+            <div class="absolute inset-0 pt-[88px] px-5 flex flex-col">
+              <div class="halo halo-amber relative">
+                <div class="text-white/55 text-[12px]">Hi Kofi · Tue 13 May</div>
+                <h3 class="display-uc text-white text-[24px] leading-[1.05] mt-1.5 tracking-[.01em]">ADD MONEY <span style="color:#FFB84D; text-shadow:0 0 24px rgba(255,184,77,.45);">SOON.</span></h3>
+              </div>
+
+              <!-- amber warn icon -->
+              <div class="mt-5 relative grid place-items-center">
+                <div class="absolute w-[150px] h-[150px] rounded-full" style="background:radial-gradient(circle, rgba(255,184,77,.3) 0%, rgba(255,184,77,0) 70%); filter:blur(8px);"></div>
+                <div class="relative w-[112px] h-[112px] rounded-full grid place-items-center"
+                     style="background:radial-gradient(circle at 30% 30%, #FFD080, #C97A1F 70%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 0 40px rgba(255,184,77,.4);">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2 1 22h22L12 2z M12 9v6 M12 18.5h.01" stroke="#3A1E04" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- bike will stop in -->
+              <div class="tile-2 mt-5 px-4 py-4" style="border-color:rgba(255,184,77,.22); background:linear-gradient(180deg,rgba(255,184,77,.08),rgba(255,184,77,.02));">
+                <div class="text-[10px] display-uc tracking-[.16em] text-white/55">BIKE WILL STOP IN</div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <div class="display text-white text-[44px] leading-none" style="text-shadow:0 0 24px rgba(255,184,77,.35)">2</div>
+                  <div class="text-white/65 text-[14px]">days</div>
+                </div>
+                <div class="text-[10.5px] text-white/55 mt-1">Add at least GHS 350 to keep riding.</div>
+                <div class="flex items-center gap-1.5 mt-3">
+                  <span class="day-chip" data-state="paid">●</span>
+                  <span class="day-chip" data-state="paid">●</span>
+                  <span class="day-chip" data-state="borrowed">●</span>
+                  <span class="day-chip" data-state="borrowed">●</span>
+                  <span class="day-chip">○</span>
+                </div>
+                <div class="text-[9.5px] display-uc tracking-[.18em] text-white/40 mt-2">CREDIT DAYS USED</div>
+              </div>
+
+              <div class="mt-auto mb-[80px]">
+                <button class="cta cta-amber w-full h-12 text-[13.5px] tracking-[.04em] flex items-center justify-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#3A1E04" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  Add money now
+                </button>
+                <div class="text-center text-[10px] text-white/40 mt-1.5">Pay with MTN MoMo</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 9.5V21h14V9.5" stroke="currentColor" stroke-width="1.6"/></svg> Home</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add money</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg> My days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · Add money soon</figcaption>
+      </figure>
+
+      <!-- 1.3 Bike is sleeping -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-x-0 top-12 px-5">
+              <div class="flex items-center justify-between text-[10px] display-uc tracking-[.18em] text-white/40">
+                <span>WAHU</span><span>HOME</span>
+              </div>
+            </div>
+
+            <div class="absolute inset-0 pt-[88px] px-5 flex flex-col">
+              <div class="halo halo-rose relative">
+                <div class="text-white/55 text-[12px]">Hi Kofi · Thu 15 May</div>
+                <h3 class="display-uc text-white text-[24px] leading-[1.05] mt-1.5 tracking-[.01em]">BIKE IS <span style="color:#FF8A8A; text-shadow:0 0 24px rgba(255,107,107,.5);">SLEEPING.</span></h3>
+                <div class="text-[11.5px] text-white/55 mt-1">Add money to wake it up.</div>
+              </div>
+
+              <!-- lock icon glowing rose -->
+              <div class="mt-4 relative grid place-items-center">
+                <div class="absolute w-[150px] h-[150px] rounded-full" style="background:radial-gradient(circle, rgba(255,107,107,.32) 0%, rgba(255,107,107,0) 70%); filter:blur(8px);"></div>
+                <div class="relative w-[112px] h-[112px] rounded-full grid place-items-center"
+                     style="background:radial-gradient(circle at 30% 30%, #FF9A9A, #B83838 70%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 0 40px rgba(255,107,107,.45);">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <rect x="5" y="11" width="14" height="9" rx="2" stroke="#3A0A0C" stroke-width="2"/>
+                    <path d="M8 11V7a4 4 0 118 0v4" stroke="#3A0A0C" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- amount card -->
+              <div class="tile-2 mt-4 px-4 py-4" style="border-color:rgba(255,107,107,.22); background:linear-gradient(180deg,rgba(255,107,107,.08),rgba(255,107,107,.02));">
+                <div class="text-[10px] display-uc tracking-[.16em] text-white/55">ADD AT LEAST</div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <div class="text-[10.5px] text-white/45 -mb-0.5">GHS</div>
+                  <div class="display text-white text-[44px] leading-none" style="text-shadow:0 0 28px rgba(255,107,107,.4)">70</div>
+                </div>
+                <div class="text-[10.5px] text-white/55 mt-1">Bike wakes 1 minute after you pay.</div>
+              </div>
+
+              <div class="mt-auto mb-[80px]">
+                <button class="cta cta-rose w-full h-12 text-[13.5px] tracking-[.04em] flex items-center justify-center gap-2">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#3A0A0C" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  Add money &amp; ride
+                </button>
+                <div class="text-center text-[10px] text-white/40 mt-1.5">Don't worry — you don't lose money while sleeping.</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 9.5V21h14V9.5" stroke="currentColor" stroke-width="1.6"/></svg> Home</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add money</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg> My days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · Bike is sleeping</figcaption>
+      </figure>
+
+      <!-- 1.4 Add money -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-x-0 top-12 px-5">
+              <div class="flex items-center justify-between text-[10px] display-uc tracking-[.18em] text-white/40">
+                <span>WAHU</span><span>ADD MONEY</span>
+              </div>
+            </div>
+
+            <div class="absolute inset-0 pt-[88px] px-5 flex flex-col">
+              <h3 class="display-uc text-white text-[24px] leading-[1.05] tracking-[.01em]">ADD <span class="mint-glow">MONEY.</span></h3>
+              <div class="text-[11.5px] text-white/55 mt-1">Tap how much</div>
+
+              <div class="grid grid-cols-2 gap-2.5 mt-4">
+                <button class="tile-2 px-3 py-3 text-left transition-transform hover:-translate-y-0.5">
+                  <div class="text-[9.5px] display-uc tracking-[.16em] text-white/45">GHS</div>
+                  <div class="display text-white text-[28px] leading-none mt-0.5">70</div>
+                  <div class="text-[10.5px] text-white/55 mt-1.5">1 day</div>
+                </button>
+                <button class="tile-2 px-3 py-3 text-left transition-transform hover:-translate-y-0.5">
+                  <div class="text-[9.5px] display-uc tracking-[.16em] text-white/45">GHS</div>
+                  <div class="display text-white text-[28px] leading-none mt-0.5">140</div>
+                  <div class="text-[10.5px] text-white/55 mt-1.5">2 days</div>
+                </button>
+                <button class="tile-2 px-3 py-3 text-left transition-transform hover:-translate-y-0.5">
+                  <div class="text-[9.5px] display-uc tracking-[.16em] text-white/45">GHS</div>
+                  <div class="display text-white text-[28px] leading-none mt-0.5">210</div>
+                  <div class="text-[10.5px] text-white/55 mt-1.5">3 days</div>
+                </button>
+                <button class="tile-2 px-3 py-3 text-left transition-transform hover:-translate-y-0.5"
+                  style="border-color:rgba(91,255,217,.4); background:linear-gradient(180deg,rgba(91,255,217,.10),rgba(91,255,217,.02));">
+                  <div class="text-[9.5px] display-uc tracking-[.16em] text-mint-400">GHS</div>
+                  <div class="display text-white text-[28px] leading-none mt-0.5" style="text-shadow:0 0 18px rgba(91,255,217,.3)">420</div>
+                  <div class="text-[10.5px] text-mint-400 mt-1.5">6 days · 1 week</div>
+                </button>
+              </div>
+
+              <div class="tile-2 mt-3 px-3 py-3 flex items-center gap-3">
+                <div class="w-9 h-9 rounded-lg grid place-items-center" style="background:#FFCC33;">
+                  <span class="text-[9.5px] font-extrabold text-[#3A1E04]">MTN</span>
+                </div>
+                <div class="flex-1">
+                  <div class="text-white text-[12.5px] font-semibold">MTN MoMo</div>
+                  <div class="text-[10.5px] text-white/45">**** 8821</div>
+                </div>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#5BFFD9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+
+              <div class="mt-auto mb-[80px]">
+                <button class="cta w-full h-12 text-[13.5px] tracking-[.04em] flex items-center justify-center gap-2">
+                  Pay GHS 200
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#04241D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div class="text-center text-[10px] text-white/35 mt-1.5">From your MTN wallet</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 9.5V21h14V9.5" stroke="currentColor" stroke-width="1.6"/></svg> Home</div>
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add money</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg> My days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Add money</figcaption>
+      </figure>
+
+      <!-- 1.5 My days -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-x-0 top-12 px-5">
+              <div class="flex items-center justify-between text-[10px] display-uc tracking-[.18em] text-white/40">
+                <span>WAHU</span><span>MY DAYS</span>
+              </div>
+            </div>
+
+            <div class="absolute inset-0 pt-[88px] px-5 flex flex-col">
+              <h3 class="display-uc text-white text-[24px] leading-[1.05] tracking-[.01em]">MY <span class="mint-glow">DAYS.</span></h3>
+              <div class="text-[11.5px] text-white/55 mt-1">Each day costs GHS 70. Sundays are free.</div>
+
+              <div class="tile-2 mt-4 p-3">
+                <div class="grid grid-cols-7 gap-1.5">
+                  <span class="day-chip" data-state="paid">9</span>
+                  <span class="day-chip" data-state="paid">10</span>
+                  <span class="day-chip" data-state="sun">11</span>
+                  <span class="day-chip" data-state="paid">12</span>
+                  <span class="day-chip" data-state="today">13</span>
+                  <span class="day-chip" data-state="borrowed">14</span>
+                  <span class="day-chip" data-state="borrowed">15</span>
+                  <span class="day-chip">16</span>
+                  <span class="day-chip">17</span>
+                  <span class="day-chip" data-state="sun">18</span>
+                  <span class="day-chip">19</span>
+                  <span class="day-chip">20</span>
+                  <span class="day-chip">21</span>
+                  <span class="day-chip">22</span>
+                </div>
+              </div>
+
+              <div class="mt-4 space-y-2">
+                <div class="flex items-center gap-3">
+                  <span class="day-chip !w-7 !h-7" data-state="paid"></span>
+                  <div>
+                    <div class="text-white text-[12.5px] font-semibold">Paid days</div>
+                    <div class="text-[10.5px] text-white/50">Money came out of your wallet</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="day-chip !w-7 !h-7" data-state="borrowed"></span>
+                  <div>
+                    <div class="text-white text-[12.5px] font-semibold">Borrowed days</div>
+                    <div class="text-[10.5px] text-white/50">No money in wallet · using credit</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="day-chip !w-7 !h-7"></span>
+                  <div>
+                    <div class="text-white text-[12.5px] font-semibold">Sunday</div>
+                    <div class="text-[10.5px] text-white/50">Free</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-3">
+                  <span class="day-chip !w-7 !h-7" data-state="today"></span>
+                  <div>
+                    <div class="text-white text-[12.5px] font-semibold">Today</div>
+                    <div class="text-[10.5px] text-white/50">Tue 13 May</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M3 11l9-8 9 8M5 9.5V21h14V9.5" stroke="currentColor" stroke-width="1.6"/></svg> Home</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg> Add money</div>
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M4 9h16" stroke="currentColor" stroke-width="1.6"/></svg> My days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">My days · view</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     SECTION 02 — DETAILED
+========================= -->
+<section class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pb-24">
+  <div class="frame-card grain p-6 md:p-10">
+    <div class="flex items-end justify-between flex-wrap gap-4">
+      <div>
+        <div class="eyebrow mb-3">02 · Hero app · detailed</div>
+        <h2 class="display text-white text-[28px] md:text-[36px] leading-tight tracking-[-0.02em]">Information dense, still calm.</h2>
+        <p class="mt-3 text-white/55 text-[14px] max-w-xl leading-[1.7]">A more telemetric set — wallet balance, ledger, locked-bike recovery flow. Same dark surface, mint headline, with state colour reserved for the bike's actual condition.</p>
+      </div>
+      <div class="flex items-center gap-2 text-[11px] display-uc tracking-[.18em] text-white/40">
+        <span class="w-1.5 h-1.5 rounded-full bg-mint-500"></span> 7 states · home / credit / locked / pay / confirm / ledger / inbox
+      </div>
+    </div>
+
+    <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-x-6 gap-y-12 justify-items-center">
+
+      <!-- 2.1 Home · healthy -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="bolt"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="text-[11.5px] text-white/55">Akwaaba, Kofi</div>
+                  <div class="text-[10.5px] display-uc tracking-[.16em] text-white/40">WED 7 MAY · BIKE GH-227</div>
+                </div>
+                <button class="w-9 h-9 rounded-full grid place-items-center tile-2 text-white/70">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.5-1.5A6 6 0 0117 11V8a5 5 0 00-10 0v3a6 6 0 01-1.5 4.5L4 17h5M9 17a3 3 0 006 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+
+              <!-- balance card with halo -->
+              <div class="halo relative tile-2 mt-3 p-4">
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/45">WALLET BALANCE</div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <div class="text-[11px] text-white/55">GHS</div>
+                  <div class="display text-white text-[40px] leading-none mint-glow">130</div>
+                </div>
+                <div class="mt-3">
+                  <div class="bar"><i style="right:65%"></i></div>
+                  <div class="flex justify-between mt-1.5 text-[10px] display-uc tracking-[.14em] text-white/45">
+                    <span class="text-mint-400">+1.9 days riding ahead</span>
+                    <span>floor · GHS 0</span>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 mt-3">
+                  <button class="cta h-9 text-[12px]">+ Top up</button>
+                  <button class="tile h-9 text-[12px] text-white/80 flex items-center justify-center gap-1.5">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1018 0 9 9 0 00-18 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                    History
+                  </button>
+                </div>
+              </div>
+
+              <!-- today card -->
+              <div class="tile mt-3 p-3">
+                <div class="flex items-center justify-between">
+                  <div class="text-[10.5px] display-uc tracking-[.16em] text-white/45">TODAY · WED 7 MAY</div>
+                  <div class="text-mint-400 text-[12px] font-semibold">−GHS 70</div>
+                </div>
+                <div class="text-[11px] text-white/55 mt-0.5">Standard daily debit · end of day</div>
+                <div class="flex items-center gap-1 mt-2.5">
+                  <span class="day-chip !w-7 !h-7 !text-[10px]">5</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]" data-state="sun">6</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]" data-state="today">7</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]">8</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]">9</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]">10</span>
+                  <span class="day-chip !w-7 !h-7 !text-[10px]" data-state="sun">11</span>
+                </div>
+              </div>
+
+              <div class="tile mt-3 p-3 flex items-center gap-2.5" style="border-color:rgba(91,255,217,.18); background:linear-gradient(180deg,rgba(91,255,217,.06),rgba(91,255,217,.01));">
+                <span class="bolt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span>
+                <div class="text-[11px] text-white/75 leading-snug">Sundays are free. Money's safe in your wallet.</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Wallet</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h16M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5"/></svg> Ledger</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H9l-4 3V8z" stroke="currentColor" stroke-width="1.5"/></svg> Inbox</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 20a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5"/></svg> Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · healthy</figcaption>
+      </figure>
+
+      <!-- 2.2 Home · using credit -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span style="color:#FFB84D" class="filter drop-shadow-[0_0_8px_rgba(255,184,77,.6)]"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="text-[11.5px] text-white/55">Akwaaba, Kofi</div>
+                  <div class="text-[10.5px] display-uc tracking-[.16em] text-white/40">TUE 13 MAY · 2 DAYS UNTIL FLOOR</div>
+                </div>
+                <button class="w-9 h-9 rounded-full grid place-items-center tile-2 text-white/70">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 17h5l-1.5-1.5A6 6 0 0117 11V8a5 5 0 00-10 0v3a6 6 0 01-1.5 4.5L4 17h5M9 17a3 3 0 006 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+
+              <div class="halo halo-amber relative tile-2 mt-3 p-4" style="border-color:rgba(255,184,77,.22); background:linear-gradient(180deg,rgba(255,184,77,.06),rgba(255,184,77,.01));">
+                <div class="flex items-center gap-2 mb-1">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#FFB84D"><path d="M12 2 1 22h22L12 2zM12 9v6M12 18.5h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                  <div class="text-[10px] display-uc tracking-[.18em]" style="color:#FFB84D">USING CREDIT</div>
+                </div>
+                <div class="flex items-baseline gap-2 mt-1">
+                  <div class="text-[11px] text-white/55">GHS</div>
+                  <div class="display text-white text-[40px] leading-none" style="text-shadow:0 0 24px rgba(255,184,77,.4); color:#FFD79A;">−290</div>
+                </div>
+                <div class="mt-3">
+                  <div class="bar" style="background:rgba(255,184,77,.12)"><i style="right:30%; background:linear-gradient(90deg,#7A4F12,#FFB84D 60%,#FFD79A)"></i></div>
+                  <div class="flex justify-between mt-1.5 text-[10px] display-uc tracking-[.14em] text-white/45">
+                    <span style="color:#FFD79A">2 days · 2 days until floor</span>
+                    <span>limit · GHS 350</span>
+                  </div>
+                </div>
+                <button class="cta cta-amber w-full h-10 text-[12px] tracking-[.04em] mt-3 flex items-center justify-center gap-1.5">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#3A1E04" stroke-width="2.5" stroke-linecap="round"/></svg>
+                  Top up GHS 350+
+                </button>
+              </div>
+
+              <div class="tile mt-3 p-3">
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/45">RECENT</div>
+                <div class="mt-2 space-y-1.5 text-[11.5px]">
+                  <div class="flex justify-between"><span class="text-white/70">Wed 14 · Today's debit</span><span style="color:#FFB84D">−70</span></div>
+                  <div class="flex justify-between"><span class="text-white/70">Wed 14 · Daily debit · floor crossed</span><span style="color:#FF8A8A">−85</span></div>
+                  <div class="flex justify-between"><span class="text-white/70">Tue 13 · Bike lock auto-reinstate</span><span style="color:#FFB84D">−228</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Wallet</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h16M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5"/></svg> Ledger</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H9l-4 3V8z" stroke="currentColor" stroke-width="1.5"/></svg> Inbox</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 20a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5"/></svg> Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · using credit</figcaption>
+      </figure>
+
+      <!-- 2.3 Home · at floor (locked) -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span style="color:#FF6B6B" class="filter drop-shadow-[0_0_8px_rgba(255,107,107,.6)]"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <!-- Locked banner -->
+              <div class="halo halo-rose relative tile-2 p-3.5 flex items-center gap-3"
+                   style="border-color:rgba(255,107,107,.32); background:linear-gradient(180deg,rgba(255,107,107,.10),rgba(255,107,107,.02));">
+                <div class="w-10 h-10 rounded-xl grid place-items-center" style="background:linear-gradient(180deg,#FF8A8A,#B83838); box-shadow: inset 0 0 0 1px rgba(255,255,255,.2);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="2" stroke="#3A0A0C" stroke-width="2"/><path d="M8 11V7a4 4 0 118 0v4" stroke="#3A0A0C" stroke-width="2"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-[10px] display-uc tracking-[.18em]" style="color:#FF8A8A">BIKE LOCKED · GH-227</div>
+                  <div class="display-uc text-white text-[14.5px] leading-tight mt-0.5">Wallet hit the floor.<br/>Top up to ride.</div>
+                </div>
+              </div>
+
+              <div class="tile-2 mt-3 p-4" style="border-color:rgba(255,107,107,.18); background:linear-gradient(180deg,rgba(255,107,107,.06),rgba(255,107,107,.01));">
+                <div class="text-[10px] display-uc tracking-[.18em]" style="color:#FF8A8A">BALANCE</div>
+                <div class="display text-white text-[44px] leading-none mt-1" style="text-shadow:0 0 28px rgba(255,107,107,.45); color:#FF8A8A;">−420</div>
+                <div class="text-[10.5px] text-white/55 mt-1">Floor reached · debits paused</div>
+              </div>
+
+              <div class="tile mt-3 p-3.5">
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/45">TO REACTIVATE</div>
+                <div class="text-[11.5px] text-white/70 mt-1.5 leading-snug">Top up GHS 70+ or one day's debit to clear the floor and unlock the bike.</div>
+                <div class="grid grid-cols-3 gap-2 mt-3">
+                  <button class="tile-2 py-2 text-center"><div class="text-[9.5px] text-white/45">GHS</div><div class="display text-white text-[18px] leading-none mt-0.5">70</div></button>
+                  <button class="tile-2 py-2 text-center" style="border-color:rgba(91,255,217,.32); background:linear-gradient(180deg,rgba(91,255,217,.10),rgba(91,255,217,.02));"><div class="text-[9.5px] text-mint-400">GHS</div><div class="display text-white text-[18px] leading-none mt-0.5 mint-glow">210</div></button>
+                  <button class="tile-2 py-2 text-center"><div class="text-[9.5px] text-white/45">GHS</div><div class="display text-white text-[18px] leading-none mt-0.5">420</div></button>
+                </div>
+              </div>
+
+              <button class="cta cta-rose w-full h-12 text-[13.5px] tracking-[.04em] mt-3 flex items-center justify-center gap-2">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12h14" stroke="#3A0A0C" stroke-width="2.5" stroke-linecap="round"/></svg>
+                Top up to reactivate
+              </button>
+              <div class="text-center text-[10px] text-white/40 mt-1.5">Don't worry — no extra debits while you're locked.</div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Wallet</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h16M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5"/></svg> Ledger</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H9l-4 3V8z" stroke="currentColor" stroke-width="1.5"/></svg> Inbox</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 20a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5"/></svg> Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Home · at floor (locked)</figcaption>
+      </figure>
+
+      <!-- 2.4 Top-up modal -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <!-- dimmed background -->
+            <div class="absolute inset-0" style="background: rgba(2,3,5,.55); backdrop-filter: blur(2px);"></div>
+
+            <!-- bottom sheet -->
+            <div class="absolute inset-x-0 bottom-0 rounded-t-[32px] p-5 pt-4"
+                 style="background: linear-gradient(180deg,#16181F 0%, #0C0E13 100%); border-top:1px solid rgba(255,255,255,.08); box-shadow:0 -30px 60px rgba(0,0,0,.5);">
+              <div class="flex items-center justify-between">
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/45">TOP UP WALLET</div>
+                <button class="w-7 h-7 rounded-full tile grid place-items-center text-white/70 text-sm">×</button>
+              </div>
+              <div class="text-[10.5px] text-white/55 mt-1">Current balance · GHS −290</div>
+
+              <div class="halo relative mt-4 text-center">
+                <div class="text-[10.5px] display-uc tracking-[.18em] text-mint-400">YOU'LL TOP UP</div>
+                <div class="display mint-glow text-[58px] leading-none mt-1">420</div>
+                <div class="text-[10.5px] text-white/55 mt-1">−290 clears debt · GHS 130 into wallet</div>
+              </div>
+
+              <div class="grid grid-cols-5 gap-1.5 mt-4">
+                <button class="tile py-2 text-center"><div class="display text-white text-[15px]">70</div></button>
+                <button class="tile py-2 text-center"><div class="display text-white text-[15px]">140</div></button>
+                <button class="tile py-2 text-center"><div class="display text-white text-[15px]">210</div></button>
+                <button class="tile-2 py-2 text-center" style="border-color:rgba(91,255,217,.4); background:linear-gradient(180deg,rgba(91,255,217,.10),rgba(91,255,217,.02));"><div class="display text-white text-[15px] mint-glow">420</div></button>
+                <button class="tile py-2 text-center"><div class="display text-white text-[15px]">1000</div></button>
+              </div>
+
+              <div class="tile mt-3 p-2.5 flex items-center gap-2 text-[11px]">
+                <div class="flex items-center gap-2 flex-1">
+                  <div class="w-7 h-7 rounded-md grid place-items-center" style="background:#FFCC33;"><span class="text-[8px] font-extrabold text-[#3A1E04]">MTN</span></div>
+                  <div>
+                    <div class="text-white font-semibold">MTN MoMo</div>
+                    <div class="text-[10px] text-white/45">**** 8821</div>
+                  </div>
+                </div>
+                <div class="text-mint-400 text-[10px] display-uc tracking-[.16em]">Default</div>
+                <div class="w-7 h-7 rounded-md grid place-items-center tile" style="opacity:.55"><span class="text-[8px] font-extrabold text-white/70">VC</span></div>
+                <div class="w-7 h-7 rounded-md grid place-items-center tile" style="opacity:.55">+</div>
+              </div>
+
+              <button class="cta w-full h-12 text-[13.5px] tracking-[.04em] mt-3 flex items-center justify-center gap-2">
+                Top up GHS 420
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#04241D" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <div class="text-center text-[10px] text-white/40 mt-1.5">You'll get a MoMo prompt on GH-XXXX-XX</div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Top-up · modal</figcaption>
+      </figure>
+
+      <!-- 2.5 Top-up confirmed -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="bolt"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <div class="flex justify-end">
+                <button class="w-7 h-7 rounded-full tile grid place-items-center text-white/70 text-sm">×</button>
+              </div>
+
+              <div class="halo relative grid place-items-center mt-3">
+                <div class="absolute w-[150px] h-[150px] rounded-full" style="background:radial-gradient(circle, rgba(91,255,217,.36) 0%, rgba(91,255,217,0) 70%); filter:blur(8px);"></div>
+                <div class="relative w-[88px] h-[88px] rounded-full grid place-items-center"
+                     style="background:radial-gradient(circle at 30% 30%, #6CFFDD, #1FB694 70%); box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), 0 0 40px rgba(91,255,217,.5);">
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5L20 7" stroke="#04241D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+
+              <h3 class="display-uc text-white text-[22px] text-center leading-[1.05] tracking-[.01em] mt-4">TOP-UP <span class="mint-glow">CONFIRMED.</span></h3>
+              <div class="text-[11.5px] text-white/55 mt-1 text-center">GHS 420 from MTN MoMo · 13 May, 19:42</div>
+
+              <div class="tile-2 mt-4 p-3.5">
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/45">WHAT HAPPENED</div>
+                <div class="mt-2 space-y-1.5 text-[12px]">
+                  <div class="flex items-center justify-between">
+                    <span class="text-white/75 flex items-center gap-2">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#5BFFD9"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4"/></svg>
+                      Top-up received
+                    </span>
+                    <span class="text-mint-400">+420</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-white/75 flex items-center gap-2">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#5BFFD9"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4"/></svg>
+                      Cleared debt automatically
+                    </span>
+                    <span class="text-white/55">−290</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span class="text-white/75 flex items-center gap-2">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#5BFFD9"><path d="M5 12l5 5L20 7" stroke="currentColor" stroke-width="2.4"/></svg>
+                      Added to wallet
+                    </span>
+                    <span class="text-mint-400">+130</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tile-2 mt-3 p-3" style="border-color:rgba(91,255,217,.18); background:linear-gradient(180deg,rgba(91,255,217,.06),rgba(91,255,217,.01));">
+                <div class="text-[10px] display-uc tracking-[.18em] text-mint-400">NEW WALLET BALANCE</div>
+                <div class="flex items-baseline gap-2">
+                  <div class="text-[11px] text-white/55">GHS</div>
+                  <div class="display text-white text-[28px] leading-none mint-glow">130</div>
+                </div>
+                <div class="text-[10.5px] text-mint-400 mt-1">≈ 1.9 days of riding ahead</div>
+              </div>
+
+              <div class="tile-2 mt-3 p-3 flex items-center gap-2.5"
+                   style="border-color:rgba(91,255,217,.18); background:linear-gradient(180deg,rgba(91,255,217,.04),rgba(91,255,217,.01));">
+                <div class="bolt"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></div>
+                <div class="text-[11px] text-white/75">Bike reactivating · 60 s · GH-227 unlocks in a minute</div>
+              </div>
+
+              <button class="cta w-full h-12 text-[13.5px] tracking-[.04em] mt-3">Done</button>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Top-up · confirmed</figcaption>
+      </figure>
+
+      <!-- 2.6 Ledger -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="bolt"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="display-uc text-white text-[22px] leading-tight tracking-[.01em]">LEDGER</div>
+                  <div class="text-[11.5px] text-white/55 mt-0.5">Every charge, every top-up. No surprises.</div>
+                </div>
+                <button class="w-9 h-9 rounded-full tile-2 grid place-items-center text-white/70">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M6 12h12M10 18h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </button>
+              </div>
+
+              <!-- segmented filter -->
+              <div class="seg mt-3" style="grid-template-columns: repeat(3,1fr)">
+                <button data-active="true" class="!h-9 text-[11.5px] font-semibold display-uc tracking-[.12em]">All</button>
+                <button class="!h-9 text-[11.5px] display-uc tracking-[.12em]">Top-ups</button>
+                <button class="!h-9 text-[11.5px] display-uc tracking-[.12em]">Debits</button>
+              </div>
+
+              <!-- summary strip -->
+              <div class="grid grid-cols-2 gap-2 mt-3">
+                <div class="tile p-2.5"><div class="text-[9.5px] display-uc tracking-[.16em] text-white/45">THIS WEEK</div><div class="display text-white text-[18px] leading-none mt-0.5">−210</div></div>
+                <div class="tile p-2.5"><div class="text-[9.5px] display-uc tracking-[.16em] text-mint-400">TOPPED UP</div><div class="display text-white text-[18px] leading-none mt-0.5 mint-glow">+420</div></div>
+              </div>
+
+              <div class="text-[10px] display-uc tracking-[.18em] text-white/40 mt-3">THIS WEEK · MAY 12–18</div>
+              <div class="mt-2 space-y-2">
+                <div class="tile p-2.5 flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg tile-2 grid place-items-center" style="background:rgba(91,255,217,.10); border-color:rgba(91,255,217,.25);">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#5BFFD9"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-white text-[12px] font-semibold">Top-up · MoMo</div>
+                    <div class="text-[10.5px] text-white/45">Tue 13 May · 19:42</div>
+                  </div>
+                  <div class="text-mint-400 text-[12.5px] font-semibold">+420</div>
+                </div>
+                <div class="tile p-2.5 flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg tile-2 grid place-items-center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#A8AEBA"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" transform="rotate(45 12 12)"/></svg></div>
+                  <div class="flex-1">
+                    <div class="text-white text-[12px] font-semibold">Daily debit</div>
+                    <div class="text-[10.5px] text-white/45">Tue 13 May · 23:14</div>
+                  </div>
+                  <div class="text-white/85 text-[12.5px] font-semibold">−70</div>
+                </div>
+                <div class="tile p-2.5 flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg tile-2 grid place-items-center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#A8AEBA"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" transform="rotate(45 12 12)"/></svg></div>
+                  <div class="flex-1">
+                    <div class="text-white text-[12px] font-semibold">Daily debit</div>
+                    <div class="text-[10.5px] text-white/45">Mon 12 May · 23:14</div>
+                  </div>
+                  <div class="text-white/85 text-[12.5px] font-semibold">−70</div>
+                </div>
+              </div>
+
+              <div class="text-[10px] display-uc tracking-[.18em] text-white/40 mt-3">LAST WEEK · MAY 5–11</div>
+              <div class="mt-2 space-y-2">
+                <div class="tile p-2.5 flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg tile-2 grid place-items-center" style="opacity:.6"><span class="text-[10px] text-white/55">SUN</span></div>
+                  <div class="flex-1"><div class="text-white text-[12px] font-semibold">No debit · Sunday</div><div class="text-[10.5px] text-white/45">Sun 11 May</div></div>
+                  <div class="text-white/40 text-[12.5px] font-semibold">—</div>
+                </div>
+                <div class="tile p-2.5 flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg tile-2 grid place-items-center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="color:#A8AEBA"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" transform="rotate(45 12 12)"/></svg></div>
+                  <div class="flex-1"><div class="text-white text-[12px] font-semibold">Daily debit</div><div class="text-[10.5px] text-white/45">Sat 10 May</div></div>
+                  <div class="text-white/85 text-[12.5px] font-semibold">−70</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Wallet</div>
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h16M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5"/></svg> Ledger</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H9l-4 3V8z" stroke="currentColor" stroke-width="1.5"/></svg> Inbox</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 20a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5"/></svg> Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Ledger · history</figcaption>
+      </figure>
+
+      <!-- 2.7 Inbox -->
+      <figure class="relative">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="notch"></div>
+            <div class="status"><span>9:30</span><span class="flex items-center gap-1.5"><span class="bolt"><svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L4 14h6l-1 8 9-12h-6l1-8z"/></svg></span><span class="w-3 h-3 rounded-full border border-white/40"></span><span>K</span></span></div>
+
+            <div class="absolute inset-0 pt-[44px] px-5 flex flex-col">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="display-uc text-white text-[22px] leading-tight tracking-[.01em]">INBOX</div>
+                  <div class="text-[11.5px] text-white/55 mt-0.5">System messages from Wahu Hero</div>
+                </div>
+                <div class="text-[10px] display-uc tracking-[.18em] text-white/40">3 NEW</div>
+              </div>
+
+              <!-- pinned · locked alert -->
+              <div class="tile-2 mt-3 p-3" style="border-color:rgba(255,107,107,.28); background:linear-gradient(180deg,rgba(255,107,107,.08),rgba(255,107,107,.01));">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#FF8A8A; box-shadow:0 0 8px #FF6B6B"></span>
+                  <span class="text-[10px] display-uc tracking-[.18em]" style="color:#FF8A8A">BIKE LOCKED</span>
+                  <span class="text-[10px] text-white/40 ml-auto">Wed 14 May · 23:15</span>
+                </div>
+                <div class="text-[12px] text-white/85 leading-snug">Your wallet hit the credit floor (GHS −420). Top up at least GHS 70 to reactivate.</div>
+                <button class="cta cta-rose w-full h-9 text-[11.5px] tracking-[.04em] mt-2.5 flex items-center justify-center gap-1.5">
+                  Top up to reactivate
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#3A0A0C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+              </div>
+
+              <!-- top up soon -->
+              <div class="tile-2 mt-2 p-3" style="border-color:rgba(255,184,77,.22); background:linear-gradient(180deg,rgba(255,184,77,.06),rgba(255,184,77,.01));">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full" style="background:#FFD79A; box-shadow:0 0 8px #FFB84D"></span>
+                  <span class="text-[10px] display-uc tracking-[.18em]" style="color:#FFD79A">TOP UP SOON</span>
+                  <span class="text-[10px] text-white/40 ml-auto">Tue 13 May · 19:00</span>
+                </div>
+                <div class="text-[12px] text-white/85 leading-snug">Wallet at GHS 290. 2 days left until floor. Top up GHS 350+ to clear and stay riding.</div>
+                <button class="text-[11.5px] tracking-[.04em] mt-2 text-amber2 font-semibold inline-flex items-center gap-1">Top up <span>→</span></button>
+              </div>
+
+              <!-- top-up confirmed -->
+              <div class="tile mt-2 p-3">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-mint-500" style="box-shadow:0 0 8px #5BFFD9"></span>
+                  <span class="text-[10px] display-uc tracking-[.18em] text-mint-400">TOP-UP CONFIRMED</span>
+                  <span class="text-[10px] text-white/40 ml-auto">Tue 13 May · 19:42</span>
+                </div>
+                <div class="text-[12px] text-white/80 leading-snug">GHS 200 from MTN MoMo landed. Wallet balance: GHS 130.</div>
+              </div>
+
+              <!-- welcome -->
+              <div class="tile mt-2 p-3 opacity-70">
+                <div class="flex items-center gap-2 mb-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-white/50"></span>
+                  <span class="text-[10px] display-uc tracking-[.18em] text-white/55">WELCOME TO WAHU HERO</span>
+                  <span class="text-[10px] text-white/40 ml-auto">Mon 5 May</span>
+                </div>
+                <div class="text-[12px] text-white/65 leading-snug">Bike GH-227 is yours. GHS 70 charged. For two riding days, see GHS 80 each.</div>
+              </div>
+            </div>
+
+            <div class="tabs">
+              <div class="tab-row">
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z M12 7v5l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg> Wallet</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M4 9h16M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.5"/></svg> Ledger</div>
+                <div class="tab" data-active="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 8a3 3 0 013-3h8a3 3 0 013 3v6a3 3 0 01-3 3H9l-4 3V8z" stroke="currentColor" stroke-width="1.5"/></svg> Inbox</div>
+                <div class="tab"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.5"/><path d="M5 20a7 7 0 0114 0" stroke="currentColor" stroke-width="1.5"/></svg> Profile</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption class="mt-3 text-center text-[11px] display-uc tracking-[.18em] text-white/45">Inbox · system</figcaption>
+      </figure>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =========================
+     DESIGN SYSTEM STRIP
+========================= -->
+<section class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pb-24">
+  <div class="frame-card grain p-6 md:p-10">
+    <div class="eyebrow mb-3">03 · System notes</div>
+    <h2 class="display text-white text-[28px] md:text-[36px] leading-tight tracking-[-0.02em]">The visual language.</h2>
+    <p class="mt-3 text-white/55 text-[14px] max-w-2xl leading-[1.7]">A few principles, applied consistently — that's what makes the screens feel like one app, not twelve.</p>
+
+    <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- color -->
+      <div class="tile-2 p-5">
+        <div class="eyebrow !text-white/45">Palette</div>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <div class="text-center"><div class="w-12 h-12 rounded-lg" style="background:#0A0B0E; border:1px solid rgba(255,255,255,.06)"></div><div class="text-[10px] mt-1 text-white/50">ink 0</div></div>
+          <div class="text-center"><div class="w-12 h-12 rounded-lg" style="background:#14161B"></div><div class="text-[10px] mt-1 text-white/50">ink 100</div></div>
+          <div class="text-center"><div class="w-12 h-12 rounded-lg" style="background:linear-gradient(135deg,#5BFFD9,#1FB694); box-shadow:0 8px 24px -8px rgba(91,255,217,.5)"></div><div class="text-[10px] mt-1 text-mint-400">mint</div></div>
+          <div class="text-center"><div class="w-12 h-12 rounded-lg" style="background:linear-gradient(135deg,#FFD080,#C97A1F)"></div><div class="text-[10px] mt-1" style="color:#FFD79A">amber</div></div>
+          <div class="text-center"><div class="w-12 h-12 rounded-lg" style="background:linear-gradient(135deg,#FF9A9A,#B83838)"></div><div class="text-[10px] mt-1" style="color:#FF8A8A">rose</div></div>
+        </div>
+        <p class="text-[11.5px] text-white/55 mt-4 leading-[1.6]">Mint = healthy / paid / completed. Amber = warning. Rose = locked. Inks reserve depth.</p>
+      </div>
+
+      <!-- type -->
+      <div class="tile-2 p-5">
+        <div class="eyebrow !text-white/45">Typography</div>
+        <div class="display-uc text-white text-[28px] mt-3 tracking-[.01em]">YOU CAN <span class="mint-glow">RIDE.</span></div>
+        <div class="text-[11.5px] text-white/55 mt-1">Display · Chakra Petch / uppercase / 22–58px</div>
+        <div class="text-white text-[14px] mt-4">Sundays are free.</div>
+        <div class="text-[11.5px] text-white/55 mt-1">Body · Inter / 12–14px / 1.7 line-height</div>
+      </div>
+
+      <!-- buttons -->
+      <div class="tile-2 p-5">
+        <div class="eyebrow !text-white/45">Actions</div>
+        <button class="cta w-full h-10 text-[12.5px] mt-3">Add money</button>
+        <button class="cta cta-amber w-full h-10 text-[12.5px] mt-2">Top up GHS 350+</button>
+        <button class="cta cta-rose w-full h-10 text-[12.5px] mt-2">Top up to reactivate</button>
+        <p class="text-[11.5px] text-white/55 mt-4 leading-[1.6]">One primary per screen. Colour = state of the bike, not vibe.</p>
+      </div>
+
+      <!-- coins -->
+      <div class="tile-2 p-5">
+        <div class="eyebrow !text-white/45">Coins = Days</div>
+        <div class="flex flex-wrap gap-1.5 mt-3">
+          <span class="day-chip" data-state="paid">●</span>
+          <span class="day-chip" data-state="paid">●</span>
+          <span class="day-chip" data-state="borrowed">●</span>
+          <span class="day-chip">○</span>
+          <span class="day-chip" data-state="sun">S</span>
+          <span class="day-chip" data-state="today">T</span>
+        </div>
+        <p class="text-[11.5px] text-white/55 mt-4 leading-[1.6]">Five chip states cover the whole financial model — paid, borrowed, future, Sunday, today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="relative z-10 max-w-[1480px] mx-auto px-6 md:px-10 pb-12 pt-2 flex items-center justify-between flex-wrap gap-3">
+  <div class="text-[11px] display-uc tracking-[.18em] text-white/35">Wahu hero · concept · 2026</div>
+  <div class="text-[11px] display-uc tracking-[.18em] text-white/35">Reference · Tesla EV companion · Material 3 hero set</div>
+</footer>
+
+</body>
+</html>

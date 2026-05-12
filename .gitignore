@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Claude / editor
+.claude/
+
+# Working files — not part of the deployable site
+temporary screenshots/
+*.pdf
+
+# Local archive
+Claude Code Website.zip
