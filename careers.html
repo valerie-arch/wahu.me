@@ -56,7 +56,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 @media (max-width:520px){.btn{min-width:0;width:100%}}
 
 /* HERO */
-.hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
+.hero{position:relative;height:100vh;height:100svh;min-height:640px;width:100%;overflow:hidden;color:#fff}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.62) saturate(.92)}
 .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.75) 100%);z-index:1;pointer-events:none}
@@ -314,6 +314,8 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 /* Mobile optimization */
 @media (max-width:540px){
   [class*="-band"]{padding-top:56px;padding-bottom:56px;padding-left:16px;padding-right:16px}
+  .hero{min-height:520px}
+  .hero-inner{padding:96px 16px 32px}
   .hero h1{font-size:clamp(28px,8.5vw,40px);letter-spacing:-.025em}
   .hero-sub{font-size:15px;line-height:1.5}
   .why-band{grid-template-columns:1fr;min-height:0}
