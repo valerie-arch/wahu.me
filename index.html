@@ -21,7 +21,7 @@
   --paper:#FFFFFF;
   --surface:#F4F4F4;
   --surface-2:#EDEDED;
-  --mute:#5C5E62;
+  --mute:#4F5256;
   --rule:rgba(23,26,32,.08);
   --accent:#E8421E;
   --display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
@@ -131,8 +131,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media img,.hero-media video{width:100%;height:100%;object-fit:cover;object-position:center 35%;filter:brightness(.62) saturate(.92)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
-.hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
+.hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;gap:32px;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
 .hero-top{text-align:center}
 .hero-top .eyebrow{margin-bottom:18px;display:inline-block}
 .hero h1{font-size:clamp(36px,5.4vw,68px);font-weight:500;line-height:1.04;letter-spacing:-.025em;color:#fff;max-width:14ch;margin:0 auto}
@@ -522,7 +522,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 <!-- HERO -->
 <header class="hero" id="hero">
   <div class="hero-media">
-    <img src="assets/brand/ksn-3.jpg" alt="Wahu rider on the eMoto in Accra" />
+    <img src="assets/brand/ksn-3.jpg" alt="Wahu rider on the eMoto in Accra" fetchpriority="high" decoding="async" />
   </div>
   <div class="hero-shade"></div>
   <button class="hero-arrow left" aria-label="Previous">‹</button>
@@ -632,7 +632,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   </div>
   <div class="tile-grid">
     <article class="tile">
-      <div class="tile-media"><img src="assets/fleet.jpg" alt="A Wahu rider checking the Hero app next to the eBike" /></div>
+      <div class="tile-media"><img src="assets/fleet.jpg" alt="A Wahu rider checking the Hero app next to the eBike" loading="lazy" decoding="async" /></div>
       <div class="tile-shade"></div>
       <div class="tile-top">
         <div class="tile-sub" style="margin-bottom:10px">For everyday riding</div>
@@ -651,7 +651,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       </div>
     </article>
     <article class="tile tile-coming-soon">
-      <div class="tile-media"><img src="assets/brand/emoto-street.jpg" alt="Two Wahu eMoto riders on a city street" /></div>
+      <div class="tile-media"><img src="assets/brand/emoto-street.jpg" alt="Two Wahu eMoto riders on a city street" loading="lazy" decoding="async" /></div>
       <div class="tile-shade"></div>
       <div class="tile-top">
         <div class="tile-sub" style="margin-bottom:10px">For working riders</div>
@@ -719,7 +719,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       <a href="https://rider.wahu.me" data-signup target="_blank" rel="noopener" class="btn btn-solid">Start riding →</a>
     </div>
   </div>
-  <div class="app-photo"><img src="assets/hero-rider-app.png" alt="A Wahu rider checking the Hero app on their phone, sitting on the eBike" /></div>
+  <div class="app-photo"><img src="assets/hero-rider-app.png" alt="A Wahu rider checking the Hero app on their phone, sitting on the eBike" loading="lazy" decoding="async" /></div>
 </section>
 
 <!-- TESTIMONIALS -->
@@ -811,7 +811,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 <section class="tile-section">
   <div class="tile-grid">
     <article class="tile">
-      <div class="tile-media"><img src="assets/impact-rider.jpg" alt="A Wahu rider in helmet flashing a peace sign at Independence Square" /></div>
+      <div class="tile-media"><img src="assets/impact-rider.jpg" alt="A Wahu rider in helmet flashing a peace sign at Independence Square" loading="lazy" decoding="async" /></div>
       <div class="tile-shade"></div>
       <div class="tile-top">
         <span class="eyebrow">Our impact</span>
@@ -825,7 +825,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       </div>
     </article>
     <article class="tile">
-      <div class="tile-media"><img src="assets/fleet-group.jpg" alt="A group of Wahu fleet riders with helmets ready to dispatch" /></div>
+      <div class="tile-media"><img src="assets/fleet-group.jpg" alt="A group of Wahu fleet riders with helmets ready to dispatch" loading="lazy" decoding="async" /></div>
       <div class="tile-shade"></div>
       <div class="tile-top">
         <span class="eyebrow">For business</span>
@@ -843,7 +843,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
 <!-- FINAL CTA -->
 <section class="video-block" style="aspect-ratio:16/8;min-height:520px">
-  <img src="assets/brand/ksn-2.jpg" alt="Wahu eBike at golden hour" />
+  <img src="assets/brand/ksn-2.jpg" alt="Wahu eBike at golden hour" loading="lazy" decoding="async" />
   <div class="vb-shade"></div>
   <div class="vb-inner">
     <div>

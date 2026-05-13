@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#171A20;--ink-soft:#393C41;--paper:#FFFFFF;--surface:#F4F4F4;--surface-2:#EDEDED;--mute:#5C5E62;--rule:rgba(23,26,32,.08);--accent:#E8421E;--display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;--sans:'Inter', system-ui, -apple-system, sans-serif}
+:root{--ink:#171A20;--ink-soft:#393C41;--paper:#FFFFFF;--surface:#F4F4F4;--surface-2:#EDEDED;--mute:#4F5256;--rule:rgba(23,26,32,.08);--accent:#E8421E;--display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;--sans:'Inter', system-ui, -apple-system, sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -59,7 +59,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.62) saturate(.92)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
 .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
 .hero-top{text-align:center}
 .hero-top .eyebrow{margin-bottom:18px;display:inline-block}
@@ -131,7 +131,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .pillars-head p{color:rgba(255,255,255,.7);font-size:16px;line-height:1.55}
 .pillars-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .pillar-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:36px 32px;min-height:200px;border-radius:10px}
-.pillar-num{font-family:var(--display);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.1em;margin-bottom:18px}
+.pillar-num{font-family:var(--display);font-size:14px;color:#FF6B3D;font-weight:600;letter-spacing:.1em;margin-bottom:18px}
 .pillar-card h4{margin-bottom:12px;font-size:20px;font-weight:600;letter-spacing:-.01em;font-family:var(--display);color:#fff}
 .pillar-card p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.55}
 @media (max-width:780px){.pillars-grid{grid-template-columns:1fr}}
@@ -423,7 +423,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 </div>
 
 <header class="hero" id="hero">
-  <div class="hero-media"><img src="assets/brand/ksn-12.jpg" alt="Wahu fleet on a basketball court" /></div>
+  <div class="hero-media"><img src="assets/brand/ksn-12.jpg" alt="Wahu fleet on a basketball court" fetchpriority="high" decoding="async" /></div>
   <div class="hero-shade"></div>
   <div class="hero-inner">
     <div class="hero-top">
@@ -524,7 +524,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
 <!-- VIDEO BLOCK -->
 <section class="video-block" id="founder-video">
-  <img src="assets/press/cnn-connecting-africa.png" alt="Wahu factory floor in Accra with eBikes lined up for assembly — CNN Connecting Africa feature" />
+  <img src="assets/press/cnn-connecting-africa.png" alt="Wahu factory floor in Accra with eBikes lined up for assembly — CNN Connecting Africa feature" loading="lazy" decoding="async" />
   <div class="vb-shade"></div>
   <div class="vb-inner">
     <div>

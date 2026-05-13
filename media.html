@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#171A20;--ink-soft:#393C41;--paper:#FFFFFF;--surface:#F4F4F4;--surface-2:#EDEDED;--mute:#5C5E62;--rule:rgba(23,26,32,.08);--accent:#E8421E;--display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;--sans:'Inter', system-ui, -apple-system, sans-serif}
+:root{--ink:#171A20;--ink-soft:#393C41;--paper:#FFFFFF;--surface:#F4F4F4;--surface-2:#EDEDED;--mute:#4F5256;--rule:rgba(23,26,32,.08);--accent:#E8421E;--display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;--sans:'Inter', system-ui, -apple-system, sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{font-family:var(--sans);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
@@ -74,7 +74,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .hero{position:relative;height:78vh;min-height:580px;width:100%;overflow:hidden;color:#fff}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.55) saturate(.92)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.78) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
 .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:140px 24px 72px;max-width:1480px;margin:0 auto}
 .hero-top{text-align:left;max-width:880px}
 .hero-top .eyebrow{margin-bottom:18px;display:inline-block}
@@ -339,7 +339,7 @@ section[id]{scroll-margin-top:84px}
 </div>
 
 <header class="hero" id="hero">
-  <div class="hero-media"><img src="assets/brand/emoto-arch.jpg" alt="Wahu Mobility delivery rider in helmet with eBike — Accra, Ghana" /></div>
+  <div class="hero-media"><img src="assets/brand/emoto-arch.jpg" alt="Wahu Mobility delivery rider in helmet with eBike — Accra, Ghana" fetchpriority="high" decoding="async" /></div>
   <div class="hero-shade"></div>
   <div class="hero-inner">
     <div class="hero-top">
@@ -364,7 +364,7 @@ section[id]{scroll-margin-top:84px}
       <p class="fv-head-right">A look inside the partnership powering Wahu's next generation of African‑built electric vehicles.</p>
     </div>
     <div class="featured-video" id="featured-video" role="button" tabindex="0" aria-label="Play the featured Wahu video">
-      <img src="https://img.youtube.com/vi/pIULskBteMA/maxresdefault.jpg" alt="Valerie Labi on the Wahu × UKBIC battery partnership, 2025" />
+      <img src="https://img.youtube.com/vi/pIULskBteMA/maxresdefault.jpg" alt="Valerie Labi on the Wahu × UKBIC battery partnership, 2025" loading="lazy" decoding="async" />
       <div class="fv-shade"></div>
       <span class="fv-play" aria-hidden="true"></span>
     </div>

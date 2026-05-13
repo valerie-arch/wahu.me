@@ -16,7 +16,7 @@
   --paper:#FFFFFF;
   --surface:#F4F4F4;
   --surface-2:#EDEDED;
-  --mute:#5C5E62;
+  --mute:#4F5256;
   --rule:rgba(23,26,32,.08);
   --accent:#E8421E;
   --display:'Manrope', 'Inter', system-ui, -apple-system, sans-serif;
@@ -72,7 +72,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .hero{position:relative;height:100vh;min-height:640px;width:100%;overflow:hidden;color:#fff}
 .hero-media{position:absolute;inset:0;z-index:0}
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:center 40%;filter:brightness(.62) saturate(.92)}
-.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.4) 30%, rgba(0,0,0,.45) 70%, rgba(0,0,0,.75) 100%), radial-gradient(ellipse 80% 60% at center, rgba(0,0,0,.18) 0%, rgba(0,0,0,0) 70%);z-index:1}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(180deg, rgba(0,0,0,.45) 0%, rgba(0,0,0,.65) 100%);z-index:1;pointer-events:none}
 .hero-inner{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:140px 24px 56px;max-width:1480px;margin:0 auto}
 .hero-top{text-align:center}
 .hero-top .eyebrow{margin-bottom:18px;display:inline-block}
@@ -99,6 +99,13 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .veh-stats .stat{display:flex;flex-direction:column;gap:4px}
 .veh-stats .v{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.01em}
 .veh-stats .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+/* Solid dark stats strip below each vehicle hero photo (accessibility: keeps spec numbers off photo) */
+.veh-stats-strip{background:var(--ink);color:#fff;padding:56px 32px;position:relative;z-index:2}
+.veh-stats-strip-inner{max-width:1480px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:32px;text-align:center}
+.veh-stats-strip .stat{display:flex;flex-direction:column;gap:10px;align-items:center}
+.veh-stats-strip .v{font-family:var(--display);font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.02em;line-height:1;color:#fff}
+.veh-stats-strip .l{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.7);font-weight:600}
+@media (max-width:780px){.veh-stats-strip-inner{grid-template-columns:repeat(2,1fr);gap:28px}.veh-stats-strip{padding:40px 24px}}
 @media (max-width:780px){.veh-stats{grid-template-columns:repeat(2,1fr)}}
 .veh-actions{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 
@@ -149,7 +156,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .charging-head p{color:rgba(255,255,255,.78);font-size:16px;line-height:1.55;max-width:54ch}
 .charging-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .charge-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:32px}
-.charge-num{font-family:var(--display);font-size:13px;color:var(--accent);font-weight:600;letter-spacing:.1em;margin-bottom:16px}
+.charge-num{font-family:var(--display);font-size:14px;color:#FF6B3D;font-weight:600;letter-spacing:.1em;margin-bottom:16px}
 .charge-card h3{font-size:20px;font-weight:500;color:#fff;margin-bottom:10px;letter-spacing:-.01em}
 .charge-card p{font-size:14px;color:rgba(255,255,255,.78);line-height:1.55;margin-bottom:20px}
 .charge-detail{padding-top:18px;border-top:1px solid rgba(255,255,255,.14);display:flex;justify-content:space-between;align-items:baseline;font-size:13px;color:rgba(255,255,255,.65)}
@@ -175,7 +182,7 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 @media (max-width:980px){.own-grid{grid-template-columns:1fr;gap:40px}}
 
 /* TCO CHART — petrol vs Wahu */
-.tco-band{padding:96px 24px;background:var(--surface)}
+.tco-band{padding:32px 24px 64px;background:var(--surface)}
 .tco-inner{max-width:1280px;margin:0 auto}
 .tco-head{margin-bottom:48px;max-width:680px}
 .tco-head .eyebrow{display:block;margin-bottom:14px}
@@ -487,7 +494,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
 <header class="hero" id="hero">
   <div class="hero-media">
-    <img src="assets/brand/ksn-44.jpg" alt="A line of Wahu Heroes ready to ride" />
+    <img src="assets/brand/ksn-44.jpg" alt="A line of Wahu Heroes ready to ride" fetchpriority="high" decoding="async" />
   </div>
   <div class="hero-shade"></div>
   <div class="hero-inner">
@@ -516,7 +523,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
 <!-- eBike full-bleed showcase -->
 <section class="veh" id="ebike">
-  <div class="veh-media"><img src="assets/ebike.jpg" alt="Wahu eBike on a basketball court" /></div>
+  <div class="veh-media"><img src="assets/ebike.jpg" alt="Wahu eBike on a basketball court" loading="lazy" decoding="async" /></div>
   <div class="veh-shade"></div>
   <div class="veh-inner">
     <div class="veh-top">
@@ -525,16 +532,19 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       <p class="veh-tag">Less sweat. More street.</p>
     </div>
     <div class="veh-bottom">
-      <div class="veh-stats" style="gap:48px">
-        <div class="stat"><div class="v" style="font-size:40px">140 km</div><div class="l">Range</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">40 km/h</div><div class="l">Top speed</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">1000 W</div><div class="l">Motor</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">150 kg</div><div class="l">Payload</div></div>
-      </div>
       <div class="veh-actions">
         <a href="#ebike-plans" class="btn btn-fill-dark">See plans →</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="veh-stats-strip" aria-label="eBike specifications">
+  <div class="veh-stats-strip-inner">
+    <div class="stat"><div class="v">140 km</div><div class="l">Range</div></div>
+    <div class="stat"><div class="v">40 km/h</div><div class="l">Top speed</div></div>
+    <div class="stat"><div class="v">1000 W</div><div class="l">Motor</div></div>
+    <div class="stat"><div class="v">150 kg</div><div class="l">Payload</div></div>
   </div>
 </section>
 
@@ -688,9 +698,18 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   </div>
 </section>
 
+<!-- TCO WEDGE CHART — proves the plans are good value before eMoto -->
+<section class="tco-band" id="tco">
+  <div class="tco-inner">
+    <div class="tco-wedge-img reveal">
+      <img src="assets/tco-wedge.png" alt="Two-wheelers are the economic wedge — eBikes and eMotos have ~55% lower total cost of ownership than petrol motos, modelled over a 4-year operating life. Annual cost per rider comparison showing Fuel/Energy, Maintenance, and Financing breakdown." loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
 <!-- eMoto full-bleed showcase -->
 <section class="veh" id="emoto">
-  <div class="veh-media"><img src="assets/brand/emoto-arch.jpg" alt="Wahu eMoto rider in front of Independence Arch, Accra" /></div>
+  <div class="veh-media"><img src="assets/brand/emoto-arch.jpg" alt="Wahu eMoto rider in front of Independence Arch, Accra" loading="lazy" decoding="async" /></div>
   <div class="veh-shade"></div>
   <div class="veh-inner">
     <div class="veh-top">
@@ -699,16 +718,19 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       <p class="veh-tag">Fast. Rugged. Made for work.</p>
     </div>
     <div class="veh-bottom">
-      <div class="veh-stats" style="gap:48px">
-        <div class="stat"><div class="v" style="font-size:40px">100 km</div><div class="l">Range</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">100 km/h</div><div class="l">Top speed</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">3000 W</div><div class="l">Motor</div></div>
-        <div class="stat"><div class="v" style="font-size:40px">200 kg</div><div class="l">Payload</div></div>
-      </div>
       <div class="veh-actions">
         <a href="#emoto-configurator" class="btn btn-fill-dark">Join the waitlist →</a>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="veh-stats-strip" aria-label="eMoto specifications">
+  <div class="veh-stats-strip-inner">
+    <div class="stat"><div class="v">100 km</div><div class="l">Range</div></div>
+    <div class="stat"><div class="v">100 km/h</div><div class="l">Top speed</div></div>
+    <div class="stat"><div class="v">3000 W</div><div class="l">Motor</div></div>
+    <div class="stat"><div class="v">200 kg</div><div class="l">Payload</div></div>
   </div>
 </section>
 
@@ -766,48 +788,15 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
         <p>Plug straight into Bolt, Glovo, Jumia, Yango — earnings flow into the Hero app.</p>
       </div>
     </div>
-    <form id="contactForm" action="https://formbold.com/s/3A7aM" method="POST" class="reveal" style="max-width:560px;margin:0 auto;background:#fff;border:1px solid var(--rule);border-radius:14px;padding:32px" novalidate>
-      <div style="margin-bottom:18px">
-        <label for="contact-name" style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;font-weight:600">Your name</label>
-        <input id="contact-name" type="text" name="name" placeholder="What should we call you?" required style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--rule);padding:8px 0;font-family:var(--sans);font-size:15px;color:var(--ink)">
-      </div>
-      <div style="margin-bottom:18px">
-        <label for="contact-email" style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;font-weight:600">Email</label>
-        <input id="contact-email" type="email" name="email" placeholder="you@email.com" required style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--rule);padding:8px 0;font-family:var(--sans);font-size:15px;color:var(--ink)">
-      </div>
-      <div style="margin-bottom:18px">
-        <label for="contact-type" style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;font-weight:600">Type of enquiry</label>
-        <select id="contact-type" name="type" required style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--rule);padding:8px 0;font-family:var(--sans);font-size:15px;color:var(--ink);cursor:pointer">
-          <option value="">Choose an option</option>
-          <option value="eMoto Waitlist" selected>eMoto Waitlist</option>
-          <option value="Media">Media</option>
-          <option value="Impact">Impact</option>
-        </select>
-      </div>
-      <div style="margin-bottom:18px">
-        <label for="contact-message" style="display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin-bottom:8px;font-weight:600">Tell us more <span style="opacity:.6;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
-        <textarea id="contact-message" name="message" placeholder="A few details about what you need" rows="3" style="width:100%;background:transparent;border:none;border-bottom:1px solid var(--rule);padding:8px 0;font-family:var(--sans);font-size:15px;color:var(--ink);resize:vertical;min-height:64px;line-height:1.5"></textarea>
-      </div>
-      <button type="submit" class="btn btn-solid" style="width:100%">Send →</button>
-    </form>
-    <div id="contactSuccess" style="display:none;max-width:560px;margin:18px auto 0;padding:18px 24px;background:#fff;border:1px solid var(--rule);border-radius:10px">
-      <p style="font-family:var(--display);font-size:15px;font-weight:600;color:var(--ink)">Got it — we'll be in touch shortly. Or email hello@wahu.me.</p>
-    </div>
-  </div>
-</section>
-
-<!-- TCO WEDGE CHART -->
-<section class="tco-band" id="tco">
-  <div class="tco-inner">
-    <div class="tco-wedge-img reveal">
-      <img src="assets/tco-wedge.png" alt="Two-wheelers are the economic wedge — eBikes and eMotos have ~55% lower total cost of ownership than petrol motos, modelled over a 4-year operating life. Annual cost per rider comparison showing Fuel/Energy, Maintenance, and Financing breakdown." />
+    <div class="reveal" style="text-align:center;margin-top:8px">
+      <a href="#vehicles-contact" class="btn btn-solid" id="emoto-waitlist-cta" data-prefill-type="Join eMoto waitlist">Join the waitlist →</a>
     </div>
   </div>
 </section>
 
 <!-- CHARGING -->
 <section class="charging" id="charging">
-  <img src="assets/charging.jpg" alt="Wahu charging" />
+  <img src="assets/charging.jpg" alt="Wahu charging" loading="lazy" decoding="async" />
   <div class="vb-shade"></div>
   <div class="charging-inner">
     <div class="charging-head reveal">
@@ -840,7 +829,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
 
 <!-- CTA -->
 <section class="cta-tile" id="vehicles-contact">
-  <img src="assets/brand/ksn-2.jpg" alt="Wahu eBike at golden hour" />
+  <img src="assets/brand/ksn-2.jpg" alt="Wahu eBike at golden hour" loading="lazy" decoding="async" />
   <div class="vb-shade"></div>
   <div class="cta-tile-inner">
     <div>
@@ -870,6 +859,7 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
             <option value="">Choose an option</option>
             <option>Buy outright</option>
             <option>Wholesale partnership</option>
+            <option>Join eMoto waitlist</option>
           </select>
         </div>
         <div class="vb-form-row">
