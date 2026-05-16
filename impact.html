@@ -139,20 +139,28 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 @media (max-width:980px){.commit-grid{grid-template-columns:1fr}}
 
 /* PARTNERS */
-.partners-band{padding:96px 24px;background:var(--surface)}
-.partners-inner{max-width:1280px;margin:0 auto}
-.partners-head{margin-bottom:48px;max-width:700px}
-.partners-head .eyebrow{display:block;margin-bottom:14px}
-.partners-head h2{font-size:clamp(28px,3.4vw,44px);font-weight:500;letter-spacing:-.025em;margin-bottom:14px}
-.partners-head p{color:var(--mute);font-size:16px;line-height:1.55}
-.partners-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-.partner-card{background:#fff;padding:28px 24px}
-.partner-name{font-family:var(--display);font-size:17px;font-weight:600;letter-spacing:-.01em;margin-bottom:6px}
-.partner-role{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;font-weight:600;margin-bottom:14px;font-family:var(--sans)}
-.partner-detail{font-size:13px;color:var(--mute);line-height:1.55}
-@media (max-width:1100px){.partners-grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:780px){.partners-grid{grid-template-columns:1fr 1fr}}
-@media (max-width:520px){.partners-grid{grid-template-columns:1fr}}
+.partners-band{padding:96px 24px;background:var(--surface);position:relative}
+.partners-inner{max-width:1280px;margin:0 auto;position:relative}
+.partners-head{max-width:820px;margin-bottom:48px}
+.partners-head .eyebrow{display:block;margin-bottom:24px}
+.partners-head h2{font-family:var(--display);font-size:clamp(36px,4.8vw,60px);font-weight:600;letter-spacing:-.025em;line-height:1.04;margin-bottom:24px;color:var(--ink)}
+.partners-head p{color:var(--mute);font-size:18px;line-height:1.55;max-width:780px}
+.partners-controls{position:absolute;top:0;right:0;display:flex;gap:10px;z-index:2}
+.partners-btn{width:48px;height:48px;border-radius:999px;border:1px solid var(--rule);background:transparent;color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease;padding:0}
+.partners-btn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+.partners-btn:active{transform:scale(.96)}
+.partners-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.partners-track{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;margin:0 -24px;padding:4px 24px 24px;scrollbar-width:none}
+.partners-track::-webkit-scrollbar{display:none}
+.partners-rail{list-style:none;margin:0;padding:0;display:flex;gap:20px}
+.partner-card{flex:0 0 auto;width:320px;min-height:280px;background:#fff;padding:36px 32px;scroll-snap-align:start;display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s cubic-bezier(.2,.7,.2,1)}
+.partner-card:hover{transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(23,26,32,.18)}
+.partner-name{font-family:var(--display);font-size:22px;line-height:1.2;letter-spacing:-.01em;margin:0 0 14px;font-weight:600;color:var(--ink)}
+.partner-role{text-transform:uppercase;letter-spacing:.12em;font-size:12px;font-weight:600;color:var(--accent);margin:0 0 22px;font-family:var(--sans)}
+.partner-detail{font-size:15px;line-height:1.55;color:var(--mute);margin:0}
+.partners-progress{margin-top:28px;height:2px;background:var(--rule);position:relative;border-radius:2px;overflow:hidden}
+.partners-progress-bar{position:absolute;inset:0 auto 0 0;width:25%;background:var(--ink);border-radius:2px;transition:width .2s ease,transform .2s ease}
+@media (max-width:900px){.partners-band{padding:72px 0 88px}.partners-inner{padding:0 24px}.partners-controls{position:static;justify-content:flex-end;margin-top:0;margin-bottom:24px}.partners-head{margin-bottom:32px}.partners-track{margin:0 -24px;padding:4px 24px 20px}.partner-card{width:84vw;max-width:320px;min-height:240px;padding:32px 28px}.partners-head h2{font-size:clamp(28px,7vw,38px)}}
 
 /* CTA GRID */
 .cta-band{padding:96px 24px;background:var(--paper)}
@@ -489,40 +497,73 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
   </div>
 </section>
 
-<!-- PARTNERS -->
-<section class="partners-band">
+<!-- PARTNERS — horizontal slider, 9 cards across Climate / Finance / Industrial pillars -->
+<section class="partners-band" aria-labelledby="partners-heading">
   <div class="partners-inner">
     <div class="partners-head reveal">
-      <span class="eyebrow dark">Partners and verifiers</span>
-      <h2>Verified by the people who don't take our word for it.</h2>
-      <p>Auditable impact only matters if real institutions are willing to underwrite it. These are the partners turning Wahu's data into compliance-grade carbon, climate-linked finance, and rider opportunity.</p>
+      <span class="eyebrow dark">Partners and Verifiers</span>
+      <h2 id="partners-heading">The institutions that don't take our word for it.</h2>
+      <p>Wahu isn't built alone. We've spent years establishing partnerships with the institutions that hold African ventures to world-class standards — Ghana's ministries, banks, and universities, alongside global climate, industrial, and academic partners. Together, we're building the ecosystem African clean mobility needs to grow: compliance-grade carbon, climate-linked finance, world-class manufacturing talent, and real pathways to ownership for the riders we serve.</p>
     </div>
-    <div class="partners-grid reveal">
-      <div class="partner-card">
-        <div class="partner-name">KliK Foundation</div>
-        <div class="partner-role">Carbon offtake</div>
-        <p class="partner-detail">Switzerland's official carbon offsetting body. Ghana's Article 6.2 cooperative partner.</p>
-      </div>
-      <div class="partner-card">
-        <div class="partner-name">Government of Ghana</div>
-        <div class="partner-role">Sovereign authorisation</div>
-        <p class="partner-detail">Letter of Authorisation under Article 6.2 of the Paris Agreement.</p>
-      </div>
-      <div class="partner-card">
-        <div class="partner-name">UKBIC</div>
-        <div class="partner-role">Industrial partner</div>
-        <p class="partner-detail">UK Battery Industrialisation Centre. World-class facility training the engineers building Africa's clean mobility future.</p>
-      </div>
-      <div class="partner-card">
-        <div class="partner-name">University of Michigan WDI</div>
-        <div class="partner-role">Programme partner</div>
-        <p class="partner-detail">William Davidson Institute. Research and training programmes for riders, mechanics, and women in clean mobility.</p>
-      </div>
-      <div class="partner-card">
-        <div class="partner-name">Siemens Foundation</div>
-        <div class="partner-role">Climate funder</div>
-        <p class="partner-detail">Siemens Stiftung — incubation grant for early R&D.</p>
-      </div>
+    <div class="partners-controls" role="group" aria-label="Slider navigation">
+      <button class="partners-btn" data-dir="prev" aria-label="Previous partners" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="partners-btn" data-dir="next" aria-label="Next partners" type="button">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+    <div class="partners-track reveal" tabindex="0" role="region" aria-label="Partners slider">
+      <ul class="partners-rail">
+        <li class="partner-card">
+          <h3 class="partner-name">KliK Foundation</h3>
+          <p class="partner-role">Carbon Offtake</p>
+          <p class="partner-detail">Switzerland's official carbon offsetting body and Ghana's Article 6.2 cooperative partner.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">Government of Ghana</h3>
+          <p class="partner-role">Sovereign Authorisation</p>
+          <p class="partner-detail">Letter of Authorisation issued under Article 6.2 of the Paris Agreement.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">Siemens Foundation</h3>
+          <p class="partner-role">Climate Funder</p>
+          <p class="partner-detail">Siemens Stiftung — incubation grant for early R&amp;D.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">Development Bank Ghana</h3>
+          <p class="partner-role">Debt Partner</p>
+          <p class="partner-detail">Ghana's national development bank. Wholesale debt financing proving Wahu's path-to-ownership model at scale.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">Letshego</h3>
+          <p class="partner-role">Financing Partner</p>
+          <p class="partner-detail">Pan-African financial services group. Local debt capital backing rider asset financing across Ghana.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">UKBIC</h3>
+          <p class="partner-role">Industrial Partner</p>
+          <p class="partner-detail">UK Battery Industrialisation Centre. World-class facility training the engineers building Africa's clean mobility future.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">DTI</h3>
+          <p class="partner-role">Manufacturing Partner</p>
+          <p class="partner-detail">Design and Technology Institute, Accra. Training the precision engineers and technicians powering Ghana's EV assembly base.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">University of Michigan WDI</h3>
+          <p class="partner-role">Programme Partner</p>
+          <p class="partner-detail">William Davidson Institute. Research and training programmes for riders, mechanics, and women in clean mobility.</p>
+        </li>
+        <li class="partner-card">
+          <h3 class="partner-name">Academic City University</h3>
+          <p class="partner-role">Academic Partner</p>
+          <p class="partner-detail">Accra-based engineering university. Pipeline for the next generation of African EV engineers, designers, and technicians.</p>
+        </li>
+      </ul>
+    </div>
+    <div class="partners-progress" aria-hidden="true">
+      <span class="partners-progress-bar"></span>
     </div>
   </div>
 </section>
@@ -727,6 +768,44 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
       }
     });
   }
+
+  // Partners slider
+  (function () {
+    const root = document.querySelector('.partners-band');
+    if (!root) return;
+    const track = root.querySelector('.partners-track');
+    const rail = root.querySelector('.partners-rail');
+    const prev = root.querySelector('[data-dir="prev"]');
+    const next = root.querySelector('[data-dir="next"]');
+    const bar = root.querySelector('.partners-progress-bar');
+    if (!track || !rail || !prev || !next || !bar) return;
+
+    function cardStep() {
+      const first = rail.firstElementChild;
+      if (!first) return 340;
+      const styles = getComputedStyle(rail);
+      const gap = parseInt(styles.columnGap || styles.gap || '20', 10);
+      return first.getBoundingClientRect().width + gap;
+    }
+    function scrollByCards(n) { track.scrollBy({ left: n * cardStep(), behavior: 'smooth' }); }
+    prev.addEventListener('click', () => scrollByCards(-1));
+    next.addEventListener('click', () => scrollByCards(1));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); scrollByCards(1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByCards(-1); }
+    });
+    function updateProgress() {
+      const max = track.scrollWidth - track.clientWidth;
+      if (max <= 0) { bar.style.width = '100%'; bar.style.transform = ''; return; }
+      const ratio = track.scrollLeft / max;
+      const visibleRatio = Math.max(0.15, track.clientWidth / track.scrollWidth);
+      bar.style.width = (visibleRatio * 100) + '%';
+      bar.style.transform = `translateX(${ratio * (track.clientWidth - (visibleRatio * track.clientWidth))}px)`;
+    }
+    track.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+  })();
 </script>
 </body>
 </html>
