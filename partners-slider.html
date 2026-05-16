@@ -1,0 +1,319 @@
+<!-- ============================================================
+     WAHU — PARTNERS & VERIFIERS SLIDER
+     Drop-in section. Self-contained styles & script.
+     ============================================================ -->
+<section class="wahu-partners" aria-labelledby="partners-heading">
+  <div class="wahu-partners__inner">
+
+    <header class="wahu-partners__header">
+      <p class="wahu-partners__eyebrow">Partners and Verifiers</p>
+      <h2 id="partners-heading" class="wahu-partners__title">
+        The institutions that don't take our word for it.
+      </h2>
+      <p class="wahu-partners__lede">
+        Wahu isn't built alone. We've spent years establishing partnerships with the
+        institutions that hold African ventures to world-class standards — Ghana's
+        ministries, banks, and universities, alongside global climate, industrial,
+        and academic partners. Together, we're building the ecosystem African clean
+        mobility needs to grow: compliance-grade carbon, climate-linked finance,
+        world-class manufacturing talent, and real pathways to ownership for the
+        riders we serve.
+      </p>
+    </header>
+
+    <div class="wahu-partners__controls" role="group" aria-label="Slider navigation">
+      <button class="wahu-partners__btn" data-dir="prev" aria-label="Previous partners">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <button class="wahu-partners__btn" data-dir="next" aria-label="Next partners">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+
+    <div class="wahu-partners__track" tabindex="0" aria-label="Partners slider" role="region">
+      <ul class="wahu-partners__rail">
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">KliK Foundation</h3>
+          <p class="wahu-partner__label">Carbon Offtake</p>
+          <p class="wahu-partner__copy">Switzerland's official carbon offsetting body and Ghana's Article 6.2 cooperative partner.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">Government of Ghana</h3>
+          <p class="wahu-partner__label">Sovereign Authorisation</p>
+          <p class="wahu-partner__copy">Letter of Authorisation issued under Article 6.2 of the Paris Agreement.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">Siemens Foundation</h3>
+          <p class="wahu-partner__label">Climate Funder</p>
+          <p class="wahu-partner__copy">Siemens Stiftung — incubation grant for early R&amp;D.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">Development Bank Ghana</h3>
+          <p class="wahu-partner__label">Debt Partner</p>
+          <p class="wahu-partner__copy">Ghana's national development bank. Wholesale debt financing proving Wahu's path-to-ownership model at scale.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">Letshego</h3>
+          <p class="wahu-partner__label">Financing Partner</p>
+          <p class="wahu-partner__copy">Pan-African financial services group. Local debt capital backing rider asset financing across Ghana.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">UKBIC</h3>
+          <p class="wahu-partner__label">Industrial Partner</p>
+          <p class="wahu-partner__copy">UK Battery Industrialisation Centre. World-class facility training the engineers building Africa's clean mobility future.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">DTI</h3>
+          <p class="wahu-partner__label">Manufacturing Partner</p>
+          <p class="wahu-partner__copy">Design and Technology Institute, Accra. Training the precision engineers and technicians powering Ghana's EV assembly base.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">University of Michigan WDI</h3>
+          <p class="wahu-partner__label">Programme Partner</p>
+          <p class="wahu-partner__copy">William Davidson Institute. Research and training programmes for riders, mechanics, and women in clean mobility.</p>
+        </li>
+
+        <li class="wahu-partner">
+          <h3 class="wahu-partner__name">Academic City University</h3>
+          <p class="wahu-partner__label">Academic Partner</p>
+          <p class="wahu-partner__copy">Accra-based engineering university. Pipeline for the next generation of African EV engineers, designers, and technicians.</p>
+        </li>
+
+      </ul>
+    </div>
+
+    <div class="wahu-partners__progress" aria-hidden="true">
+      <span class="wahu-partners__progress-bar"></span>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .wahu-partners {
+    --wahu-bg:        #f1f1ef;
+    --wahu-ink:       #111111;
+    --wahu-ink-soft:  #4a4a4a;
+    --wahu-card:      #ffffff;
+    --wahu-accent:    #e94e1b;
+    --wahu-rule:      rgba(17,17,17,0.08);
+
+    background: var(--wahu-bg);
+    color: var(--wahu-ink);
+    padding: 96px 0 112px;
+    font-family: ui-sans-serif, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wahu-partners__inner {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 56px;
+    position: relative;
+  }
+
+  .wahu-partners__header {
+    max-width: 920px;
+    margin-bottom: 56px;
+  }
+  .wahu-partners__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 13px;
+    color: var(--wahu-ink-soft);
+    margin: 0 0 28px;
+    font-weight: 500;
+  }
+  .wahu-partners__title {
+    font-size: clamp(40px, 5.2vw, 68px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+    margin: 0 0 28px;
+  }
+  .wahu-partners__lede {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--wahu-ink-soft);
+    max-width: 780px;
+    margin: 0;
+  }
+
+  /* Nav buttons (top-right) */
+  .wahu-partners__controls {
+    position: absolute;
+    top: 0;
+    right: 56px;
+    display: flex;
+    gap: 10px;
+  }
+  .wahu-partners__btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 999px;
+    border: 1px solid var(--wahu-rule);
+    background: transparent;
+    color: var(--wahu-ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  }
+  .wahu-partners__btn:hover {
+    background: var(--wahu-ink);
+    color: #fff;
+    border-color: var(--wahu-ink);
+  }
+  .wahu-partners__btn:active { transform: scale(0.96); }
+  .wahu-partners__btn:focus-visible {
+    outline: 2px solid var(--wahu-accent);
+    outline-offset: 3px;
+  }
+
+  /* Slider track */
+  .wahu-partners__track {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    /* Bleed slightly to suggest more content */
+    margin: 0 -56px;
+    padding: 4px 56px 24px;
+  }
+  .wahu-partners__track::-webkit-scrollbar { display: none; }
+  .wahu-partners__track { scrollbar-width: none; }
+
+  .wahu-partners__rail {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+  }
+
+  /* Partner card */
+  .wahu-partner {
+    flex: 0 0 auto;
+    width: 320px;
+    min-height: 280px;
+    background: var(--wahu-card);
+    padding: 36px 32px;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s ease, box-shadow 0.35s ease;
+  }
+  .wahu-partner:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 18px 40px -20px rgba(17,17,17,0.18);
+  }
+  .wahu-partner__name {
+    font-size: 22px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+    font-weight: 700;
+    color: var(--wahu-ink);
+  }
+  .wahu-partner__label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--wahu-accent);
+    margin: 0 0 22px;
+  }
+  .wahu-partner__copy {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--wahu-ink-soft);
+    margin: 0;
+  }
+
+  /* Scroll progress bar */
+  .wahu-partners__progress {
+    margin-top: 28px;
+    height: 2px;
+    background: var(--wahu-rule);
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .wahu-partners__progress-bar {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 25%;
+    background: var(--wahu-ink);
+    border-radius: 2px;
+    transition: width 0.2s ease, transform 0.2s ease;
+  }
+
+  @media (max-width: 900px) {
+    .wahu-partners { padding: 72px 0 88px; }
+    .wahu-partners__inner { padding: 0 24px; }
+    .wahu-partners__controls { right: 24px; top: -8px; }
+    .wahu-partners__track { margin: 0 -24px; padding: 4px 24px 20px; }
+    .wahu-partner { width: 84vw; max-width: 320px; }
+  }
+</style>
+
+<script>
+  (function () {
+    const root = document.querySelector('.wahu-partners');
+    if (!root) return;
+
+    const track = root.querySelector('.wahu-partners__track');
+    const rail = root.querySelector('.wahu-partners__rail');
+    const prev = root.querySelector('[data-dir="prev"]');
+    const next = root.querySelector('[data-dir="next"]');
+    const bar = root.querySelector('.wahu-partners__progress-bar');
+
+    function cardStep() {
+      const first = rail.firstElementChild;
+      if (!first) return 340;
+      const styles = getComputedStyle(rail);
+      const gap = parseInt(styles.columnGap || styles.gap || '20', 10);
+      return first.getBoundingClientRect().width + gap;
+    }
+
+    function scrollByCards(n) {
+      track.scrollBy({ left: n * cardStep(), behavior: 'smooth' });
+    }
+
+    prev.addEventListener('click', () => scrollByCards(-1));
+    next.addEventListener('click', () => scrollByCards(1));
+
+    // Keyboard support when the slider is focused
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') { e.preventDefault(); scrollByCards(1); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); scrollByCards(-1); }
+    });
+
+    // Progress bar reflects scroll position
+    function updateProgress() {
+      const max = track.scrollWidth - track.clientWidth;
+      if (max <= 0) {
+        bar.style.width = '100%';
+        return;
+      }
+      const ratio = track.scrollLeft / max;
+      const visibleRatio = Math.max(0.15, track.clientWidth / track.scrollWidth);
+      bar.style.width = (visibleRatio * 100) + '%';
+      const travel = (1 - visibleRatio) * (track.clientWidth - (visibleRatio * track.clientWidth));
+      bar.style.transform = `translateX(${ratio * (track.clientWidth - (visibleRatio * track.clientWidth))}px)`;
+    }
+    track.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+  })();
+</script>
