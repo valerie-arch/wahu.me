@@ -105,6 +105,8 @@ h1,h2,h3,h4{font-family:var(--display);font-weight:500;letter-spacing:-.02em;lin
 .opp-num{font-family:var(--display);font-size:clamp(36px,4.5vw,56px);font-weight:500;letter-spacing:-.025em;line-height:1}
 .opp-label{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:.12em;font-weight:600;margin-bottom:8px}
 .opp-desc{font-size:13px;color:var(--mute);line-height:1.55}
+.opp-desc a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(23,26,32,.25);transition:border-color .2s}
+.opp-desc a:hover{border-bottom-color:var(--ink)}
 @media (max-width:980px){.opp-grid{grid-template-columns:1fr 1fr}}
 @media (max-width:520px){.opp-grid{grid-template-columns:1fr}}
 
@@ -495,10 +497,10 @@ section[id],.cfg-band[id],.charging[id],.compare-band[id],.feature-band[id]{scro
     <div class="opp-grid reveal">
       <div class="opp-card">
         <div>
-          <div class="opp-num">$25B</div>
-          <div class="opp-label" style="margin-top:8px">By 2029 · Market</div>
+          <div class="opp-num">$57T</div>
+          <div class="opp-label" style="margin-top:8px">By 2050 · Global EV</div>
         </div>
-        <p class="opp-desc">African EV market projected size, driven by two-wheelers, fleet electrification, and policy tailwinds.</p>
+        <p class="opp-desc">"From the current $7T to $57T by 2050 — and that future depends on Africa." — <a href="https://businessday.ng/news/article/africa-to-tap-into-57-trillion-ev-market/" target="_blank" rel="noopener">Akinwumi Adesina, AfDB president</a></p>
       </div>
       <div class="opp-card">
         <div>
